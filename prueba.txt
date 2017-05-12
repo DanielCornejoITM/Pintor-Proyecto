@@ -40,6 +40,20 @@ E25	LSR.L   (A1)
 	LSR     ($FF,A2,A3)
 E26	LSR     ($FFFF).W
 	LSR     ($FFFF).L
+		ADD    D1,D3
+	ADD    A0,D4
+	ADD.L	(A0),D4
+	ADD.W	(A0),D4
+ 	ADD.B	(A0),D4
+	ADD.B	-(A0),D4
+	ADD    ($FFFF).W,D3
+	ADD    ($FFFF,A5),D7
+	ADD    ($FFFF,PC),D7
+	ADD    ($FF,A5,D0),D0
+ 	ADD.B (A0)+,D4
+	ADD    ($FFFF).W,D4
+	ADD    #$FFFF,D5
+	ADD		D5,-(A2)
 
 
 JMP	(A0)

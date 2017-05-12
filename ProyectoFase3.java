@@ -601,7 +601,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case Guion:
       case ParentesisA:
-        ADD_Ea2();
+        ADD_Ea2(id);
         break;
       case Datos:
         jj_consume_token(Datos);
@@ -616,7 +616,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     case ParentesisA:
     case Gato:
     case Memoria:
-      ADD_Ea1();
+      ADD_Ea1(id);
       jj_consume_token(Coma);
       jj_consume_token(Datos);
       break;
@@ -627,7 +627,9 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     }
   }
 
-  static final public void ADD_Ea1() throws ParseException {
+  static final public void ADD_Ea1(String id) throws ParseException {
+  int bytesOcupados=0x1;
+  int multi=2;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Memoria:
       jj_consume_token(Memoria);
@@ -655,6 +657,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
         break;
       case D16:
         jj_consume_token(D16);
+               bytesOcupados++;
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case Coma:
           jj_consume_token(Coma);
@@ -678,9 +681,11 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case WO:
             jj_consume_token(WO);
+                                      bytesOcupados++;
             break;
           case LO:
             jj_consume_token(LO);
+                                                             bytesOcupados+=2;
             break;
           default:
             jj_la1[31] = jj_gen;
@@ -696,6 +701,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
         break;
       case D8:
         jj_consume_token(D8);
+              bytesOcupados++;
         jj_consume_token(Coma);
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case Memoria:
@@ -735,12 +741,15 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case D16:
         jj_consume_token(D16);
+                  bytesOcupados+=2;
         break;
       case D32:
         jj_consume_token(D32);
+                                           bytesOcupados+=4;
         break;
       case D8:
         jj_consume_token(D8);
+                                                                   bytesOcupados+=2;
         break;
       default:
         jj_la1[36] = jj_gen;
@@ -753,9 +762,12 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       jj_consume_token(-1);
       throw new ParseException();
     }
+    System.out.println("Instruccion ADD");
+    countloc+=bytesOcupados*multi;
+    tabla.setTam(id,bytesOcupados*multi);
   }
 
-  static final public void ADD_Ea2() throws ParseException {
+  static final public void ADD_Ea2(String id) throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case ParentesisA:
       jj_consume_token(ParentesisA);
@@ -1459,7 +1471,6 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       jj_la1[81] = jj_gen;
       ;
     }
-        System.out.println("Hola mata");
     switch(aux){
     case 1:
         System.out.println("DIRECTIVA BYTE "+Identi+" tam: "+bytes);

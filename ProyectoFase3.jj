@@ -472,29 +472,37 @@ void JMP_Ea(String id):{
 
 void ADD_METODO(String id):{}
 {
-  <ADD>(<Punto>(<BY>|<WO>|<LO>))?( <Datos><Coma>(ADD_Ea2()|<Datos>)|ADD_Ea1()<Coma><Datos> )
+  <ADD>(<Punto>(<BY>|<WO>|<LO>))?( <Datos><Coma>(ADD_Ea2(id)|<Datos>)|ADD_Ea1(id)<Coma><Datos> )
 }
 
-void ADD_Ea1():{}
+void ADD_Ea1(String id):{
+  int bytesOcupados=0x1;
+  int multi=2;
+}
 {
 (
 <Memoria> |
     <Guion><ParentesisA><Memoria><ParentesisC>  |
     <ParentesisA>(
         <Memoria><ParentesisC>(<Mas>)?|
-        (<D16>)(
+        (<D16>{bytesOcupados++;})(
             <Coma>(<Memoria>|<PC>)<ParentesisC>|
-            <ParentesisC><Punto>(<WO>|<LO>)
+            <ParentesisC><Punto>(<WO>{bytesOcupados++;}|<LO>{bytesOcupados+=2;})
 
             )|
-        (<D8>)<Coma>(<Memoria>|<PC>)<Coma>(<Datos>|<Memoria>)<ParentesisC>
+        (<D8>{bytesOcupados++;})<Coma>(<Memoria>|<PC>)<Coma>(<Datos>|<Memoria>)<ParentesisC>
 
-        )   |
-    <Gato>(<D16>|<D32>|<D8>)
+        )
+    |<Gato>(<D16>{bytesOcupados+=2;}|<D32>{bytesOcupados+=4;}|<D8>{bytesOcupados+=2;})
     )
+ {
+    System.out.println("Instruccion ADD");
+    countloc+=bytesOcupados*multi;
+    tabla.setTam(id,bytesOcupados*multi); 
+}
 }
 
-void ADD_Ea2():{}
+void ADD_Ea2(String id):{}
 {
     (<ParentesisA>((<D16>)<ParentesisC><Punto>(<WO>|<LO>)|<Memoria><ParentesisC>(<Mas>)?
             (<D16>)<Coma><Memoria><ParentesisC>|
@@ -617,7 +625,7 @@ void Valor2(int aux, Token id): {
 {
     (<D32>{bytes=bytes+4;}|<D16>{bytes=bytes+2;}|<D8>{bytes=bytes+1;})?
     {
-        System.out.println("Hola mata");
+      
     switch(aux){
     case 1:
         System.out.println("DIRECTIVA BYTE "+Identi+" tam: "+bytes);
