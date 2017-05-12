@@ -450,9 +450,10 @@ void JMP_Ea(String id):{
   int multi=2;
 }
 {
-    <ParentesisA>((<D16><ParentesisC><Coma>(<WO>{bytesOcupados++;}|<LO>{bytesOcupados+=2;})|<Memoria><ParentesisC>)) 
-    |(<D16><Coma>(<PC>|<Memoria>)<ParentesisC>{bytesOcupados++;})
-    |(<D8><Coma>(<Memoria>|<PC>)<Coma>(<Datos>|<Memoria>)<ParentesisC>{bytesOcupados++;})
+
+<ParentesisA>
+(   <Memoria><ParentesisC>|((<D16>{bytesOcupados++;})((<ParentesisC><Punto>(<WO>{bytesOcupados++;}|<LO>{bytesOcupados+=2;})|<Coma>(<Memoria>|<PC>)<ParentesisC>)))
+|(<D8>{bytesOcupados++;})<Coma>(<Memoria>|<PC>)<Coma>(<Datos>|<Memoria>)<ParentesisC> )
     {
     System.out.println("Instruccion JMP");
     countloc+=bytesOcupados*multi;

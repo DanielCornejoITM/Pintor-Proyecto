@@ -20,7 +20,7 @@ E14	CMP    	($FFFF).L,D4
 
 
 JMP	(A0)
-JMP	($FFFF,PC)
+E16 JMP ($FFFF,PC)
 JMP	($FF,A5,D0)
 JMP	($FF,PC,D0)
 JMP	($FFFF).W

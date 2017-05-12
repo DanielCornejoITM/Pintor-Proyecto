@@ -112,6 +112,62 @@ Line: 22 Mnemotecnico(JMP)
 Line: 22 Parentesis Abre(()
 Line: 22 Registro de memoria(A0)
 Line: 22 Parentesis Cierra())
+Instruccion JMP
+Line: 23 Identificador(E16)
 Line: 23 Mnemotecnico(JMP)
 Line: 23 Parentesis Abre(()
 Line: 23 Coma(,)
+Line: 23 Registro(PC)
+Line: 23 Parentesis Cierra())
+Instruccion JMP
+Line: 24 Mnemotecnico(JMP)
+Line: 24 Parentesis Abre(()
+Line: 24 Coma(,)
+Line: 24 Registro de memoria(A5)
+Line: 24 Coma(,)
+Line: 24 Registro de datos(D0)
+Line: 24 Parentesis Cierra())
+Instruccion JMP
+Line: 25 Mnemotecnico(JMP)
+Line: 25 Parentesis Abre(()
+Line: 25 Coma(,)
+Line: 25 Registro(PC)
+Line: 25 Coma(,)
+Line: 25 Registro de datos(D0)
+Line: 25 Parentesis Cierra())
+Instruccion JMP
+Line: 26 Mnemotecnico(JMP)
+Line: 26 Parentesis Abre(()
+Line: 26 Parentesis Cierra())
+Line: 26 Punto(.)
+Line: 26 Tamaño word(W)
+Instruccion JMP
+Line: 27 Mnemotecnico(JMP)
+Line: 27 Parentesis Abre(()
+Line: 27 Parentesis Cierra())
+Line: 27 Punto(.)
+Line: 27 Tamaño long(L)
+Instruccion JMP
+Line: 29 Directiva(END)
+
+
+Tabla de Simbolos 
+Id    Dirección    Tipo    Tamaño
+E11  ||  18  ||  DIR   ||  2
+E10  ||  14  ||  DIR   ||  2
+E13  ||  20  ||  DIR   ||  4
+E12  ||  1A  ||  DIR   ||  4
+E14  ||  28  ||  DIR   ||  2
+E16  ||  30  ||  DIR   ||  8
+E1  ||  0  ||  DB   ||  1
+E2  ||  1  ||  DW   ||  8
+E3  ||  9  ||  DL   ||  4
+E4  ||  D  ||  B   ||  1
+E5  ||  E  ||  W   ||  2
+E6  ||  10  ||  L   ||  4
+E7  ||  14  ||  EQU   ||  0
+E8  ||  14  ||  DEF   ||  0
+E9  ||  14  ||  EXT   ||  0
+Tamaño total :38
+No hay errores sintacticos
+Analisis Finalizado:
