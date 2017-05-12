@@ -1,0 +1,9 @@
+Daniel		|	ADD JMP
+
+
+LSL-LSR
+EOR
+PACK
+SBCD
+MOVEC
+CMP
