@@ -8,46 +8,110 @@ Line: 3 Identificador(E2)
 Line: 3 Directiva(DDATA)
 Line: 3 Punto(.)
 Line: 3 Tamaño word(W)
-Line: 4 Identificador(E99)
+Line: 4 Identificador(E3)
 Line: 4 Directiva(DDATA)
 Line: 4 Punto(.)
 Line: 4 Tamaño long(L)
-Line: 5 Identificador(E3)
+Line: 5 Identificador(E4)
 Line: 5 Directiva(BYTE)
 Hola mata
-DIRECTIVA BYTE E3 tam: 1
-Line: 6 Identificador(E4)
+DIRECTIVA BYTE E4 tam: 1
+Line: 6 Identificador(E5)
 Line: 6 Directiva(WORD)
 Hola mata
-DIRECTIVA WORD id E4 tam: 2
-Line: 7 Identificador(E5)
+DIRECTIVA WORD id E5 tam: 2
+Line: 7 Identificador(E6)
 Line: 7 Directiva(LONG)
 Hola mata
-DIRECTIVA LONG id E5 tam: 4
-Line: 8 Identificador(E6)
+DIRECTIVA LONG id E6 tam: 4
+Line: 8 Identificador(E7)
 Line: 8 Directiva(EQU)
-Line: 9 Identificador(E54)
+Line: 9 Identificador(E8)
 Hola mata
-DIRECTIVAB EQU id E6
+DIRECTIVAB EQU id E7
 Line: 9 Directiva(DEF)
-Line: 10 Identificador(E55)
+Line: 10 Identificador(E9)
 Hola mata
-DIRECTIVA DEF id E54
+DIRECTIVA DEF id E8
 Line: 10 Directiva(EXT)
-Line: 12 Directiva(END)
+Line: 11 Punto(.)
 Hola mata
-DIRECTIVA  EXT idE55
-Tabla de Simbolos 
-Id    Dirección    Tipo    Tamaño
-E5  ||  10  ||  L   ||  4
-E6  ||  14  ||  EQU   ||  0
-E99  ||  9  ||  DL   ||  4
-E55  ||  14  ||  EXT   ||  0
-E54  ||  14  ||  DEF   ||  0
-E1  ||  0  ||  DB   ||  1
-E2  ||  1  ||  DW   ||  8
-E3  ||  D  ||  B   ||  1
-E4  ||  E  ||  W   ||  2
-Tamaño total :14
-No hay errores sintacticos
-Analisis Finalizado:
+DIRECTIVA  EXT idE9
+Line: 11 Directiva(CODE)
+Line: 12 Identificador(E10)
+Line: 12 Mnemotecnico(CMP)
+Line: 12 Punto(.)
+Line: 12 Tamaño byte(B)
+Line: 12 Registro de datos(D1)
+Baits: 22
+Line: 12 Coma(,)
+Line: 12 Registro de datos(D2)
+Line: 13 Mnemotecnico(CMP)
+Line: 13 Punto(.)
+Line: 13 Tamaño word(W)
+Line: 13 Registro de memoria(A1)
+Baits: 24
+Line: 13 Coma(,)
+Line: 13 Registro de datos(D2)
+Line: 14 Identificador(E11)
+Line: 14 Mnemotecnico(CMP)
+Line: 14 Punto(.)
+Line: 14 Tamaño long(L)
+Line: 14 Parentesis Abre(()
+Line: 14 Registro de memoria(A1)
+Line: 14 Parentesis Cierra())
+Line: 14 Coma(,)
+Baits: 26
+Line: 14 Registro de datos(D2)
+Line: 15 Identificador(E12)
+Line: 15 Mnemotecnico(CMP)
+Line: 15 Guion(-)
+Line: 15 Parentesis Abre(()
+Line: 15 Registro de memoria(A3)
+Line: 15 Parentesis Cierra())
+Baits: 28
+Line: 15 Coma(,)
+Line: 15 Registro de datos(D6)
+Line: 16 Mnemotecnico(CMP)
+Line: 16 Parentesis Abre(()
+Line: 16 Coma(,)
+Line: 16 Registro(PC)
+Line: 16 Parentesis Cierra())
+Baits: 32
+Line: 16 Coma(,)
+Line: 16 Registro de datos(D7)
+Line: 17 Identificador(E13)
+Line: 17 Mnemotecnico(CMP)
+Line: 17 Parentesis Abre(()
+Line: 17 Coma(,)
+Line: 17 Registro de memoria(A2)
+Line: 17 Coma(,)
+Line: 17 Registro de memoria(A3)
+Line: 17 Parentesis Cierra())
+Baits: 36
+Line: 17 Coma(,)
+Line: 17 Registro de datos(D1)
+Line: 18 Mnemotecnico(CMP)
+Line: 18 Parentesis Abre(()
+Line: 18 Parentesis Cierra())
+Line: 18 Punto(.)
+Line: 18 Tamaño word(W)
+Baits: 40
+Line: 18 Coma(,)
+Line: 18 Registro de datos(D3)
+Line: 19 Identificador(E14)
+Line: 19 Mnemotecnico(CMP)
+Line: 19 Parentesis Abre(()
+Line: 19 Parentesis Cierra())
+Line: 19 Punto(.)
+Line: 19 Tamaño long(L)
+Baits: 46
+Line: 19 Coma(,)
+Line: 19 Registro de datos(D4)
+Line: 22 Mnemotecnico(JMP)
+Line: 22 Parentesis Abre(()
+Line: 22 Registro de memoria(A0)
+Line: 22 Parentesis Cierra())
+Line: 23 Mnemotecnico(JMP)
+Line: 23 Parentesis Abre(()
+Line: 23 Coma(,)

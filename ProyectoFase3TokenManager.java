@@ -5129,72 +5129,72 @@ static void TokenLexicalActions(Token matchedToken)
       case 158 :
         image.append(jjstrLiteralImages[158]);
         lengthOfMatch = jjstrLiteralImages[158].length();
-                          System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
+                    System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
          break;
       case 159 :
         image.append(jjstrLiteralImages[159]);
         lengthOfMatch = jjstrLiteralImages[159].length();
-                          System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
+                    System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
          break;
       case 160 :
         image.append(jjstrLiteralImages[160]);
         lengthOfMatch = jjstrLiteralImages[160].length();
-                          System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
+                    System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
          break;
       case 161 :
         image.append(jjstrLiteralImages[161]);
         lengthOfMatch = jjstrLiteralImages[161].length();
-                          System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
+                    System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
          break;
       case 162 :
         image.append(jjstrLiteralImages[162]);
         lengthOfMatch = jjstrLiteralImages[162].length();
-                      System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
+                System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
          break;
       case 163 :
         image.append(jjstrLiteralImages[163]);
         lengthOfMatch = jjstrLiteralImages[163].length();
-                        System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
+                  System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
          break;
       case 164 :
         image.append(jjstrLiteralImages[164]);
         lengthOfMatch = jjstrLiteralImages[164].length();
-                        System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
+                  System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
          break;
       case 165 :
         image.append(jjstrLiteralImages[165]);
         lengthOfMatch = jjstrLiteralImages[165].length();
-                      System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
+                System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
          break;
       case 166 :
         image.append(jjstrLiteralImages[166]);
         lengthOfMatch = jjstrLiteralImages[166].length();
-                        System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
+                  System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
          break;
       case 167 :
         image.append(jjstrLiteralImages[167]);
         lengthOfMatch = jjstrLiteralImages[167].length();
-                            System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
+                      System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
          break;
       case 168 :
         image.append(jjstrLiteralImages[168]);
         lengthOfMatch = jjstrLiteralImages[168].length();
-                        System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
+                  System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
          break;
       case 169 :
         image.append(jjstrLiteralImages[169]);
         lengthOfMatch = jjstrLiteralImages[169].length();
-                            System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
+                      System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
          break;
       case 170 :
         image.append(jjstrLiteralImages[170]);
         lengthOfMatch = jjstrLiteralImages[170].length();
-                              System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
+                        System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
          break;
       case 171 :
         image.append(jjstrLiteralImages[171]);
         lengthOfMatch = jjstrLiteralImages[171].length();
-                          System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
+                    System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");
          break;
       case 172 :
         image.append(jjstrLiteralImages[172]);

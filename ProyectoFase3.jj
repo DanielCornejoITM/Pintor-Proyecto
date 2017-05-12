@@ -1,4 +1,3 @@
-
 PARSER_BEGIN(ProyectoFase3)
 /** Simple brace matcher. */
 public class ProyectoFase3 {
@@ -214,20 +213,20 @@ TOKEN :
     <FTST: "FTST"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
     /*MNEMOTECNICOS TABLA 3.10*/
     <FRESTORE: "FRESTORE"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
-	<FSAVE: "FSAVE"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
-	<MOVEC: "MOVEC"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
-	<MOVES: "MOVES"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
-	<RESET: "RESET"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
-	<RTE: "RTE"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
-	<STOP: "STOP"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
-	<BKTP: "BKTP"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
-	<CHK: "CHK"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
-	<CHK2: "CHK2"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
-	<ILEGAL: "ILEGAL"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
-	<TRAP: "TRAP"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
-	<TRAPcc: "TRAPcc"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
-	<FTRAPcc: "FTRAPcc"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
-	<TRAPV: "TRAPV"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+  <FSAVE: "FSAVE"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+  <MOVEC: "MOVEC"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+  <MOVES: "MOVES"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+  <RESET: "RESET"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+  <RTE: "RTE"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+  <STOP: "STOP"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+  <BKTP: "BKTP"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+  <CHK: "CHK"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+  <CHK2: "CHK2"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+  <ILEGAL: "ILEGAL"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+  <TRAP: "TRAP"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+  <TRAPcc: "TRAPcc"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+  <FTRAPcc: "FTRAPcc"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+  <TRAPV: "TRAPV"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
     /*CONDICIONALES*/
     <CC: "CC"> {System.out.println("Line: "+matchedToken.beginLine+" Condicional("+image+")");} | 
     <LS:"LS"> {System.out.println("Line: "+matchedToken.beginLine+" Condicional("+image+")");}|
@@ -256,7 +255,7 @@ TOKEN :
 void Estructura(): {}
 {
 
-    <Identificador><ORG>(<D32>|<D16>|<D8>)Directivas_Est()/*Instrucciones_Est()*/{tabla.imprimir();}<END><EOF>{System.out.println("No hay errores sintacticos");}
+    <Identificador><ORG>(<D32>|<D16>|<D8>)Directivas_Est()Instrucciones_Est(){System.out.println("\n");tabla.imprimir();}<END><EOF>{System.out.println("No hay errores sintacticos");}
 }
 
 void Directivas_Est(): {
@@ -266,14 +265,27 @@ void Directivas_Est(): {
     (id=<Identificador>Directivas(id))*
 }
 
-void Instrucciones_Est(): {}
+void Instrucciones_Est(): {
+    Token id;
+    String Identi="";
+}
 {
-    <Punto><CODE>((<Identificador>)?Instrucciones())+
+    <Punto><CODE>((id=<Identificador>{
+                        if(!tabla.existe(id.image)){
+                            tabla.insertar(id.image, countloc, "DIR"); 
+                            Identi=id.image;
+                        }
+                        else{
+                            System.out.println("Error! el ID \""+id.image+"\" ya existe!");
+                            java.lang.System.exit(1);
+                        }
+                    }   
+    )?Instrucciones(Identi))+
 }
 
-void Instrucciones(): {}
+void Instrucciones(String Identi): {}
 {
-    (BCHG()|PACK()|ADD_METODO()|JMP_Metodo()|SBCD()|CMP()|LSL()|EOR())
+    (BCHG()|PACK()|ADD_METODO()|JMP_Metodo(Identi)|SBCD()|CMP(Identi)|LSL()|EOR())
 }
 /*FIN METODOS PARA ESTRUCTURA DEL PROGRAMA*/
 
@@ -288,7 +300,6 @@ void DDATA(Token id): {
  String Identi= id.image;
  int bytesOcupados=0;
  String TipoDato="DB";
- 
 }
 {
     <DDATA>{
@@ -425,20 +436,27 @@ void BCHG_EA(): {}
 /*METODOS INSTRUCCIONES JMP Y ADD*/
 void ADD_METODO():{}
 {
-	<ADD>(<Punto>(<BY>|<WO>|<LO>))?( <Datos><Coma>(ADD_Ea2()|<Datos>)|ADD_Ea1()<Coma><Datos> )
+  <ADD>(<Punto>(<BY>|<WO>|<LO>))?( <Datos><Coma>(ADD_Ea2()|<Datos>)|ADD_Ea1()<Coma><Datos> )
 }
 
-void JMP_Metodo():{}
+void JMP_Metodo(String id):{}
 {
-    <JMP>JMP_Ea()
+    <JMP>JMP_Ea(id)
 }
 
 
-void JMP_Ea():{}
+void JMP_Ea(String id):{
+  int bytesOcupados=0x1;
+  int multi=2;
+}
 {
-    (<ParentesisA>((<D16>)<ParentesisC><Punto>(<WO>|<LO>)|<Memoria><ParentesisC>(<Mas>)?)
-    |(<D16>)<ParentesisA>(<PC>|<Memoria>)<ParentesisC>
-    |(<D8>)<ParentesisA>(<Memoria>|<PC>)<Coma>(<Datos>|<Memoria>)<ParentesisC>)
+    <ParentesisA>((<D16><ParentesisC><Coma>(<WO>{bytesOcupados++;}|<LO>{bytesOcupados+=2;})|<Memoria><ParentesisC>)) 
+    |(<D16><Coma>(<PC>|<Memoria>)<ParentesisC>{bytesOcupados++;})
+    |(<D8><Coma>(<Memoria>|<PC>)<Coma>(<Datos>|<Memoria>)<ParentesisC>{bytesOcupados++;})
+    {
+    System.out.println("Instruccion JMP");
+    countloc+=bytesOcupados*multi;
+    tabla.setTam(id,bytesOcupados*multi); }
 }
 
 void ADD_Ea1():{}
@@ -474,22 +492,31 @@ void SBCD_VAR(): {}
 {
     <Datos><Coma><Datos>|<Guion><ParentesisA><Memoria><ParentesisC><Coma><Guion><ParentesisA><Memoria><ParentesisC>
 }
-
-void CMP():{}
+/**************************MATTA*********************/
+void CMP(String Identi):{}
 {
-    <CMP>(<Punto>(<BY>|<LO>|<WO>))?CMP_EA()<Coma><Datos>
+    <CMP>(<Punto>(<BY>|<LO>|<WO>))?CMP_EA(Identi)<Coma><Datos>
 }
 
-void CMP_EA(): {}
+void CMP_EA(String Identi): {
+    int bytesOcupados=0x1;
+}
 {
-    (<Datos>|<Memoria>) |
+    ((<Datos>|<Memoria>) |
     <Guion><ParentesisA><Memoria><ParentesisC> | 
     <ParentesisA>((
-                     ((<D16>) ( <Coma>(<Memoria>|<PC>)<ParentesisC> | <ParentesisC><Punto>(<WO>|<LO>) ))  | 
-                     (<D8>)<Coma>(<Memoria>|<PC>)<Coma>(<Memoria>|<Datos>)<ParentesisC>
+                     ((<D16>) ( <Coma>(<Memoria>{bytesOcupados++;}|<PC>{bytesOcupados++;})<ParentesisC> | <ParentesisC><Punto>(<WO>{bytesOcupados++;}|<LO>{bytesOcupados=bytesOcupados+2;}) ))  | 
+                     (<D8>)<Coma>(<Memoria>|<PC>)<Coma>(<Memoria>|<Datos>)<ParentesisC>{bytesOcupados++;}
     ) | <Memoria><ParentesisC>(<Mas>)?) |
-    <Gato>(<D16>|<D8>)
+    <Gato>(<D32>{bytesOcupados=bytesOcupados+4;}|<D16>{bytesOcupados=bytesOcupados+2;}|<D8>{bytesOcupados=bytesOcupados+2;}))
+    {    
+        countloc=(countloc)+(bytesOcupados*2);
+        System.out.println("Baits: "+countloc);
+        tabla.setTam(Identi, bytesOcupados*2);
+    }
+    
 }
+/**************************FIN MATTA*********************/
 /*FIN METODOS INSTRUCCIONES CMP Y BCSD*/
 
 /*METODOS INSTRUCCIONES EOR Y LSL-LSR*/
