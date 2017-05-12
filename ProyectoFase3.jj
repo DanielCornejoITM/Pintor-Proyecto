@@ -434,10 +434,7 @@ void BCHG_EA(): {}
 /*FIN METTODOS INSTRUCCION PACK y MOVEC*/
 
 /*METODOS INSTRUCCIONES JMP Y ADD*/
-void ADD_METODO():{}
-{
-  <ADD>(<Punto>(<BY>|<WO>|<LO>))?( <Datos><Coma>(ADD_Ea2()|<Datos>)|ADD_Ea1()<Coma><Datos> )
-}
+
 
 void JMP_Metodo(String id):{}
 {
@@ -460,25 +457,39 @@ void JMP_Ea(String id):{
     tabla.setTam(id,bytesOcupados*multi); }
 }
 
+
+void ADD_METODO(String id):{}
+{
+  <ADD>(<Punto>(<BY>|<WO>|<LO>))?( <Datos><Coma>(ADD_Ea2()|<Datos>)|ADD_Ea1()<Coma><Datos> )
+}
+
 void ADD_Ea1():{}
 {
+(
+<Memoria> |
+    <Guion><ParentesisA><Memoria><ParentesisC>  |
+    <ParentesisA>(
+        <Memoria><ParentesisC>(<Mas>)?|
+        (<D16>)(
+            <Coma>(<Memoria>|<PC>)<ParentesisC>|
+            <ParentesisC><Punto>(<WO>|<LO>)
 
-(<Memoria>  
-|<ParentesisA>((<D16>)<ParentesisC><Punto>(<WO>|<LO>)|<Memoria><ParentesisC>(<Mas>)?)
-|<Guion><ParentesisA><Memoria><ParentesisC>
-|(<D16>)<ParentesisA>(<PC>|<Memoria>)<ParentesisC>
-|(<D8>)<ParentesisA>(<Memoria>|<PC>)<Coma>(<Datos>|<Memoria>)<ParentesisC>
-|<Gato>(<D8>|<D16>)
+            )|
+        (<D8>)<Coma>(<Memoria>|<PC>)<Coma>(<Datos>|<Memoria>)<ParentesisC>
 
-        )
+        )   |
+    <Gato>(<D16>|<D32>|<D8>)
+    )
 }
 
 void ADD_Ea2():{}
 {
-    (<ParentesisA>((<D16>)<ParentesisC><Punto>(<WO>|<LO>)|<Memoria><ParentesisC>(<Mas>)?)
+    (<ParentesisA>((<D16>)<ParentesisC><Punto>(<WO>|<LO>)|<Memoria><ParentesisC>(<Mas>)?
+            (<D16>)<Coma><Memoria><ParentesisC>|
+            (<D8>)<Coma><Memoria><Coma>(<Datos>|<Memoria>)<ParentesisC>)
+            )
     |<Guion><ParentesisA><Memoria><ParentesisC>
-    |(<D16>)<ParentesisA><Memoria><ParentesisC>
-    |(<D8>)<ParentesisA><Memoria><Coma>(<Datos>|<Memoria>)<ParentesisC>)
+    
 }
 
 /*FIN METODOS INSTRUCCIONES JMP Y ADD*/
