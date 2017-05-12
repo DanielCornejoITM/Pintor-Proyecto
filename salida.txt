@@ -372,46 +372,129 @@ Line: 56 Guion(-)
 Line: 56 Parentesis Abre(()
 Line: 56 Registro de memoria(A2)
 Line: 56 Parentesis Cierra())
-Line: 59 Mnemotecnico(JMP)
+Line: 57 Identificador(E50)
+Line: 57 Mnemotecnico(EOR)
+Line: 57 Punto(.)
+Line: 57 Tamaño word(W)
+Line: 57 Registro de datos(D0)
+Line: 57 Coma(,)
+Line: 57 Registro de datos(D5)
+Instruccion EOR
+Line: 58 Identificador(E51)
+Line: 58 Mnemotecnico(EOR)
+Line: 58 Punto(.)
+Line: 58 Tamaño byte(B)
+Line: 58 Registro de datos(D5)
+Line: 58 Coma(,)
+Line: 58 Parentesis Abre(()
+Line: 58 Registro de memoria(A0)
+Line: 58 Parentesis Cierra())
+Line: 59 Identificador(E52)
+Instruccion EOR
+Line: 59 Mnemotecnico(EOR)
+Line: 59 Registro de datos(D5)
+Line: 59 Coma(,)
 Line: 59 Parentesis Abre(()
-Line: 59 Registro de memoria(A0)
+Line: 59 Registro de memoria(A1)
 Line: 59 Parentesis Cierra())
-Instruccion JMP
-Line: 60 Mnemotecnico(JMP)
-Line: 60 Parentesis Abre(()
+Line: 59 Mas(+)
+Instruccion EOR
+Line: 60 Identificador(E53)
+Line: 60 Mnemotecnico(EOR)
+Line: 60 Registro de datos(D5)
 Line: 60 Coma(,)
-Line: 60 Registro(PC)
+Line: 60 Guion(-)
+Line: 60 Parentesis Abre(()
+Line: 60 Registro de memoria(A4)
 Line: 60 Parentesis Cierra())
-Instruccion JMP
-Line: 61 Mnemotecnico(JMP)
+Instruccion EOR
+Line: 61 Identificador(E54)
+Line: 61 Mnemotecnico(EOR)
+Line: 61 Registro de datos(D5)
+Line: 61 Coma(,)
 Line: 61 Parentesis Abre(()
 Line: 61 Coma(,)
-Line: 61 Registro de memoria(A5)
-Line: 61 Coma(,)
-Line: 61 Registro de datos(D0)
+Line: 61 Registro de memoria(A4)
 Line: 61 Parentesis Cierra())
-Instruccion JMP
-Line: 62 Mnemotecnico(JMP)
+Resultados:2
+Instruccion EOR
+Line: 62 Identificador(E55)
+Line: 62 Mnemotecnico(EOR)
+Line: 62 Registro de datos(D5)
+Line: 62 Coma(,)
 Line: 62 Parentesis Abre(()
 Line: 62 Coma(,)
-Line: 62 Registro(PC)
+Line: 62 Registro de memoria(A4)
 Line: 62 Coma(,)
-Line: 62 Registro de datos(D0)
+Line: 62 Registro de datos(D1)
 Line: 62 Parentesis Cierra())
-Instruccion JMP
-Line: 63 Mnemotecnico(JMP)
+Instruccion EOR
+Line: 63 Identificador(E56)
+Line: 63 Mnemotecnico(EOR)
+Line: 63 Registro de datos(D5)
+Line: 63 Coma(,)
 Line: 63 Parentesis Abre(()
 Line: 63 Parentesis Cierra())
 Line: 63 Punto(.)
 Line: 63 Tamaño word(W)
+Instruccion EOR
+Line: 65 Mnemotecnico(SBCD)
+Line: 65 Punto(.)
+Line: 65 Tamaño byte(B)
+Line: 65 Registro de datos(D1)
+Line: 65 Coma(,)
+Line: 65 Registro de datos(D2)
+Line: 66 Mnemotecnico(SBCD)
+Line: 66 Guion(-)
+Line: 66 Parentesis Abre(()
+Line: 66 Registro de memoria(A1)
+Line: 66 Parentesis Cierra())
+Line: 66 Coma(,)
+Line: 66 Guion(-)
+Line: 66 Parentesis Abre(()
+Line: 66 Registro de memoria(A2)
+Line: 66 Parentesis Cierra())
+Instruccion SBCD
+Line: 69 Mnemotecnico(JMP)
+Line: 69 Parentesis Abre(()
+Line: 69 Registro de memoria(A0)
+Line: 69 Parentesis Cierra())
 Instruccion JMP
-Line: 64 Mnemotecnico(JMP)
-Line: 64 Parentesis Abre(()
-Line: 64 Parentesis Cierra())
-Line: 64 Punto(.)
-Line: 64 Tamaño long(L)
+Line: 70 Mnemotecnico(JMP)
+Line: 70 Parentesis Abre(()
+Line: 70 Coma(,)
+Line: 70 Registro(PC)
+Line: 70 Parentesis Cierra())
 Instruccion JMP
-Line: 66 Directiva(END)
+Line: 71 Mnemotecnico(JMP)
+Line: 71 Parentesis Abre(()
+Line: 71 Coma(,)
+Line: 71 Registro de memoria(A5)
+Line: 71 Coma(,)
+Line: 71 Registro de datos(D0)
+Line: 71 Parentesis Cierra())
+Instruccion JMP
+Line: 72 Mnemotecnico(JMP)
+Line: 72 Parentesis Abre(()
+Line: 72 Coma(,)
+Line: 72 Registro(PC)
+Line: 72 Coma(,)
+Line: 72 Registro de datos(D0)
+Line: 72 Parentesis Cierra())
+Instruccion JMP
+Line: 73 Mnemotecnico(JMP)
+Line: 73 Parentesis Abre(()
+Line: 73 Parentesis Cierra())
+Line: 73 Punto(.)
+Line: 73 Tamaño word(W)
+Instruccion JMP
+Line: 74 Mnemotecnico(JMP)
+Line: 74 Parentesis Abre(()
+Line: 74 Parentesis Cierra())
+Line: 74 Punto(.)
+Line: 74 Tamaño long(L)
+Instruccion JMP
+Line: 76 Directiva(END)
 
 
 Tabla de Simbolos 
@@ -420,7 +503,7 @@ E20  ||  60  ||  DIR   ||  A
 E22  ||  6A  ||  DIR   ||  2
 E21  ||  6A  ||  DIR   ||  0
 E23  ||  70  ||  DIR   ||  4
-E26  ||  80  ||  DIR   ||  8
+E26  ||  80  ||  DIR   ||  6
 E25  ||  78  ||  DIR   ||  4
 E1  ||  0  ||  DB   ||  1
 E2  ||  1  ||  DW   ||  8
@@ -431,16 +514,23 @@ E6  ||  10  ||  L   ||  4
 E7  ||  14  ||  EQU   ||  0
 E8  ||  14  ||  DEF   ||  0
 E9  ||  14  ||  EXT   ||  0
+E51  ||  B6  ||  DIR   ||  2
+E50  ||  B4  ||  DIR   ||  2
+E53  ||  BA  ||  DIR   ||  2
+E52  ||  B8  ||  DIR   ||  2
 E11  ||  18  ||  DIR   ||  2
+E55  ||  C0  ||  DIR   ||  4
 E10  ||  14  ||  DIR   ||  2
+E54  ||  BC  ||  DIR   ||  4
 E13  ||  20  ||  DIR   ||  4
 E12  ||  1A  ||  DIR   ||  4
+E56  ||  C4  ||  DIR   ||  8
 E15  ||  30  ||  DIR   ||  2
 E14  ||  28  ||  DIR   ||  2
 E17  ||  3A  ||  DIR   ||  4
 E16  ||  32  ||  DIR   ||  4
 E19  ||  42  ||  DIR   ||  8
 E18  ||  3E  ||  DIR   ||  4
-Tamaño total :88
+Tamaño total :CC
 No hay errores sintacticos
 Analisis Finalizado:

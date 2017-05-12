@@ -285,7 +285,7 @@ void Instrucciones_Est(): {
 
 void Instrucciones(String Identi): {}
 {
-    (BCHG(Identi)|PACK(Identi)|ADD_METODO(Identi)|JMP_Metodo(Identi)|SBCD()|CMP(Identi)|LSL(Identi)|EOR())
+    (BCHG(Identi)|PACK(Identi)|ADD_METODO(Identi)|JMP_Metodo(Identi)|SBCD(Identi)|CMP(Identi)|LSL(Identi)|EOR(Identi))
 }
 /*FIN METODOS PARA ESTRUCTURA DEL PROGRAMA*/
 
@@ -515,14 +515,21 @@ void ADD_Ea2(String id):{}
 /*FIN METODOS INSTRUCCIONES JMP Y ADD*/
 
 /*METODOS INSTRUCCIONES CMP Y SBCD*/
-void SBCD():{}
+void SBCD(String id):{}
 {
-    <SBCD>(<Punto><BY>)?SBCD_VAR()
+    <SBCD>(<Punto><BY>)?SBCD_VAR(id)
 }
 
-void SBCD_VAR(): {}
+void SBCD_VAR(String id): {
+  int bytesOcupados=0x1;
+}
 {
     <Datos><Coma><Datos>|<Guion><ParentesisA><Memoria><ParentesisC><Coma><Guion><ParentesisA><Memoria><ParentesisC>
+{
+    System.out.println("Instruccion SBCD");
+    countloc+=bytesOcupados*2;
+    tabla.setTam(id,bytesOcupados*2); 
+}
 }
 /**************************MATTA*********************/
 void CMP(String Identi):{}
@@ -583,19 +590,38 @@ void LSL_EA(String Identi, int bytesOcupados): {}
 }
 /****************************FIN MATTA*******************/
 
-void EOR(): {}
+void EOR(String id): {}
 {
-    <EOR>(<Punto>(<BY>|<LO>|<WO>))?<Datos><Coma>EOR_EA()
+    <EOR>(<Punto>(<BY>|<LO>|<WO>))?<Datos><Coma>EOR_EA( id)
 }
 
-void EOR_EA(): {}
+void EOR_EA(String id): {
+  int bytesOcupados=0x1;
+  int multi=2;
+
+}
 {
-    (<Datos> 
-     |<ParentesisA>((<D16>)<ParentesisC><Punto>(<WO>|<LO>)|<Memoria><ParentesisC>(<Mas>)?)
-     |<Guion><ParentesisA><Memoria><ParentesisC>
-     |(<D16>)<ParentesisA><Memoria><ParentesisC>
-     |(<D8>)<ParentesisA><Memoria><Coma>(<Datos>|<Memoria>)<ParentesisC>
+    (
+<Datos> |
+    <Guion><ParentesisA><Memoria><ParentesisC>  |
+    <ParentesisA>(
+        <Memoria><ParentesisC>(<Mas>)?|
+        (<D16>)(
+            <Coma><Memoria><ParentesisC>{bytesOcupados++;System.out.println("Resultados:"+bytesOcupados);}|
+            <ParentesisC><Punto>(<WO>{bytesOcupados++;}|<LO>{bytesOcupados+=2;})
+
+            )|
+        (<D8>)<Coma><Memoria><Coma>(<Datos>|<Memoria>)<ParentesisC>{bytesOcupados++;}
+
+        )   
     )
+
+{
+    System.out.println("Instruccion EOR");
+    countloc+=bytesOcupados*multi;
+    tabla.setTam(id,bytesOcupados*multi); 
+}
+
 }
 /*FIN METODOS INSTRUCCIONES EOR Y LSL-LSR*/
 
