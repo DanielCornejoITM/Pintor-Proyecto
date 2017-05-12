@@ -1,0 +1,589 @@
+
+PARSER_BEGIN(ProyectoFase3)
+/** Simple brace matcher. */
+public class ProyectoFase3 {
+        public static int countloc=0x00;
+        public static TablaSimbolos tabla= new TablaSimbolos();
+  /** Main entry point. */
+  public static void main(String args[]) throws ParseException {
+    ProyectoFase3 parser = new ProyectoFase3(System.in);
+    parser.Estructura();
+    System.out.println("Analisis Finalizado:");
+  }
+}
+PARSER_END(ProyectoFase3)
+/*Elementos a ignorar*/
+SKIP :
+{
+  " " | "\t" | "\n" | "\r"
+}
+/*Seccion de tokens*/
+TOKEN :
+{
+     /*ATRIBUTOS*/
+    <BY: "B"> {System.out.println("Line: "+matchedToken.beginLine+" Tamaño byte("+image+")");} |
+    <WO: "W"> {System.out.println("Line: "+matchedToken.beginLine+" Tamaño word("+image+")");} |
+    <LO: "L"> {System.out.println("Line: "+matchedToken.beginLine+" Tamaño long("+image+")");} |
+    
+    /*LITERALES NUMERICAS*/
+        <D8: (<D8D>|<D8H>|<D8O>|<D8B>)>|//reconoce los D8
+      <D8B: "B"(<DIG_BINARIO>){1,8}>|//Reconoce números binarios de hasta 8 bits
+      <D8D: (<DIG>|("1"(<DIG>){1,2})
+                 |("2"["0"-"4"]<DIG>)
+                 |("25"["0"-"5"]))>|//Reconoce números decimales de hasta 8 bits
+      <D8H: "$"(<DIG_HEXA>){1,2}>|//Reconoce números hexadecimales de hasta 8 bits
+      <H8: "$"(<DIG_HEXA>){1,2}>|//Reconoce de 1 a 2 digitos en hexadecimal
+      <D8O: "0"((["1"-"3"])?(<DIG_OCTAL>){1,2})>|//Reconoce números octales de hasta 8 bits
+      
+      //d16
+      <D16: (<D16D>|<D16H>|<D16O>|<D16B>)>|//reconoce los D16
+      <D16B: "B"(<DIG_BINARIO>){1,16}>|//Reconoce números binarios de hasta 16 bits
+      <D16D: (<DIG>
+             |(["1"-"5"](<DIG>){1,4})
+             |("6"["0"-"4"](<DIG>){1,3})
+             |("65"["0"-"4"](<DIG>){1,2})
+             |("655"["0"-"2"]<DIG>)
+             |("6553"["0"-"6"])
+             )>|//Reconoce números decimales de hasta 16 bits
+      <D16O: "0"(("1")?(<DIG_OCTAL>){1,5})>|//Reconoce números octales de hasta 16 bits
+      <D16H: "$"(<DIG_HEXA>){1,4}>|//Reconoce números hexadecimales de hasta 16 bits
+      <H16: "$"(<DIG_HEXA>){1,4}>|//Reconoce de 1 a 4 digitos en hexadecimal
+      //d32
+      <D32: (<D32D>|<D32H>|<D32O>|<D32B>)>|//reconoce los D32
+      <D32B: "B"(<DIG_BINARIO>){1,32}>|//Reconoce números binarios de hasta 32 bits
+      <D32D: (<DIG>
+             |(["1"-"3"](<DIG>){1,9})
+             |("4"["0"-"1"](<DIG>){1,8})
+             |("42"["0"-"8"](<DIG>){1,7})
+             |("429"["0"-"3"](<DIG>){1,6})
+             |("4294"["0"-"8"](<DIG>){1,5})
+             |("42949"["0"-"5"](<DIG>){1,4})
+             |("429496"["0"-"6"](<DIG>){1,3})
+             |("4294967"["0"-"1"](<DIG>){1,2})
+             |("42949672"["0"-"8"]<DIG>)
+             |("429496729"["0"-"5"])
+             )>|//Reconoce números decimales de hasta 32 bits
+      <D32O: "0"((["1"-"3"])?(<DIG_OCTAL>){1,10})>|//Reconoce números octales de hasta 32 bits
+      <D32H: "$"(<DIG_HEXA>){1,8}>|//Reconoce números hexadecimales de hasta 32 bits
+
+      <DIG: ["0"-"9"]> |//Reconoce un digito del 0 al 9
+      <NUM_DECIMAL: (["1"-"9"](<DIG>)*)>|
+      <DIG_BINARIO: "0"|"1">|//token para un digito binario
+      <DIG_HEXA: (["A"-"F"]|["a"-"f"]|<DIG>)>|//token para un digito hexadecimal
+      <DIG_OCTAL: ["0"-"7"]>|//token para un digito octal
+
+
+   /*SIMBOLOS ESPECIALES*/
+    <Mas: "+"> {System.out.println("Line: "+matchedToken.beginLine+" Mas("+image+")");} |
+    <Guion: "-"> {System.out.println("Line: "+matchedToken.beginLine+" Guion("+image+")");} |
+    <Diagonal: "/"> {System.out.println("Line: "+matchedToken.beginLine+" Diagonal("+image+")");} |
+    <Asterisco: "*"> {System.out.println("Line: "+matchedToken.beginLine+" Asterisco("+image+")");} |
+    <ParentesisA: "("> {System.out.println("Line: "+matchedToken.beginLine+" Parentesis Abre("+image+")");} |
+    <ParentesisC: ")"> {System.out.println("Line: "+matchedToken.beginLine+" Parentesis Cierra("+image+")");} |
+    <CorcheteA: "["> {System.out.println("Line: "+matchedToken.beginLine+" Corchete Abre("+image+")");} |
+    <CorcheteC: "]"> {System.out.println("Line: "+matchedToken.beginLine+" Corchete Cierra("+image+")");} |
+    <LlaveA: "{"> {System.out.println("Line: "+matchedToken.beginLine+" Llave Abre("+image+")");} |
+    <LlaveC: "}"> {System.out.println("Line: "+matchedToken.beginLine+" Llave Cierra("+image+")");} |
+    <DosPuntos: ":"> {System.out.println("Line: "+matchedToken.beginLine+" Dos Puntos("+image+")");} |
+    <PuntoComa: ";"> {System.out.println("Line: "+matchedToken.beginLine+" Punto y Coma("+image+")");} |
+    <Punto: "."> {System.out.println("Line: "+matchedToken.beginLine+" Punto("+image+")");} |
+    <Coma: ","> {System.out.println("Line: "+matchedToken.beginLine+" Coma("+image+")");} |
+    <Apersant: "&"> {System.out.println("Line: "+matchedToken.beginLine+" Apersant("+image+")");} |
+    <Linea: "|"> {System.out.println("Line: "+matchedToken.beginLine+" Linea("+image+")");} |
+    <Admiracion: "!"> {System.out.println("Line: "+matchedToken.beginLine+" Signo de Admiracion("+image+")");} |
+    <Pesos: "$"> {System.out.println("Line: "+matchedToken.beginLine+" Signo de Pesos("+image+")");} |
+    <Porcentaje: "%"> {System.out.println("Line: "+matchedToken.beginLine+" Porcentaje("+image+")");} |
+    <Gato: "#"> {System.out.println("Line: "+matchedToken.beginLine+" Gato("+image+")");} |
+    /*COMENTARIOS*/
+    <Comentario: "//"(~["\n"])+> {System.out.println("Line: "+matchedToken.beginLine+" Comentario("+image+")");} |
+    /*DIRECTIVAS*/
+    <CODE: "CODE"> {System.out.println("Line: "+matchedToken.beginLine+" Directiva("+image+")");} |
+    <ORG: "ORG"> {System.out.println("Line: "+matchedToken.beginLine+" Directiva("+image+")");} |
+    <DDATA: "DDATA"> {System.out.println("Line: "+matchedToken.beginLine+" Directiva("+image+")");} |
+    <BYTE: "BYTE"> {System.out.println("Line: "+matchedToken.beginLine+" Directiva("+image+")");} |
+    <WORD: "WORD"> {System.out.println("Line: "+matchedToken.beginLine+" Directiva("+image+")");} |
+    <LONG: "LONG"> {System.out.println("Line: "+matchedToken.beginLine+" Directiva("+image+")");} |
+    <EXT: "EXT"> {System.out.println("Line: "+matchedToken.beginLine+" Directiva("+image+")");} |
+    <DEF: "DEF"> {System.out.println("Line: "+matchedToken.beginLine+" Directiva("+image+")");} |
+    <EQU: "EQU"> {System.out.println("Line: "+matchedToken.beginLine+" Directiva("+image+")");} |
+    <END: "END"> {System.out.println("Line: "+matchedToken.beginLine+" Directiva("+image+")");} |
+   /*REGISTROS*/
+    <Datos: "D"["0"-"7"]> {System.out.println("Line: "+matchedToken.beginLine+" Registro de datos("+image+")");} |
+    <Memoria: "A"["0"-"7"]> {System.out.println("Line: "+matchedToken.beginLine+" Registro de memoria("+image+")");} |
+    <PC: "PC"> {System.out.println("Line: "+matchedToken.beginLine+" Registro("+image+")");} |
+    <SR: "SR"> {System.out.println("Line: "+matchedToken.beginLine+" Registro("+image+")");} |
+    <CCR: "CCR"> {System.out.println("Line: "+matchedToken.beginLine+" Registro("+image+")");} |
+    <SP: "SP"> {System.out.println("Line: "+matchedToken.beginLine+" Registro("+image+")");} |
+    /*MNEMOTECNICOS TABLA 3.2 (15 INSTRUCCIONES)*/
+    <EXG: "EXG"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <FMOVE: "FMOVE"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <FSMOVE: "FSMOVE"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <FDMOVE: "FDMOVE"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <FMOVEM: "FMOVEM"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <LEA: "LEA"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <LINK: "LINK"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <MOVE: "MOVE"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <MOVE16: "MOVE16"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <MOVEA: "MOVEA"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <MOVEM: "MOVEM"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <MOVEP: "MOVEP"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <MOVEQ: "MOVEQ"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <PEA: "PEA"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <UNLK: "UNLK"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    /*MNEMOTECNICOS TABLA 3.3 (26 INSTRUCCIONES)*/
+    <ADD: "ADD"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <ADDA: "ADDA"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <ADDI: "ADDI"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <ADDQ: "ADDQ"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <ADDX: "ADDX"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <CLR: "CLR"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <CMP: "CMP"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <CMPA: "CMPA"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <CMPI: "CMPI"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <CMPM: "CMPM"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <CMP2: "CMP2"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <DIVS: "DIVS"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <DIVU: "DIVU"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <DIVSL: "DIVSL"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <DIVUL: "DIVUL"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <EXTB: "EXTB"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <MULS: "MULS"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <MULU: "MULU"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <NEG: "NEG"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <NEGX: "NEGX"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <SUB: "SUB"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <SUBA: "SUBA"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <SUBI: "SUBI"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <SUBQ: "SUBQ"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <SUBX: "SUBX"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    /*MNEMOTECNICOS TABLA 3.4 (7 INSTRUCCIONES)*/
+    <AND: "AND"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <ANDI: "ANDI"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <EOR: "EOR"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <EORI: "EORI"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <NOT: "NOT"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <OR: "OR"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <ORI: "ORI"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    /*MNEMOTECNICOS TABLA 3.5 (9 INSTRUCCIONES)*/
+    <ASL: "ASL"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <ASR: "ASR"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <LSL: "LSL"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <LSR: "LSR"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <ROL: "ROL"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <ROR: "ROR"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <ROXL: "ROXL"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <ROXR: "ROXR"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <SWAP: "SWAP"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    /*MNEMOTECNICOS TABLA 3.6 (4 INSTRUCCIONES)*/
+    <BCHG: "BCHG"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <BCLR: "BCLR"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <BSET: "BSET"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <BTST: "BTST"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    /*MNEMOTECNICOS TABLA 3.7 (8 INSTRUCCIONES)*/
+    <BFCHG: "BFCHG"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <BFCLR: "BFCLR"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <BFEXTS: "BFEXTS"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <BFEXTU: "BFEXTU"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <BFFFO: "BFFFO"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <BFINS: "BFINS"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <BFSET: "BFSET"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <BFTST: "BFTST"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    /*MNEMOTECNICOS TABLA 3.8*/
+    <ABCD: "ABCD"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <NBCD: "NBCD"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <PACK: "PACK"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <SBCD: "SBCD"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <UNPK: "UNPK"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    /*MNEMOTECNICOS TABLA 3.9 (17 INSTRUCCIONES)*/
+    <Bcc: "Bcc"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <FBcc: "FBcc"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <DBcc: "DBcc"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <FDBcc: "FDBcc"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <Scc: "Scc"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <FScc: "FScc" >{System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <BRA: "BRA"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <BSR: "BSR"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <JMP: "JMP"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <JSR: "JSR"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <NOP:"NOP"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <FNOP: "FNOP"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <RTD: "RTD"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <RTR: "RTR"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <RTS: "RTS"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <TST: "TST"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    <FTST: "FTST"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    /*MNEMOTECNICOS TABLA 3.10*/
+    <FRESTORE: "FRESTORE"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+	<FSAVE: "FSAVE"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+	<MOVEC: "MOVEC"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+	<MOVES: "MOVES"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+	<RESET: "RESET"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+	<RTE: "RTE"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+	<STOP: "STOP"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+	<BKTP: "BKTP"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+	<CHK: "CHK"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+	<CHK2: "CHK2"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+	<ILEGAL: "ILEGAL"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+	<TRAP: "TRAP"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+	<TRAPcc: "TRAPcc"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+	<FTRAPcc: "FTRAPcc"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+	<TRAPV: "TRAPV"> {System.out.println("Line: "+matchedToken.beginLine+" Mnemotecnico("+image+")");} |
+    /*CONDICIONALES*/
+    <CC: "CC"> {System.out.println("Line: "+matchedToken.beginLine+" Condicional("+image+")");} | 
+    <LS:"LS"> {System.out.println("Line: "+matchedToken.beginLine+" Condicional("+image+")");}|
+    <CS: "CS"> {System.out.println("Line: "+matchedToken.beginLine+" Condicional("+image+")");} |
+    <LT: "LT"> {System.out.println("Line: "+matchedToken.beginLine+" Condicional("+image+")");} |
+    <EQ: "EQ"> {System.out.println("Line: "+matchedToken.beginLine+" Condicional("+image+")");} |
+    <MI: "MI"> {System.out.println("Line: "+matchedToken.beginLine+" Condicional("+image+")");} |
+    <NE: "NE"> {System.out.println("Line:   "+matchedToken.beginLine+" Condicional("+image+")");} |
+    <GE: "GE"> {System.out.println("Line: "+matchedToken.beginLine+" Condicional("+image+")");} |
+    <PL: "PL"> {System.out.println("Line: "+matchedToken.beginLine+" Condicional("+image+")");} |
+    <GT: "GT"> {System.out.println("Line: "+matchedToken.beginLine+" Condicional("+image+")");} |
+    <T: "T"> {System.out.println("Line: "+matchedToken.beginLine+" Condicional("+image+")");} |
+    <HI: "HI"> {System.out.println("Line: "+matchedToken.beginLine+" Condicional("+image+")");} |
+    <VC: "VC"> {System.out.println("Line: "+matchedToken.beginLine+" Condicional("+image+")");} |
+    <LE: "LE"> {System.out.println("Line: "+matchedToken.beginLine+" Condicional("+image+")");} |
+    <VS: "VS"> {System.out.println("Line: "+matchedToken.beginLine+" Condicional("+image+")");} |
+    /*IDENTIFICADORES*/
+    <Identificador: <LETRA>(<LETRA> | <DIG>){0,7}> {System.out.println("Line: "+matchedToken.beginLine+" Identificador("+image+")");} |
+    <LETRA: (["a"-"z"]|["A"-"Z"])>|
+    <CADENA: <LETRA>(<LETRA>|<DIG>)+>
+    
+}
+/*METODOS PARA ESTRUCTURA DEL PROGRAMA*/
+
+
+void Estructura(): {}
+{
+
+    <Identificador><ORG>(<D32>|<D16>|<D8>)Directivas_Est()/*Instrucciones_Est()*/{tabla.imprimir();}<END><EOF>{System.out.println("No hay errores sintacticos");}
+}
+
+void Directivas_Est(): {
+    Token id;
+}
+{
+    (id=<Identificador>Directivas(id))*
+}
+
+void Instrucciones_Est(): {}
+{
+    <Punto><CODE>((<Identificador>)?Instrucciones())+
+}
+
+void Instrucciones(): {}
+{
+    (BCHG()|PACK()|ADD_METODO()|JMP_Metodo()|SBCD()|CMP()|LSL()|EOR())
+}
+/*FIN METODOS PARA ESTRUCTURA DEL PROGRAMA*/
+
+/*METODOS PARA CREAR LAS DIRECTIVAS*/
+void Directivas(Token id) : {}
+{
+    ((DDATA(id)|BWLEDE(id)))
+}
+
+void DDATA(Token id): {
+ int multi=1;
+ String Identi= id.image;
+ int bytesOcupados=0;
+ String TipoDato="DB";
+ 
+}
+{
+    <DDATA>{
+        multi=Tamanio();
+        switch(multi){
+            case 1:
+                TipoDato="DB";
+                break;
+            
+            case 2:
+                TipoDato="DW";
+                break;
+            
+            case 4:
+                TipoDato="DL";
+                break;
+            
+        }
+        bytesOcupados=Valor();
+        {
+            if (!tabla.existe(Identi)) {
+                tabla.insertar(Identi,countloc,TipoDato);
+            }
+            else{
+                System.out.println("Error el ID \""+Identi+"\"Ya se encuentra");
+                java.lang.System.exit(0);
+            }
+                countloc=(countloc)+(bytesOcupados*multi);
+                tabla.setTam(Identi, bytesOcupados*multi);
+        }
+    }
+}
+
+void BWLEDE(Token id): {
+    String Identi=id.image;  
+    int bytes=0;
+    int aux;
+}
+{
+    (<BYTE>{
+        aux=1;
+        if(!tabla.existe(Identi)){
+                  tabla.insertar(Identi, countloc, "B"); 
+              }else{
+                System.out.println("Error! el ID \""+Identi+"\" ya existe!");
+                java.lang.System.exit(1);
+              }
+    }
+    |
+    <WORD>{
+        aux=2;
+        if(!tabla.existe(Identi)){
+                  tabla.insertar(Identi, countloc, "W"); 
+              }else{
+                System.out.println("Error! el ID \""+Identi+"\" ya existe!");
+                java.lang.System.exit(1);
+              }
+    }
+    |<LONG>{
+        aux=3;
+        if(!tabla.existe(Identi)){
+                  tabla.insertar(Identi, countloc, "L"); 
+              }else{
+                System.out.println("Error! el ID \""+Identi+"\" ya existe!");
+                java.lang.System.exit(1);
+              }
+    }
+    |
+    <EQU><CADENA>{
+        aux=4;
+        if(!tabla.existe(Identi)){
+                  tabla.insertar(Identi, countloc, "EQU"); 
+              }else{
+                System.out.println("Error! el ID \""+Identi+"\" ya existe!");
+                java.lang.System.exit(1);
+              }
+    }
+    |
+    <EXT><CADENA>{
+        aux=5;
+        if(!tabla.existe(Identi)){
+                  tabla.insertar(Identi, countloc, "EXT"); 
+              }else{
+                System.out.println("Error! el ID \""+Identi+"\" ya existe!");
+                java.lang.System.exit(1);
+              }
+    }
+    |
+    <DEF><CADENA>{
+        aux=6;
+        if(!tabla.existe(Identi)){
+                  tabla.insertar(Identi, countloc, "DEF"); 
+              }else{
+                System.out.println("Error! el ID \""+Identi+"\" ya existe!");
+                java.lang.System.exit(1);
+              }
+    }
+    )Valor2(aux, id)
+}
+/*FIN METODOS PARA CREAR LAS DIRECTIVAS*/
+
+/*METODOS INSTRUCCION PACK Y MOVEC*/
+void PACK(): {}
+{
+    <PACK>((PACK_RM()<Coma>PACK_RM())|(<Datos><Coma><Datos>))
+}
+
+void PACK_RM(): {}
+{
+    <Guion><ParentesisA><Memoria><ParentesisC>
+}
+
+void BCHG(): {}
+{
+    <BCHG>(<Punto>(<LO>|<BY>))?BCHG_VAR()
+}
+
+void BCHG_VAR(): {}
+{
+    <Datos><Coma>BCHG_EA() | <Gato>(<D32>|<D16>|<D8>)<Coma>BCHG_EA()
+}
+
+void BCHG_EA(): {}
+{
+    <Datos> |
+    <Guion><ParentesisA><Memoria><ParentesisC> | 
+    <ParentesisA>((
+                     ((<D16>) ( <Coma><Memoria><ParentesisC> | <ParentesisC><Punto>(<WO>|<LO>) ))  | 
+                     (<D8>)<Coma><Memoria><Coma>(<Memoria>|<Datos>)<ParentesisC>
+    ) | <Memoria><ParentesisC>(<Mas>)?)
+}
+/*FIN METTODOS INSTRUCCION PACK y MOVEC*/
+
+/*METODOS INSTRUCCIONES JMP Y ADD*/
+void ADD_METODO():{}
+{
+	<ADD>(<Punto>(<BY>|<WO>|<LO>))?( <Datos><Coma>(ADD_Ea2()|<Datos>)|ADD_Ea1()<Coma><Datos> )
+}
+
+void JMP_Metodo():{}
+{
+    <JMP>JMP_Ea()
+}
+
+
+void JMP_Ea():{}
+{
+    (<ParentesisA>((<D16>)<ParentesisC><Punto>(<WO>|<LO>)|<Memoria><ParentesisC>(<Mas>)?)
+    |(<D16>)<ParentesisA>(<PC>|<Memoria>)<ParentesisC>
+    |(<D8>)<ParentesisA>(<Memoria>|<PC>)<Coma>(<Datos>|<Memoria>)<ParentesisC>)
+}
+
+void ADD_Ea1():{}
+{
+
+(<Memoria>  
+|<ParentesisA>((<D16>)<ParentesisC><Punto>(<WO>|<LO>)|<Memoria><ParentesisC>(<Mas>)?)
+|<Guion><ParentesisA><Memoria><ParentesisC>
+|(<D16>)<ParentesisA>(<PC>|<Memoria>)<ParentesisC>
+|(<D8>)<ParentesisA>(<Memoria>|<PC>)<Coma>(<Datos>|<Memoria>)<ParentesisC>
+|<Gato>(<D8>|<D16>)
+
+        )
+}
+
+void ADD_Ea2():{}
+{
+    (<ParentesisA>((<D16>)<ParentesisC><Punto>(<WO>|<LO>)|<Memoria><ParentesisC>(<Mas>)?)
+    |<Guion><ParentesisA><Memoria><ParentesisC>
+    |(<D16>)<ParentesisA><Memoria><ParentesisC>
+    |(<D8>)<ParentesisA><Memoria><Coma>(<Datos>|<Memoria>)<ParentesisC>)
+}
+
+/*FIN METODOS INSTRUCCIONES JMP Y ADD*/
+
+/*METODOS INSTRUCCIONES CMP Y SBCD*/
+void SBCD():{}
+{
+    <SBCD>(<Punto><BY>)?SBCD_VAR()
+}
+
+void SBCD_VAR(): {}
+{
+    <Datos><Coma><Datos>|<Guion><ParentesisA><Memoria><ParentesisC><Coma><Guion><ParentesisA><Memoria><ParentesisC>
+}
+
+void CMP():{}
+{
+    <CMP>(<Punto>(<BY>|<LO>|<WO>))?CMP_EA()<Coma><Datos>
+}
+
+void CMP_EA(): {}
+{
+    (<Datos>|<Memoria>) |
+    <Guion><ParentesisA><Memoria><ParentesisC> | 
+    <ParentesisA>((
+                     ((<D16>) ( <Coma>(<Memoria>|<PC>)<ParentesisC> | <ParentesisC><Punto>(<WO>|<LO>) ))  | 
+                     (<D8>)<Coma>(<Memoria>|<PC>)<Coma>(<Memoria>|<Datos>)<ParentesisC>
+    ) | <Memoria><ParentesisC>(<Mas>)?) |
+    <Gato>(<D16>|<D8>)
+}
+/*FIN METODOS INSTRUCCIONES CMP Y BCSD*/
+
+/*METODOS INSTRUCCIONES EOR Y LSL-LSR*/
+void LSL(): {}
+{
+    (<LSL>(<Punto>(<BY>|<LO>|<WO>))?|<LSR>(<Punto>(<BY>|<LO>|<WO>))?)LSL_VAR()
+}
+
+void LSL_VAR(): {}
+{
+    <Datos><Coma><Datos> |
+    <Gato>(<D8>|<D16>)<Coma><Datos> |
+    LSL_EA()
+}
+
+void LSL_EA(): {}
+{
+    <Guion><ParentesisA><Memoria><ParentesisC> | 
+    <ParentesisA>((
+                     ((<D16>) ( <Coma><Memoria><ParentesisC> | <ParentesisC><Punto>(<WO>|<LO>) ))  | 
+                     (<D8>)<Coma><Memoria><Coma>(<Memoria>|<Datos>)<ParentesisC>
+    ) | <Memoria><ParentesisC>(<Mas>)?)
+}
+
+void EOR(): {}
+{
+    <EOR>(<Punto>(<BY>|<LO>|<WO>))?<Datos><Coma>EOR_EA()
+}
+
+void EOR_EA(): {}
+{
+    (<Datos> 
+     |<ParentesisA>((<D16>)<ParentesisC><Punto>(<WO>|<LO>)|<Memoria><ParentesisC>(<Mas>)?)
+     |<Guion><ParentesisA><Memoria><ParentesisC>
+     |(<D16>)<ParentesisA><Memoria><ParentesisC>
+     |(<D8>)<ParentesisA><Memoria><Coma>(<Datos>|<Memoria>)<ParentesisC>
+    )
+}
+/*FIN METODOS INSTRUCCIONES EOR Y LSL-LSR*/
+
+/*METODOS PARA ASIGNAGION DE TAMAÑO Y VALOR*/
+int Tamanio(): {
+    int mult;
+    int TipoDato2;
+}
+{
+    <Punto>(<BY>{mult=1;}|<WO>{mult=2;}|<LO>{mult=4;})
+   { return mult;}
+}
+
+int Valor(): {
+    int bytes;
+}
+{
+   (<D32>{bytes=4;}|<D16>{bytes=2;}|<D8>{bytes=1;})
+   {return bytes;}
+}
+
+
+void Valor2(int aux, Token id): {
+    int bytes=0;
+    String Identi=id.image;
+}
+{
+    (<D32>{bytes=bytes+4;}|<D16>{bytes=bytes+2;}|<D8>{bytes=bytes+1;})?
+    {
+        System.out.println("Hola mata");
+    switch(aux){
+    case 1:
+        System.out.println("DIRECTIVA BYTE "+Identi+" tam: "+bytes);
+        countloc=(countloc)+(bytes);
+        tabla.setTam(Identi, bytes);
+    break;
+    case 2:
+        System.out.println("DIRECTIVA WORD id "+Identi+" tam: "+bytes*2);
+        countloc=(countloc)+(bytes*2);
+        tabla.setTam(Identi, bytes*2);
+    break;
+    case 3:
+        System.out.println("DIRECTIVA LONG id "+Identi+" tam: "+bytes*4);
+        countloc=(countloc)+(bytes*4);
+        tabla.setTam(Identi, bytes*4);
+    break;
+    case 4:
+        System.out.println("DIRECTIVAB EQU id "+Identi);
+    break;
+    case 5:
+        System.out.println("DIRECTIVA  EXT id"+Identi);
+    break;
+    case 6:
+        System.out.println("DIRECTIVA DEF id "+Identi);
+    break;
+    }
+   }
+}
+
+/*FIN METODOS PARA ASIGNAGION DE TAMAÑO Y VALOR*/
