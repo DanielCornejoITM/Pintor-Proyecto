@@ -285,7 +285,7 @@ void Instrucciones_Est(): {
 
 void Instrucciones(String Identi): {}
 {
-    (BCHG()|PACK()|ADD_METODO()|JMP_Metodo(Identi)|SBCD()|CMP(Identi)|LSL()|EOR())
+    (BCHG(Identi)|PACK(Identi)|ADD_METODO(Identi)|JMP_Metodo(Identi)|SBCD()|CMP(Identi)|LSL(Identi)|EOR())
 }
 /*FIN METODOS PARA ESTRUCTURA DEL PROGRAMA*/
 
@@ -402,9 +402,15 @@ void BWLEDE(Token id): {
 /*FIN METODOS PARA CREAR LAS DIRECTIVAS*/
 
 /*METODOS INSTRUCCION PACK Y MOVEC*/
-void PACK(): {}
+/*********************MATTA***************************/
+void PACK(String Identi): {
+    int bytesOcupados=0x1;
+}
 {
-    <PACK>((PACK_RM()<Coma>PACK_RM())|(<Datos><Coma><Datos>))
+    (<PACK>((PACK_RM()<Coma>PACK_RM())|(<Datos><Coma><Datos>))){    
+        countloc=(countloc)+(bytesOcupados*2);
+        tabla.setTam(Identi, bytesOcupados*2);
+    }
 }
 
 void PACK_RM(): {}
@@ -412,29 +418,35 @@ void PACK_RM(): {}
     <Guion><ParentesisA><Memoria><ParentesisC>
 }
 
-void BCHG(): {}
+void BCHG(String Identi): {}
 {
-    <BCHG>(<Punto>(<LO>|<BY>))?BCHG_VAR()
+    <BCHG>(<Punto>(<LO>|<BY>))?BCHG_VAR(Identi)
 }
 
-void BCHG_VAR(): {}
+void BCHG_VAR(String Identi): {
+    int bytesOcupados=0x1;
+}
 {
-    <Datos><Coma>BCHG_EA() | <Gato>(<D32>|<D16>|<D8>)<Coma>BCHG_EA()
+    <Datos><Coma>BCHG_EA(bytesOcupados, Identi) | <Gato>(<D32>{bytesOcupados=bytesOcupados+4;}|<D16>{bytesOcupados=bytesOcupados+2;}|<D8>{bytesOcupados=bytesOcupados+2;})<Coma>BCHG_EA(bytesOcupados, Identi)
 }
 
-void BCHG_EA(): {}
+void BCHG_EA(int bytesOcupados, String Identi): {}
 {
-    <Datos> |
+    (<Datos> |
     <Guion><ParentesisA><Memoria><ParentesisC> | 
     <ParentesisA>((
-                     ((<D16>) ( <Coma><Memoria><ParentesisC> | <ParentesisC><Punto>(<WO>|<LO>) ))  | 
-                     (<D8>)<Coma><Memoria><Coma>(<Memoria>|<Datos>)<ParentesisC>
-    ) | <Memoria><ParentesisC>(<Mas>)?)
+                     (<D16>) ( <Coma><Memoria><ParentesisC>{bytesOcupados++;} | <ParentesisC><Punto>(<WO>{bytesOcupados++;}|<LO>{bytesOcupados=bytesOcupados+2;}) )  | 
+                     (<D8>)<Coma><Memoria><Coma>(<Memoria>|<Datos>)<ParentesisC>{bytesOcupados++;}
+    ) | <Memoria><ParentesisC>(<Mas>)?))
+    {    
+        countloc=(countloc)+(bytesOcupados*2);
+        tabla.setTam(Identi, bytesOcupados*2);
+    }
 }
+/*******************FIN*MATTA***************************/
 /*FIN METTODOS INSTRUCCION PACK y MOVEC*/
 
 /*METODOS INSTRUCCIONES JMP Y ADD*/
-
 
 void JMP_Metodo(String id):{}
 {
@@ -523,7 +535,6 @@ void CMP_EA(String Identi): {
     <Gato>(<D32>{bytesOcupados=bytesOcupados+4;}|<D16>{bytesOcupados=bytesOcupados+2;}|<D8>{bytesOcupados=bytesOcupados+2;}))
     {    
         countloc=(countloc)+(bytesOcupados*2);
-        System.out.println("Baits: "+countloc);
         tabla.setTam(Identi, bytesOcupados*2);
     }
     
@@ -532,26 +543,37 @@ void CMP_EA(String Identi): {
 /*FIN METODOS INSTRUCCIONES CMP Y BCSD*/
 
 /*METODOS INSTRUCCIONES EOR Y LSL-LSR*/
-void LSL(): {}
+/***************************MATTA***********************/
+void LSL(String Identi): {}
 {
-    (<LSL>(<Punto>(<BY>|<LO>|<WO>))?|<LSR>(<Punto>(<BY>|<LO>|<WO>))?)LSL_VAR()
+    (<LSL>(<Punto>(<BY>|<LO>|<WO>))?|<LSR>(<Punto>(<BY>|<LO>|<WO>))?)LSL_VAR(Identi)
 }
 
-void LSL_VAR(): {}
+void LSL_VAR(String Identi): {
+    int bytesOcupados=0x1;
+}
 {
     <Datos><Coma><Datos> |
-    <Gato>(<D8>|<D16>)<Coma><Datos> |
-    LSL_EA()
+    <Gato>(<D32>{bytesOcupados=bytesOcupados+4;}|<D16>{bytesOcupados=bytesOcupados+2;}|<D8>{bytesOcupados=bytesOcupados+2;})<Coma><Datos> |
+    LSL_EA(Identi, bytesOcupados)
 }
 
-void LSL_EA(): {}
+void LSL_EA(String Identi, int bytesOcupados): {}
 {
-    <Guion><ParentesisA><Memoria><ParentesisC> | 
-    <ParentesisA>((
-                     ((<D16>) ( <Coma><Memoria><ParentesisC> | <ParentesisC><Punto>(<WO>|<LO>) ))  | 
-                     (<D8>)<Coma><Memoria><Coma>(<Memoria>|<Datos>)<ParentesisC>
-    ) | <Memoria><ParentesisC>(<Mas>)?)
+    (<Guion><ParentesisA><Memoria><ParentesisC> | 
+    <ParentesisA>(
+                    (<D16>(<Coma><Memoria><ParentesisC>{bytesOcupados++;}  
+                    | 
+                    <ParentesisC><Punto>(<WO>{bytesOcupados++;} |<LO>{bytesOcupados=bytesOcupados+2;}))   
+                    | 
+                    (<D8><Coma><Memoria><Coma>(<Memoria>|<Datos>)<ParentesisC>{bytesOcupados++;}) | 
+                    <Memoria><ParentesisC>(<Mas>)?)))
+    {    
+        countloc=(countloc)+(bytesOcupados*2);
+        tabla.setTam(Identi, bytesOcupados*2);
+    }
 }
+/****************************FIN MATTA*******************/
 
 void EOR(): {}
 {
