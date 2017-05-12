@@ -148,14 +148,6 @@ Line: 25 Parentesis Abre(()
 Line: 25 Parentesis Cierra())
 Line: 25 Punto(.)
 Line: 25 Tamaño word(W)
-Line: 26 Identificador(E19)
-Line: 26 Mnemotecnico(BCHG)
-Line: 26 Registro de datos(D1)
-Line: 26 Coma(,)
-Line: 26 Parentesis Abre(()
-Line: 26 Parentesis Cierra())
-Line: 26 Punto(.)
-Line: 26 Tamaño long(L)
 Line: 27 Mnemotecnico(BCHG)
 Line: 27 Gato(#)
 Line: 27 Coma(,)
@@ -196,6 +188,7 @@ Line: 32 Mnemotecnico(LSR)
 Line: 32 Gato(#)
 Line: 32 Coma(,)
 Line: 32 Registro de datos(D3)
+Line: 32 Comentario(//Hola)
 Line: 33 Identificador(E22)
 Line: 33 Mnemotecnico(LSL)
 Line: 33 Punto(.)
@@ -499,12 +492,12 @@ Line: 76 Directiva(END)
 
 Tabla de Simbolos 
 Id    Dirección    Tipo    Tamaño
-E20  ||  60  ||  DIR   ||  A
-E22  ||  6A  ||  DIR   ||  2
-E21  ||  6A  ||  DIR   ||  0
-E23  ||  70  ||  DIR   ||  4
-E26  ||  80  ||  DIR   ||  6
-E25  ||  78  ||  DIR   ||  4
+E20  ||  5A  ||  DIR   ||  A
+E22  ||  64  ||  DIR   ||  2
+E21  ||  64  ||  DIR   ||  0
+E23  ||  6A  ||  DIR   ||  4
+E26  ||  7A  ||  DIR   ||  6
+E25  ||  72  ||  DIR   ||  4
 E1  ||  0  ||  DB   ||  1
 E2  ||  1  ||  DW   ||  8
 E3  ||  9  ||  DL   ||  4
@@ -514,23 +507,22 @@ E6  ||  10  ||  L   ||  4
 E7  ||  14  ||  EQU   ||  0
 E8  ||  14  ||  DEF   ||  0
 E9  ||  14  ||  EXT   ||  0
-E51  ||  B6  ||  DIR   ||  2
-E50  ||  B4  ||  DIR   ||  2
-E53  ||  BA  ||  DIR   ||  2
-E52  ||  B8  ||  DIR   ||  2
+E51  ||  B0  ||  DIR   ||  2
+E50  ||  AE  ||  DIR   ||  2
+E53  ||  B4  ||  DIR   ||  2
+E52  ||  B2  ||  DIR   ||  2
 E11  ||  18  ||  DIR   ||  2
-E55  ||  C0  ||  DIR   ||  4
+E55  ||  BA  ||  DIR   ||  4
 E10  ||  14  ||  DIR   ||  2
-E54  ||  BC  ||  DIR   ||  4
+E54  ||  B6  ||  DIR   ||  4
 E13  ||  20  ||  DIR   ||  4
 E12  ||  1A  ||  DIR   ||  4
-E56  ||  C4  ||  DIR   ||  8
+E56  ||  BE  ||  DIR   ||  8
 E15  ||  30  ||  DIR   ||  2
 E14  ||  28  ||  DIR   ||  2
 E17  ||  3A  ||  DIR   ||  4
 E16  ||  32  ||  DIR   ||  4
-E19  ||  42  ||  DIR   ||  8
-E18  ||  3E  ||  DIR   ||  4
-Tamaño total :CC
+E18  ||  3E  ||  DIR   ||  8
+Tamaño total :C6
 No hay errores sintacticos
 Analisis Finalizado:

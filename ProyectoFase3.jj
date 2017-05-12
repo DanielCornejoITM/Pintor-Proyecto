@@ -410,7 +410,7 @@ void PACK(String Identi): {
     (<PACK>((PACK_RM()<Coma>PACK_RM())|(<Datos><Coma><Datos>))){    
         countloc=(countloc)+(bytesOcupados*2);
         tabla.setTam(Identi, bytesOcupados*2);
-    }
+    }(<Comentario>)?
 }
 
 void PACK_RM(): {}
@@ -420,7 +420,7 @@ void PACK_RM(): {}
 
 void BCHG(String Identi): {}
 {
-    <BCHG>(<Punto>(<LO>|<BY>))?BCHG_VAR(Identi)
+    <BCHG>(<Punto>(<LO>|<BY>))?BCHG_VAR(Identi)(<Comentario>)?
 }
 
 void BCHG_VAR(String Identi): {
@@ -450,7 +450,7 @@ void BCHG_EA(int bytesOcupados, String Identi): {}
 
 void JMP_Metodo(String id):{}
 {
-    <JMP>JMP_Ea(id)
+    <JMP>JMP_Ea(id)(<Comentario>)?
 }
 
 
@@ -472,7 +472,7 @@ void JMP_Ea(String id):{
 
 void ADD_METODO(String id):{}
 {
-  <ADD>(<Punto>(<BY>|<WO>|<LO>))?( <Datos><Coma>(ADD_Ea2(id)|<Datos>)|ADD_Ea1(id)<Coma><Datos> )
+  <ADD>(<Punto>(<BY>|<WO>|<LO>))?( <Datos><Coma>(ADD_Ea2(id)|<Datos>)|ADD_Ea1(id)<Coma><Datos> )(<Comentario>)?
 }
 
 void ADD_Ea1(String id):{
@@ -517,7 +517,7 @@ void ADD_Ea2(String id):{}
 /*METODOS INSTRUCCIONES CMP Y SBCD*/
 void SBCD(String id):{}
 {
-    <SBCD>(<Punto><BY>)?SBCD_VAR(id)
+    <SBCD>(<Punto><BY>)?SBCD_VAR(id)(<Comentario>)?
 }
 
 void SBCD_VAR(String id): {
@@ -534,7 +534,7 @@ void SBCD_VAR(String id): {
 /**************************MATTA*********************/
 void CMP(String Identi):{}
 {
-    <CMP>(<Punto>(<BY>|<LO>|<WO>))?CMP_EA(Identi)<Coma><Datos>
+    <CMP>(<Punto>(<BY>|<LO>|<WO>))?CMP_EA(Identi)<Coma><Datos>(<Comentario>)?
 }
 
 void CMP_EA(String Identi): {
@@ -561,7 +561,7 @@ void CMP_EA(String Identi): {
 /***************************MATTA***********************/
 void LSL(String Identi): {}
 {
-    (<LSL>(<Punto>(<BY>|<LO>|<WO>))?|<LSR>(<Punto>(<BY>|<LO>|<WO>))?)LSL_VAR(Identi)
+    (<LSL>(<Punto>(<BY>|<LO>|<WO>))?|<LSR>(<Punto>(<BY>|<LO>|<WO>))?)LSL_VAR(Identi)(<Comentario>)?
 }
 
 void LSL_VAR(String Identi): {
@@ -592,7 +592,7 @@ void LSL_EA(String Identi, int bytesOcupados): {}
 
 void EOR(String id): {}
 {
-    <EOR>(<Punto>(<BY>|<LO>|<WO>))?<Datos><Coma>EOR_EA( id)
+    <EOR>(<Punto>(<BY>|<LO>|<WO>))?<Datos><Coma>EOR_EA( id)(<Comentario>)?
 }
 
 void EOR_EA(String id): {

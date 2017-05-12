@@ -291,6 +291,14 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     }
         countloc=(countloc)+(bytesOcupados*2);
         tabla.setTam(Identi, bytesOcupados*2);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case Comentario:
+      jj_consume_token(Comentario);
+      break;
+    default:
+      jj_la1[8] = jj_gen;
+      ;
+    }
   }
 
   static final public void PACK_RM() throws ParseException {
@@ -313,16 +321,24 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
         jj_consume_token(BY);
         break;
       default:
-        jj_la1[8] = jj_gen;
+        jj_la1[9] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[9] = jj_gen;
+      jj_la1[10] = jj_gen;
       ;
     }
     BCHG_VAR(Identi);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case Comentario:
+      jj_consume_token(Comentario);
+      break;
+    default:
+      jj_la1[11] = jj_gen;
+      ;
+    }
   }
 
   static final public void BCHG_VAR(String Identi) throws ParseException {
@@ -349,7 +365,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                                                                                                           bytesOcupados=bytesOcupados+2;
         break;
       default:
-        jj_la1[10] = jj_gen;
+        jj_la1[12] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -357,7 +373,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       BCHG_EA(bytesOcupados, Identi);
       break;
     default:
-      jj_la1[11] = jj_gen;
+      jj_la1[13] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -402,13 +418,13 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                                                                                                  bytesOcupados=bytesOcupados+2;
               break;
             default:
-              jj_la1[12] = jj_gen;
+              jj_la1[14] = jj_gen;
               jj_consume_token(-1);
               throw new ParseException();
             }
             break;
           default:
-            jj_la1[13] = jj_gen;
+            jj_la1[15] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
@@ -426,7 +442,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
             jj_consume_token(Datos);
             break;
           default:
-            jj_la1[14] = jj_gen;
+            jj_la1[16] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
@@ -434,7 +450,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                                                  bytesOcupados++;
           break;
         default:
-          jj_la1[15] = jj_gen;
+          jj_la1[17] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -447,18 +463,18 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(Mas);
           break;
         default:
-          jj_la1[16] = jj_gen;
+          jj_la1[18] = jj_gen;
           ;
         }
         break;
       default:
-        jj_la1[17] = jj_gen;
+        jj_la1[19] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[18] = jj_gen;
+      jj_la1[20] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -473,6 +489,14 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
   static final public void JMP_Metodo(String id) throws ParseException {
     jj_consume_token(JMP);
     JMP_Ea(id);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case Comentario:
+      jj_consume_token(Comentario);
+      break;
+    default:
+      jj_la1[21] = jj_gen;
+      ;
+    }
   }
 
   static final public void JMP_Ea(String id) throws ParseException {
@@ -501,7 +525,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                                                                         bytesOcupados+=2;
           break;
         default:
-          jj_la1[19] = jj_gen;
+          jj_la1[22] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -516,14 +540,14 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(PC);
           break;
         default:
-          jj_la1[20] = jj_gen;
+          jj_la1[23] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         jj_consume_token(ParentesisC);
         break;
       default:
-        jj_la1[21] = jj_gen;
+        jj_la1[24] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -540,7 +564,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
         jj_consume_token(PC);
         break;
       default:
-        jj_la1[22] = jj_gen;
+        jj_la1[25] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -553,14 +577,14 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
         jj_consume_token(Memoria);
         break;
       default:
-        jj_la1[23] = jj_gen;
+        jj_la1[26] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       jj_consume_token(ParentesisC);
       break;
     default:
-      jj_la1[24] = jj_gen;
+      jj_la1[27] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -585,13 +609,13 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
         jj_consume_token(LO);
         break;
       default:
-        jj_la1[25] = jj_gen;
+        jj_la1[28] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[26] = jj_gen;
+      jj_la1[29] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -607,7 +631,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
         jj_consume_token(Datos);
         break;
       default:
-        jj_la1[27] = jj_gen;
+        jj_la1[30] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -621,9 +645,17 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       jj_consume_token(Datos);
       break;
     default:
-      jj_la1[28] = jj_gen;
+      jj_la1[31] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
+    }
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case Comentario:
+      jj_consume_token(Comentario);
+      break;
+    default:
+      jj_la1[32] = jj_gen;
+      ;
     }
   }
 
@@ -651,7 +683,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(Mas);
           break;
         default:
-          jj_la1[29] = jj_gen;
+          jj_la1[33] = jj_gen;
           ;
         }
         break;
@@ -669,7 +701,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
             jj_consume_token(PC);
             break;
           default:
-            jj_la1[30] = jj_gen;
+            jj_la1[34] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
@@ -688,13 +720,13 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                              bytesOcupados+=2;
             break;
           default:
-            jj_la1[31] = jj_gen;
+            jj_la1[35] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
           break;
         default:
-          jj_la1[32] = jj_gen;
+          jj_la1[36] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -711,7 +743,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(PC);
           break;
         default:
-          jj_la1[33] = jj_gen;
+          jj_la1[37] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -724,14 +756,14 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(Memoria);
           break;
         default:
-          jj_la1[34] = jj_gen;
+          jj_la1[38] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         jj_consume_token(ParentesisC);
         break;
       default:
-        jj_la1[35] = jj_gen;
+        jj_la1[39] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -752,13 +784,13 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                                    bytesOcupados+=2;
         break;
       default:
-        jj_la1[36] = jj_gen;
+        jj_la1[40] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[37] = jj_gen;
+      jj_la1[41] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -784,7 +816,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(LO);
           break;
         default:
-          jj_la1[38] = jj_gen;
+          jj_la1[42] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -797,7 +829,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(Mas);
           break;
         default:
-          jj_la1[39] = jj_gen;
+          jj_la1[43] = jj_gen;
           ;
         }
         jj_consume_token(D16);
@@ -818,14 +850,14 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(Memoria);
           break;
         default:
-          jj_la1[40] = jj_gen;
+          jj_la1[44] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         jj_consume_token(ParentesisC);
         break;
       default:
-        jj_la1[41] = jj_gen;
+        jj_la1[45] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -837,7 +869,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       jj_consume_token(ParentesisC);
       break;
     default:
-      jj_la1[42] = jj_gen;
+      jj_la1[46] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -854,10 +886,18 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       jj_consume_token(BY);
       break;
     default:
-      jj_la1[43] = jj_gen;
+      jj_la1[47] = jj_gen;
       ;
     }
     SBCD_VAR(id);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case Comentario:
+      jj_consume_token(Comentario);
+      break;
+    default:
+      jj_la1[48] = jj_gen;
+      ;
+    }
   }
 
   static final public void SBCD_VAR(String id) throws ParseException {
@@ -883,7 +923,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     tabla.setTam(id,bytesOcupados*2);
       break;
     default:
-      jj_la1[44] = jj_gen;
+      jj_la1[49] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -906,18 +946,26 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
         jj_consume_token(WO);
         break;
       default:
-        jj_la1[45] = jj_gen;
+        jj_la1[50] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[46] = jj_gen;
+      jj_la1[51] = jj_gen;
       ;
     }
     CMP_EA(Identi);
     jj_consume_token(Coma);
     jj_consume_token(Datos);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case Comentario:
+      jj_consume_token(Comentario);
+      break;
+    default:
+      jj_la1[52] = jj_gen;
+      ;
+    }
   }
 
   static final public void CMP_EA(String Identi) throws ParseException {
@@ -933,7 +981,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
         jj_consume_token(Memoria);
         break;
       default:
-        jj_la1[47] = jj_gen;
+        jj_la1[53] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -965,7 +1013,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                                         bytesOcupados++;
               break;
             default:
-              jj_la1[48] = jj_gen;
+              jj_la1[54] = jj_gen;
               jj_consume_token(-1);
               throw new ParseException();
             }
@@ -984,13 +1032,13 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                                                                                                                            bytesOcupados=bytesOcupados+2;
               break;
             default:
-              jj_la1[49] = jj_gen;
+              jj_la1[55] = jj_gen;
               jj_consume_token(-1);
               throw new ParseException();
             }
             break;
           default:
-            jj_la1[50] = jj_gen;
+            jj_la1[56] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
@@ -1006,7 +1054,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
             jj_consume_token(PC);
             break;
           default:
-            jj_la1[51] = jj_gen;
+            jj_la1[57] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
@@ -1019,7 +1067,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
             jj_consume_token(Datos);
             break;
           default:
-            jj_la1[52] = jj_gen;
+            jj_la1[58] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
@@ -1027,7 +1075,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                                                         bytesOcupados++;
           break;
         default:
-          jj_la1[53] = jj_gen;
+          jj_la1[59] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -1040,12 +1088,12 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(Mas);
           break;
         default:
-          jj_la1[54] = jj_gen;
+          jj_la1[60] = jj_gen;
           ;
         }
         break;
       default:
-        jj_la1[55] = jj_gen;
+        jj_la1[61] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1066,13 +1114,13 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                                                             bytesOcupados=bytesOcupados+2;
         break;
       default:
-        jj_la1[56] = jj_gen;
+        jj_la1[62] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[57] = jj_gen;
+      jj_la1[63] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1103,13 +1151,13 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(WO);
           break;
         default:
-          jj_la1[58] = jj_gen;
+          jj_la1[64] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         break;
       default:
-        jj_la1[59] = jj_gen;
+        jj_la1[65] = jj_gen;
         ;
       }
       break;
@@ -1129,22 +1177,30 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(WO);
           break;
         default:
-          jj_la1[60] = jj_gen;
+          jj_la1[66] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         break;
       default:
-        jj_la1[61] = jj_gen;
+        jj_la1[67] = jj_gen;
         ;
       }
       break;
     default:
-      jj_la1[62] = jj_gen;
+      jj_la1[68] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
     LSL_VAR(Identi);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case Comentario:
+      jj_consume_token(Comentario);
+      break;
+    default:
+      jj_la1[69] = jj_gen;
+      ;
+    }
   }
 
   static final public void LSL_VAR(String Identi) throws ParseException {
@@ -1171,7 +1227,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                                                             bytesOcupados=bytesOcupados+2;
         break;
       default:
-        jj_la1[63] = jj_gen;
+        jj_la1[70] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1183,7 +1239,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       LSL_EA(Identi, bytesOcupados);
       break;
     default:
-      jj_la1[64] = jj_gen;
+      jj_la1[71] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1222,13 +1278,13 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                                       bytesOcupados=bytesOcupados+2;
             break;
           default:
-            jj_la1[65] = jj_gen;
+            jj_la1[72] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
           break;
         default:
-          jj_la1[66] = jj_gen;
+          jj_la1[73] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -1246,7 +1302,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(Datos);
           break;
         default:
-          jj_la1[67] = jj_gen;
+          jj_la1[74] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -1261,18 +1317,18 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(Mas);
           break;
         default:
-          jj_la1[68] = jj_gen;
+          jj_la1[75] = jj_gen;
           ;
         }
         break;
       default:
-        jj_la1[69] = jj_gen;
+        jj_la1[76] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[70] = jj_gen;
+      jj_la1[77] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1297,18 +1353,26 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
         jj_consume_token(WO);
         break;
       default:
-        jj_la1[71] = jj_gen;
+        jj_la1[78] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[72] = jj_gen;
+      jj_la1[79] = jj_gen;
       ;
     }
     jj_consume_token(Datos);
     jj_consume_token(Coma);
     EOR_EA(id);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case Comentario:
+      jj_consume_token(Comentario);
+      break;
+    default:
+      jj_la1[80] = jj_gen;
+      ;
+    }
   }
 
   static final public void EOR_EA(String id) throws ParseException {
@@ -1335,7 +1399,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(Mas);
           break;
         default:
-          jj_la1[73] = jj_gen;
+          jj_la1[81] = jj_gen;
           ;
         }
         break;
@@ -1361,13 +1425,13 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                              bytesOcupados+=2;
             break;
           default:
-            jj_la1[74] = jj_gen;
+            jj_la1[82] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
           break;
         default:
-          jj_la1[75] = jj_gen;
+          jj_la1[83] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -1385,7 +1449,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(Memoria);
           break;
         default:
-          jj_la1[76] = jj_gen;
+          jj_la1[84] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -1393,13 +1457,13 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                                     bytesOcupados++;
         break;
       default:
-        jj_la1[77] = jj_gen;
+        jj_la1[85] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[78] = jj_gen;
+      jj_la1[86] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1429,7 +1493,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                              mult=4;
       break;
     default:
-      jj_la1[79] = jj_gen;
+      jj_la1[87] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1453,7 +1517,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                          bytes=1;
       break;
     default:
-      jj_la1[80] = jj_gen;
+      jj_la1[88] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1482,13 +1546,13 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                       bytes=bytes+1;
         break;
       default:
-        jj_la1[81] = jj_gen;
+        jj_la1[89] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[82] = jj_gen;
+      jj_la1[90] = jj_gen;
       ;
     }
     switch(aux){
@@ -1529,7 +1593,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
   static public Token jj_nt;
   static private int jj_ntk;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[83];
+  static final private int[] jj_la1 = new int[91];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static private int[] jj_la1_2;
@@ -1545,22 +1609,22 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       jj_la1_init_5();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x104100,0x0,0x0,0x0,0x0,0x0,0x0,0x80000000,0xa0,0x0,0x104100,0x0,0xc0,0x0,0x0,0x4100,0x40000000,0x4100,0x80000000,0xc0,0x0,0x0,0x0,0x0,0x4100,0xe0,0x0,0x80000000,0x80000000,0x40000000,0x0,0xc0,0x0,0x0,0x0,0x4100,0x104100,0x80000000,0xc0,0x40000000,0x0,0x4100,0x80000000,0x0,0x80000000,0xe0,0x0,0x0,0x0,0xc0,0x0,0x0,0x0,0x4100,0x40000000,0x4100,0x104100,0x80000000,0xe0,0x0,0xe0,0x0,0x0,0x104100,0x80000000,0xc0,0x0,0x0,0x40000000,0x4100,0x80000000,0xe0,0x0,0x40000000,0xc0,0x0,0x0,0x4100,0x80000000,0xe0,0x104100,0x104100,0x104100,};
+      jj_la1_0 = new int[] {0x104100,0x0,0x0,0x0,0x0,0x0,0x0,0x80000000,0x0,0xa0,0x0,0x0,0x104100,0x0,0xc0,0x0,0x0,0x4100,0x40000000,0x4100,0x80000000,0x0,0xc0,0x0,0x0,0x0,0x0,0x4100,0xe0,0x0,0x80000000,0x80000000,0x0,0x40000000,0x0,0xc0,0x0,0x0,0x0,0x4100,0x104100,0x80000000,0xc0,0x40000000,0x0,0x4100,0x80000000,0x0,0x0,0x80000000,0xe0,0x0,0x0,0x0,0x0,0xc0,0x0,0x0,0x0,0x4100,0x40000000,0x4100,0x104100,0x80000000,0xe0,0x0,0xe0,0x0,0x0,0x0,0x104100,0x80000000,0xc0,0x0,0x0,0x40000000,0x4100,0x80000000,0xe0,0x0,0x0,0x40000000,0xc0,0x0,0x0,0x4100,0x80000000,0xe0,0x104100,0x104100,0x104100,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0xfe00000,0xfc00000,0x20000000,0x0,0x400,0x0,0x20020000,0x0,0x808,0x60000000,0x0,0x0,0x40000000,0x20000004,0x0,0xc0000000,0x808,0xc0000000,0x60000000,0x40000000,0x0,0x400,0x20000004,0x60020004,0x0,0xc0000000,0x0,0x808,0xc0000000,0x60000000,0x40000000,0x0,0x40020004,0x0,0x0,0x60000000,0x40000000,0x4,0x400,0x20000000,0x0,0x400,0x60000000,0xc0000000,0x0,0x808,0xc0000000,0x60000000,0x0,0x0,0x40000000,0x0,0x60020004,0x0,0x400,0x0,0x400,0x0,0x0,0x20020004,0x0,0x808,0x60000000,0x0,0x40000000,0x4,0x0,0x400,0x0,0x0,0x808,0x60000000,0x40000000,0x20000004,0x0,0x0,0x0,0x0,};
+      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0xfe00000,0xfc00000,0x20000000,0x40000,0x0,0x400,0x40000,0x0,0x20020000,0x0,0x808,0x60000000,0x0,0x0,0x40000000,0x20000004,0x40000,0x0,0xc0000000,0x808,0xc0000000,0x60000000,0x40000000,0x0,0x400,0x20000004,0x60020004,0x40000,0x0,0xc0000000,0x0,0x808,0xc0000000,0x60000000,0x40000000,0x0,0x40020004,0x0,0x0,0x60000000,0x40000000,0x4,0x400,0x40000,0x20000000,0x0,0x400,0x40000,0x60000000,0xc0000000,0x0,0x808,0xc0000000,0x60000000,0x0,0x0,0x40000000,0x0,0x60020004,0x0,0x400,0x0,0x400,0x0,0x40000,0x0,0x20020004,0x0,0x808,0x60000000,0x0,0x40000000,0x4,0x0,0x400,0x40000,0x0,0x0,0x808,0x60000000,0x40000000,0x20000004,0x0,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_2() {
-      jj_la1_2 = new int[] {0x0,0x0,0x0,0x1040000,0x1040000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
+      jj_la1_2 = new int[] {0x0,0x0,0x0,0x1040000,0x1040000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_3() {
-      jj_la1_3 = new int[] {0x0,0x0,0x0,0x8302000,0x8302000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x300000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
+      jj_la1_3 = new int[] {0x0,0x0,0x0,0x8302000,0x8302000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x300000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_4() {
-      jj_la1_4 = new int[] {0x0,0x0,0x0,0x100600,0x100600,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
+      jj_la1_4 = new int[] {0x0,0x0,0x0,0x100600,0x100600,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_5() {
-      jj_la1_5 = new int[] {0x0,0x8000000,0x8000000,0x8000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
+      jj_la1_5 = new int[] {0x0,0x8000000,0x8000000,0x8000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
 
   /** Constructor with InputStream. */
@@ -1581,7 +1645,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 83; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 91; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -1595,7 +1659,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 83; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 91; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -1612,7 +1676,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 83; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 91; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -1622,7 +1686,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 83; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 91; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -1638,7 +1702,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 83; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 91; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -1647,7 +1711,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 83; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 91; i++) jj_la1[i] = -1;
   }
 
   static private Token jj_consume_token(int kind) throws ParseException {
@@ -1703,7 +1767,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 83; i++) {
+    for (int i = 0; i < 91; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
