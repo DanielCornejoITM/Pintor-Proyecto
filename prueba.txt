@@ -9,68 +9,13 @@ E7	EQU	EASGJ45DF
 E8	DEF	EASGJ45DF
 E9	EXT	EASGJ45DF
 .CODE
-E10	CMP.B 	D1,D2
-	CMP.W  	A1,D2
-E11	CMP.L  	(A1),D2
-E12	CMP    	-(A3),D6
-	CMP    	($FFFF,PC),D7
-E13	CMP    	($FF,A2,A3),D1
-	CMP    	($FFFF).W,D3
-E14	CMP    	($FFFF).L,D4
-	PACK	-(A0),-(A1)  
-E15	PACK	D1,D2
-E16	BCHG.L	D1,($FFFF,A4)
-	BCHG.B	D1,($FF,A4,A5)
-E17	BCHG	D1,($FF,A4,D5)
-E18	BCHG	D1,($FFFF).W
-
-	BCHG	#$FFFF,($FFFF,A4)
-	BCHG	#$FFFF,($FF,A4,D5)
-	BCHG	#$FFFF,($FFFF).W
-E20	BCHG	#$FFFF,($FFFF).L
-    LSL     #$FFFF,D3
-E21 LSR     #$FFFF,D3 //Hola
-E22 LSL.L   (A1)
-	LSL.W   (A4)+
-	LSL.B   -(A3)
-E23	LSL     ($FFFF,A2)
-	LSL     ($FF,A2,D3)
-E25	LSR.L   (A1)
-	LSR.B   (A4)+
-	LSR     ($FF,A2,A3)
-E26	LSR     ($FFFF).W
-	LSR     ($FFFF).L
-		ADD    D1,D3
-	ADD    A0,D4
-	ADD.L	(A0),D4
-	ADD.W	(A0),D4
- 	ADD.B	(A0),D4
-	ADD.B	-(A0),D4
-	ADD    ($FFFF).W,D3
-	ADD    ($FFFF,A5),D7
-	ADD    ($FFFF,PC),D7
-	ADD    ($FF,A5,D0),D0
- 	ADD.B (A0)+,D4
-	ADD    ($FFFF).W,D4
-	ADD    #$FFFF,D5
-	ADD		D5,-(A2)
-E50  EOR.W   D0,D5
-E51	 EOR.B    D5,(A0)
-E52  EOR     D5,(A1)+
-E53  EOR     D5,-(A4)
-E54  EOR     D5,($FFFF,A4)
-E55  EOR     D5,($FF,A4,D1)
-E56   EOR     D5,($FFFF).W
-
-	SBCD.B D1,D2
-	SBCD   -(A1),-(A2)
 
 
-JMP	(A0)
- JMP ($FFFF,PC)
-JMP	($FF,A5,D0)
-JMP	($FF,PC,D0)
-JMP	($FFFF).W
-JMP	($FFFF).L
+E10	SBCD D1,D2
+E99	SBCD  -(A1),-(A2)
+jj1	SBCD  -(A5),-(A1)
+
+
+
 
 END

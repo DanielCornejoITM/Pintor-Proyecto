@@ -3,6 +3,7 @@
 public class ProyectoFase3 implements ProyectoFase3Constants {
         public static int countloc=0x00;
         public static TablaSimbolos tabla= new TablaSimbolos();
+        public static int contador=0;
   /** Main entry point. */
   public static void main(String args[]) throws ParseException {
     ProyectoFase3 parser = new ProyectoFase3(System.in);
@@ -589,6 +590,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       throw new ParseException();
     }
     System.out.println("Instruccion JMP");
+
     countloc+=bytesOcupados*multi;
     tabla.setTam(id,bytesOcupados*multi);
   }
@@ -902,6 +904,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
 
   static final public void SBCD_VAR(String id) throws ParseException {
   int bytesOcupados=0x1;
+  int temp=0;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Datos:
       jj_consume_token(Datos);
@@ -918,15 +921,19 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       jj_consume_token(ParentesisA);
       jj_consume_token(Memoria);
       jj_consume_token(ParentesisC);
-    System.out.println("Instruccion SBCD");
-    countloc+=bytesOcupados*2;
-    tabla.setTam(id,bytesOcupados*2);
       break;
     default:
       jj_la1[49] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
+    System.out.println("Instruccion SBCD");
+        temp=bytesOcupados*2;
+
+    countloc+=temp;
+    contador++;
+      System.out.println("\u005cn \u005cn Hola!!! OBSERVAME es "+ temp+" \u005ct"+ contador);
+    tabla.setTam(id,temp);
   }
 
 /**************************MATTA*********************/
