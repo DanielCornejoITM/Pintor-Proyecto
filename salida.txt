@@ -3,35 +3,122 @@ DIRECTIVA WORD id E5 tam: 2
 DIRECTIVA LONG id E6 tam: 4
 DIRECTIVAB EQU id E7
 DIRECTIVA DEF id E8
-DIRECTIVA  EXT idE9
+DIRECTIVA  EXT id E9
+DIRECTIVA CMP E10 tam: 1
+DIRECTIVA CMP E10 tam: 1
+DIRECTIVA CMP E11 tam: 1
+DIRECTIVA CMP E12 tam: 1
+DIRECTIVA CMP E12 tam: 2
+DIRECTIVA CMP E13 tam: 2
+DIRECTIVA CMP E13 tam: 2
+DIRECTIVA CMP E14 tam: 3
+DIRECTIVA PACK E14 tam: 1
+DIRECTIVA PACK E15 tam: 1
+DIRECTIVA LSL E22 tam: 1
+DIRECTIVA LSL E22 tam: 1
+DIRECTIVA LSL E22 tam: 1
+DIRECTIVA LSL E23 tam: 2
+DIRECTIVA LSL E23 tam: 2
+DIRECTIVA LSL E25 tam: 1
+DIRECTIVA LSL E25 tam: 1
+DIRECTIVA LSL E25 tam: 2
+DIRECTIVA LSL E26 tam: 2
+DIRECTIVA LSL E26 tam: 3
+Instruccion ADD
+DIRECTIVA ADD E26 tam: 1
+Instruccion ADD
+DIRECTIVA ADD E26 tam: 1
+Instruccion ADD
+DIRECTIVA ADD E26 tam: 1
+Instruccion ADD
+DIRECTIVA ADD E26 tam: 1
+Instruccion ADD
+DIRECTIVA ADD E26 tam: 1
+Instruccion ADD
+DIRECTIVA ADD E26 tam: 3
+Instruccion ADD
+DIRECTIVA ADD E26 tam: 2
+Instruccion ADD
+DIRECTIVA ADD E26 tam: 2
+Instruccion ADD
+DIRECTIVA ADD E26 tam: 2
+Instruccion ADD
+DIRECTIVA ADD E26 tam: 1
+Instruccion ADD
+DIRECTIVA ADD E26 tam: 3
+Instruccion ADD
+DIRECTIVA ADD E26 tam: 3
+Instruccion EOR
+DIRECTIVA EOR E50 tam: 1
+Instruccion EOR
+DIRECTIVA EOR E51 tam: 1
+Instruccion EOR
+DIRECTIVA EOR E52 tam: 1
+Instruccion EOR
+DIRECTIVA EOR E53 tam: 1
+Resultados:2
+Instruccion EOR
+DIRECTIVA EOR E54 tam: 2
+Instruccion EOR
+DIRECTIVA EOR E55 tam: 2
+Instruccion EOR
+DIRECTIVA EOR E56 tam: 2
 Instruccion SBCD
-
- 
- Hola!!! OBSERVAME es 2 	1
+DIRECTIVA SBCD E0103 tam: 1
 Instruccion SBCD
-
- 
- Hola!!! OBSERVAME es 2 	2
+DIRECTIVA SBCD E0101 tam: 1
 Instruccion SBCD
-
- 
- Hola!!! OBSERVAME es 2 	3
+DIRECTIVA SBCD E0102 tam: 1
+Instruccion JMP
+DIRECTIVA JMP E0102 tam: 1
+Instruccion JMP
+DIRECTIVA JMP E0102 tam: 2
+Instruccion JMP
+DIRECTIVA JMP E0102 tam: 2
+Instruccion JMP
+DIRECTIVA JMP E0102 tam: 2
+Instruccion JMP
+DIRECTIVA JMP E0102 tam: 3
+Instruccion JMP
+DIRECTIVA JMP E0102 tam: 4
 
 
 Tabla de Simbolos 
 Id    Dirección    Tipo    Tamaño
-E5  ||  E  ||  W   ||  2
-jj1  ||  18  ||  DIR   ||  2
-E6  ||  10  ||  L   ||  4
-E7  ||  14  ||  EQU   ||  0
-E8  ||  14  ||  DEF   ||  0
-E9  ||  14  ||  EXT   ||  0
-E99  ||  16  ||  DIR   ||  2
-E10  ||  14  ||  DIR   ||  2
+E20  ||  5A  ||  DIR   ||  A
+E22  ||  64  ||  DIR   ||  2
+E21  ||  64  ||  DIR   ||  0
+E23  ||  6A  ||  DIR   ||  4
+E26  ||  7A  ||  DIR   ||  6
+E25  ||  72  ||  DIR   ||  4
 E1  ||  0  ||  DB   ||  1
 E2  ||  1  ||  DW   ||  8
 E3  ||  9  ||  DL   ||  4
 E4  ||  D  ||  B   ||  1
-Tamaño total :1A
+E5  ||  E  ||  W   ||  2
+E6  ||  10  ||  L   ||  4
+E7  ||  14  ||  EQU   ||  0
+E8  ||  14  ||  DEF   ||  0
+E9  ||  14  ||  EXT   ||  0
+E51  ||  B0  ||  DIR   ||  2
+E50  ||  AE  ||  DIR   ||  2
+E53  ||  B4  ||  DIR   ||  2
+E52  ||  B2  ||  DIR   ||  2
+E11  ||  18  ||  DIR   ||  2
+E55  ||  BA  ||  DIR   ||  4
+E10  ||  14  ||  DIR   ||  2
+E54  ||  B6  ||  DIR   ||  4
+E0101  ||  C4  ||  DIR   ||  2
+E13  ||  20  ||  DIR   ||  4
+E12  ||  1A  ||  DIR   ||  4
+E56  ||  BE  ||  DIR   ||  4
+E15  ||  30  ||  DIR   ||  2
+E14  ||  28  ||  DIR   ||  2
+E17  ||  3A  ||  DIR   ||  4
+E0102  ||  C6  ||  DIR   ||  8
+E16  ||  32  ||  DIR   ||  4
+E0103  ||  C2  ||  DIR   ||  2
+E18  ||  3E  ||  DIR   ||  8
+Tamaño total :CE
 No hay errores sintacticos
 Analisis Finalizado:

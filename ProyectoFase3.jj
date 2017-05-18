@@ -3,7 +3,7 @@ PARSER_BEGIN(ProyectoFase3)
 public class ProyectoFase3 {
         public static int countloc=0x00;
         public static TablaSimbolos tabla= new TablaSimbolos();
-        public static int contador=0;
+ 
   /** Main entry point. */
   public static void main(String args[]) throws ParseException {
     ProyectoFase3 parser = new ProyectoFase3(System.in);
@@ -410,6 +410,7 @@ void PACK(String Identi): {
 {
     (<PACK>((PACK_RM()<Coma>PACK_RM())|(<Datos><Coma><Datos>))){    
         countloc=(countloc)+(bytesOcupados*2);
+        System.out.println("DIRECTIVA PACK "+Identi+" tam: "+bytesOcupados);
         tabla.setTam(Identi, bytesOcupados*2);
     }(<Comentario>)?
 }
@@ -467,7 +468,7 @@ void JMP_Ea(String id):{
 |(<D8>{bytesOcupados++;})<Coma>(<Memoria>|<PC>)<Coma>(<Datos>|<Memoria>)<ParentesisC> )
     {
     System.out.println("Instruccion JMP");
-
+     System.out.println("DIRECTIVA JMP "+id+" tam: "+bytesOcupados);
     countloc+=bytesOcupados*multi;
     tabla.setTam(id,bytesOcupados*multi); }
 }
@@ -500,7 +501,9 @@ void ADD_Ea1(String id):{
     )
  {
     System.out.println("Instruccion ADD");
+
     countloc+=bytesOcupados*multi;
+    System.out.println("DIRECTIVA ADD "+id+" tam: "+bytesOcupados);
     tabla.setTam(id,bytesOcupados*multi); 
 }
 }
@@ -532,10 +535,8 @@ void SBCD_VAR(String id): {
 {
     System.out.println("Instruccion SBCD");
         temp=bytesOcupados*2;
-      
+      System.out.println("DIRECTIVA SBCD "+id+" tam: "+bytesOcupados);
     countloc+=temp;
-    contador++;
-      System.out.println("\n \n Hola!!! OBSERVAME es "+ temp+" \t"+ contador);
     tabla.setTam(id,temp); 
 }
 }
@@ -558,6 +559,7 @@ void CMP_EA(String Identi): {
     <Gato>(<D32>{bytesOcupados=bytesOcupados+4;}|<D16>{bytesOcupados=bytesOcupados+2;}|<D8>{bytesOcupados=bytesOcupados+2;}))
     {    
         countloc=(countloc)+(bytesOcupados*2);
+        System.out.println("DIRECTIVA CMP "+Identi+" tam: "+bytesOcupados);
         tabla.setTam(Identi, bytesOcupados*2);
     }
     
@@ -593,6 +595,7 @@ void LSL_EA(String Identi, int bytesOcupados): {}
                     <Memoria><ParentesisC>(<Mas>)?)))
     {    
         countloc=(countloc)+(bytesOcupados*2);
+        System.out.println("DIRECTIVA LSL "+Identi+" tam: "+bytesOcupados);
         tabla.setTam(Identi, bytesOcupados*2);
     }
 }
@@ -627,6 +630,7 @@ void EOR_EA(String id): {
 {
     System.out.println("Instruccion EOR");
     countloc+=bytesOcupados*multi;
+    System.out.println("DIRECTIVA EOR "+id+" tam: "+bytesOcupados);
     tabla.setTam(id,bytesOcupados*multi); 
 }
 
@@ -680,7 +684,7 @@ void Valor2(int aux, Token id): {
         System.out.println("DIRECTIVAB EQU id "+Identi);
     break;
     case 5:
-        System.out.println("DIRECTIVA  EXT id"+Identi);
+        System.out.println("DIRECTIVA  EXT id "+Identi);
     break;
     case 6:
         System.out.println("DIRECTIVA DEF id "+Identi);

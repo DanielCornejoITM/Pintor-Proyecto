@@ -3,7 +3,7 @@
 public class ProyectoFase3 implements ProyectoFase3Constants {
         public static int countloc=0x00;
         public static TablaSimbolos tabla= new TablaSimbolos();
-        public static int contador=0;
+
   /** Main entry point. */
   public static void main(String args[]) throws ParseException {
     ProyectoFase3 parser = new ProyectoFase3(System.in);
@@ -291,6 +291,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       throw new ParseException();
     }
         countloc=(countloc)+(bytesOcupados*2);
+        System.out.println("DIRECTIVA PACK "+Identi+" tam: "+bytesOcupados);
         tabla.setTam(Identi, bytesOcupados*2);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Comentario:
@@ -590,7 +591,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       throw new ParseException();
     }
     System.out.println("Instruccion JMP");
-
+     System.out.println("DIRECTIVA JMP "+id+" tam: "+bytesOcupados);
     countloc+=bytesOcupados*multi;
     tabla.setTam(id,bytesOcupados*multi);
   }
@@ -797,7 +798,9 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       throw new ParseException();
     }
     System.out.println("Instruccion ADD");
+
     countloc+=bytesOcupados*multi;
+    System.out.println("DIRECTIVA ADD "+id+" tam: "+bytesOcupados);
     tabla.setTam(id,bytesOcupados*multi);
   }
 
@@ -929,10 +932,8 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     }
     System.out.println("Instruccion SBCD");
         temp=bytesOcupados*2;
-
+      System.out.println("DIRECTIVA SBCD "+id+" tam: "+bytesOcupados);
     countloc+=temp;
-    contador++;
-      System.out.println("\u005cn \u005cn Hola!!! OBSERVAME es "+ temp+" \u005ct"+ contador);
     tabla.setTam(id,temp);
   }
 
@@ -1132,6 +1133,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       throw new ParseException();
     }
         countloc=(countloc)+(bytesOcupados*2);
+        System.out.println("DIRECTIVA CMP "+Identi+" tam: "+bytesOcupados);
         tabla.setTam(Identi, bytesOcupados*2);
   }
 
@@ -1340,6 +1342,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       throw new ParseException();
     }
         countloc=(countloc)+(bytesOcupados*2);
+        System.out.println("DIRECTIVA LSL "+Identi+" tam: "+bytesOcupados);
         tabla.setTam(Identi, bytesOcupados*2);
   }
 
@@ -1476,6 +1479,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     }
     System.out.println("Instruccion EOR");
     countloc+=bytesOcupados*multi;
+    System.out.println("DIRECTIVA EOR "+id+" tam: "+bytesOcupados);
     tabla.setTam(id,bytesOcupados*multi);
   }
 
@@ -1582,7 +1586,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
         System.out.println("DIRECTIVAB EQU id "+Identi);
     break;
     case 5:
-        System.out.println("DIRECTIVA  EXT id"+Identi);
+        System.out.println("DIRECTIVA  EXT id "+Identi);
     break;
     case 6:
         System.out.println("DIRECTIVA DEF id "+Identi);
