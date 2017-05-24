@@ -319,7 +319,7 @@ void DDATA(Token id): {
                 break;
             
         }
-        bytesOcupados=Valor();
+        bytesOcupados=Valor(Identi);
         {
             if (!tabla.existe(Identi)) {
                 tabla.insertar(Identi,countloc,TipoDato);
@@ -332,6 +332,8 @@ void DDATA(Token id): {
                 tabla.setTam(Identi, bytesOcupados*multi);
         }
     }
+
+    //Metodo para identificar que sigue despues de DDATA
 }
 
 void BWLEDE(Token id): {
@@ -352,7 +354,12 @@ void BWLEDE(Token id): {
     |
     <WORD>{
         aux=2;
-        if(!tablVid): {}
+       if(!tabla.existe(Identi)){
+                  tabla.insertar(Identi, countloc, "B"); 
+              }else{
+                System.out.println("Error! el ID \""+Identi+"\" ya existe!");
+                java.lang.System.exit(1);
+              }
 {
     <EOR>(<Punto>(<BY>|<LO>|<WO>))?<Datos><Coma>EOR_EA( id)(<Comentario>)?
 }
