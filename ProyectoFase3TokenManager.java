@@ -4320,10 +4320,6 @@ static final long[] jjtoSkip = {
 static protected SimpleCharStream input_stream;
 static private final int[] jjrounds = new int[427];
 static private final int[] jjstateSet = new int[854];
-private static final StringBuilder jjimage = new StringBuilder();
-private static StringBuilder image = jjimage;
-private static int jjimageLen;
-private static int lengthOfMatch;
 static protected char curChar;
 /** Constructor. */
 public ProyectoFase3TokenManager(SimpleCharStream stream){
@@ -4420,9 +4416,6 @@ public static Token getNextToken()
       matchedToken = jjFillToken();
       return matchedToken;
    }
-   image = jjimage;
-   image.setLength(0);
-   jjimageLen = 0;
 
    try { input_stream.backup(0);
       while (curChar <= 32 && (0x100002600L & (1L << curChar)) != 0L)
@@ -4439,7 +4432,6 @@ public static Token getNextToken()
       if ((jjtoToken[jjmatchedKind >> 6] & (1L << (jjmatchedKind & 077))) != 0L)
       {
          matchedToken = jjFillToken();
-         TokenLexicalActions(matchedToken);
          return matchedToken;
       }
       else
@@ -4470,19 +4462,6 @@ public static Token getNextToken()
   }
 }
 
-static void TokenLexicalActions(Token matchedToken)
-{
-   switch(jjmatchedKind)
-   {
-      case 178 :
-        image.append(jjstrLiteralImages[178]);
-        lengthOfMatch = jjstrLiteralImages[178].length();
-                System.out.println("Line:   "+matchedToken.beginLine+" Condicional("+image+")");
-         break;
-      default :
-         break;
-   }
-}
 static private void jjCheckNAdd(int state)
 {
    if (jjrounds[state] != jjround)

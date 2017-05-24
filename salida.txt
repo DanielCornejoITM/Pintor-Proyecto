@@ -1,124 +1,93 @@
-DIRECTIVA BYTE E4 tam: 1
-DIRECTIVA WORD id E5 tam: 2
-DIRECTIVA LONG id E6 tam: 4
-DIRECTIVAB EQU id E7
-DIRECTIVA DEF id E8
-DIRECTIVA  EXT id E9
-DIRECTIVA CMP E10 tam: 1
-DIRECTIVA CMP E10 tam: 1
-DIRECTIVA CMP E11 tam: 1
-DIRECTIVA CMP E12 tam: 1
-DIRECTIVA CMP E12 tam: 2
-DIRECTIVA CMP E13 tam: 2
-DIRECTIVA CMP E13 tam: 2
-DIRECTIVA CMP E14 tam: 3
-DIRECTIVA PACK E14 tam: 1
-DIRECTIVA PACK E15 tam: 1
-DIRECTIVA LSL E22 tam: 1
-DIRECTIVA LSL E22 tam: 1
-DIRECTIVA LSL E22 tam: 1
-DIRECTIVA LSL E23 tam: 2
-DIRECTIVA LSL E23 tam: 2
-DIRECTIVA LSL E25 tam: 1
-DIRECTIVA LSL E25 tam: 1
-DIRECTIVA LSL E25 tam: 2
-DIRECTIVA LSL E26 tam: 2
-DIRECTIVA LSL E26 tam: 3
-Instruccion ADD
-DIRECTIVA ADD E26 tam: 1
-Instruccion ADD
-DIRECTIVA ADD E26 tam: 1
-Instruccion ADD
-DIRECTIVA ADD E26 tam: 1
-Instruccion ADD
-DIRECTIVA ADD E26 tam: 1
-Instruccion ADD
-DIRECTIVA ADD E26 tam: 1
-Instruccion ADD
-DIRECTIVA ADD E26 tam: 3
-Instruccion ADD
-DIRECTIVA ADD E26 tam: 2
-Instruccion ADD
-DIRECTIVA ADD E26 tam: 2
-Instruccion ADD
-DIRECTIVA ADD E26 tam: 2
-Instruccion ADD
-DIRECTIVA ADD E26 tam: 1
-Instruccion ADD
-DIRECTIVA ADD E26 tam: 3
-Instruccion ADD
-DIRECTIVA ADD E26 tam: 3
-Instruccion EOR
-DIRECTIVA EOR E50 tam: 1
-Instruccion EOR
-DIRECTIVA EOR E51 tam: 1
-Instruccion EOR
-DIRECTIVA EOR E52 tam: 1
-Instruccion EOR
-DIRECTIVA EOR E53 tam: 1
-Resultados:2
-Instruccion EOR
-DIRECTIVA EOR E54 tam: 2
-Instruccion EOR
-DIRECTIVA EOR E55 tam: 2
-Instruccion EOR
-DIRECTIVA EOR E56 tam: 2
-Instruccion SBCD
-DIRECTIVA SBCD E0103 tam: 1
-Instruccion SBCD
-DIRECTIVA SBCD E0101 tam: 1
-Instruccion SBCD
-DIRECTIVA SBCD E0102 tam: 1
-Instruccion JMP
-DIRECTIVA JMP E0102 tam: 1
-Instruccion JMP
-DIRECTIVA JMP E0102 tam: 2
-Instruccion JMP
-DIRECTIVA JMP E0102 tam: 2
-Instruccion JMP
-DIRECTIVA JMP E0102 tam: 2
-Instruccion JMP
-DIRECTIVA JMP E0102 tam: 3
-Instruccion JMP
-DIRECTIVA JMP E0102 tam: 4
+Analsisi Inicializado
+48---E10---CMP---2----B
+50---E10---CMP---2----W
+52---E11---CMP---2----L
+54---E12---CMP---2----Default
+58---E12---CMP---4----Default
+62---E13---CMP---4----Default
+66---E13---CMP---4----Default
+72---E14---CMP---6----Default
+74---E14---PACK---2----UNSIZED
+76---E15---PACK---2----UNSIZED
+80---E16---BCHG---4----L
+84---E16---BCHG---4----B
+88---E17---BCHG---4----Default
+92---E18---BCHG---4----Default
+98---E19---BCHG---6----Default
+106---E19---BCHG---8----Default
+114---E19---BCHG---8----Default
+122---E19---BCHG---8----Default
+132---E20---BCHG---10----Default
+134---E22---LSL---2----L
+136---E22---LSL---2----W
+138---E22---LSL---2----B
+142---E23---LSL---4----DEFAULT
+146---E23---LSL---4----DEFAULT
+148---E25---LSL---2----DEFAULT
+150---E25---LSL---2----DEFAULT
+154---E25---LSL---4----DEFAULT
+158---E26---LSL---4----DEFAULT
+164---E26---LSL---6----DEFAULT
+166---E26---ADD---2----Default
+168---E26---ADD---2----L
+170---E26---ADD---2----W
+172---E26---ADD---2----B
+174---E26---ADD---2----B
+180---E26---ADD---6----Default
+184---E26---ADD---4----Default
+188---E26---ADD---4----Default
+192---E26---ADD---4----Default
+194---E26---ADD---2----B
+200---E26---ADD---6----Default
+206---E26---ADD---6----Default
+208---E50---EOR---2----W
+210---E51---EOR---2----B
+212---E52---EOR---2----Default
+214---E53---EOR---2----Default
+216---E54---EOR---2----Default
+220---E55---EOR---4----Default
+224---E56---EOR---4----Default
+226---FOCO---SBCD---2----Default
+228---FOCO---JMP---2----UNSIZED
+232---FOCO---JMP---4----UNSIZED
+236---FOCO---JMP---4----UNSIZED
+240---FOCO---JMP---4----UNSIZED
+246---FOCO---JMP---6----UNSIZED
+254---FOCO---JMP---8----UNSIZED
 
 
 Tabla de Simbolos 
 Id    Dirección    Tipo    Tamaño
-E20  ||  5A  ||  DIR   ||  A
-E22  ||  64  ||  DIR   ||  2
-E21  ||  64  ||  DIR   ||  0
-E23  ||  6A  ||  DIR   ||  4
-E26  ||  7A  ||  DIR   ||  6
-E25  ||  72  ||  DIR   ||  4
-E1  ||  0  ||  DB   ||  1
-E2  ||  1  ||  DW   ||  8
+E20  ||  7A  ||  DIR   ||  A
+E22  ||  84  ||  DIR   ||  2
+E21  ||  84  ||  DIR   ||  0
+E23  ||  8A  ||  DIR   ||  4
+E26  ||  9A  ||  DIR   ||  6
+E25  ||  92  ||  DIR   ||  4
+E1  ||  3  ||  DB   ||  3
+E2  ||  5  ||  DW   ||  2
 E3  ||  9  ||  DL   ||  4
-E4  ||  D  ||  B   ||  1
-E5  ||  E  ||  W   ||  2
-E6  ||  10  ||  L   ||  4
-E7  ||  14  ||  EQU   ||  0
-E8  ||  14  ||  DEF   ||  0
-E9  ||  14  ||  EXT   ||  0
-E51  ||  B0  ||  DIR   ||  2
-E50  ||  AE  ||  DIR   ||  2
-E53  ||  B4  ||  DIR   ||  2
-E52  ||  B2  ||  DIR   ||  2
-E11  ||  18  ||  DIR   ||  2
-E55  ||  BA  ||  DIR   ||  4
-E10  ||  14  ||  DIR   ||  2
-E54  ||  B6  ||  DIR   ||  4
-E0101  ||  C4  ||  DIR   ||  2
-E13  ||  20  ||  DIR   ||  4
-E12  ||  1A  ||  DIR   ||  4
-E56  ||  BE  ||  DIR   ||  4
-E15  ||  30  ||  DIR   ||  2
-E14  ||  28  ||  DIR   ||  2
-E17  ||  3A  ||  DIR   ||  4
-E0102  ||  C6  ||  DIR   ||  8
-E16  ||  32  ||  DIR   ||  4
-E0103  ||  C2  ||  DIR   ||  2
-E18  ||  3E  ||  DIR   ||  8
-Tamaño total :CE
+E4  ||  C  ||  .B   ||  3
+E5  ||  1A  ||  .W   ||  E
+E6  ||  2E  ||  .L   ||  14
+FOCO  ||  E0  ||  DIR   ||  8
+E51  ||  D0  ||  DIR   ||  2
+E50  ||  CE  ||  DIR   ||  2
+E53  ||  D4  ||  DIR   ||  2
+E52  ||  D2  ||  DIR   ||  2
+E11  ||  32  ||  DIR   ||  2
+E55  ||  D8  ||  DIR   ||  4
+E10  ||  2E  ||  DIR   ||  2
+E54  ||  D6  ||  DIR   ||  2
+E13  ||  3A  ||  DIR   ||  4
+E12  ||  34  ||  DIR   ||  4
+E56  ||  DC  ||  DIR   ||  4
+E15  ||  4A  ||  DIR   ||  2
+E14  ||  42  ||  DIR   ||  2
+E17  ||  54  ||  DIR   ||  4
+E16  ||  4C  ||  DIR   ||  4
+E19  ||  5C  ||  DIR   ||  8
+E18  ||  58  ||  DIR   ||  4
+Tamaño total :E8
 No hay errores sintacticos
 Analisis Finalizado:

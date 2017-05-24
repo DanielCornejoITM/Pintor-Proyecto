@@ -2,8 +2,8 @@ PARSER_BEGIN(ProyectoFase3)
 /** Simple brace matcher. */
 public class ProyectoFase3 {
         public static int countloc=0x00;
+            static int LONGITUD=0;
         public static TablaSimbolos tabla= new TablaSimbolos();
- 
   /** Main entry point. */
   public static void main(String args[]) throws ParseException {
     ProyectoFase3 parser = new ProyectoFase3(System.in);
@@ -24,7 +24,7 @@ TOKEN :
     <BY: "B"> |
     <WO: "W"> |
     <LO: "L"> |
-    
+
     /*LITERALES NUMERICAS*/
         <D8: (<D8D>|<D8H>|<D8O>|<D8B>)>|//reconoce los D8
       <D8B: "B"(<DIG_BINARIO>){1,8}>|//Reconoce números binarios de hasta 8 bits
@@ -34,7 +34,7 @@ TOKEN :
       <D8H: "$"(<DIG_HEXA>){1,2}>|//Reconoce números hexadecimales de hasta 8 bits
       <H8: "$"(<DIG_HEXA>){1,2}>|//Reconoce de 1 a 2 digitos en hexadecimal
       <D8O: "0"((["1"-"3"])?(<DIG_OCTAL>){1,2})>|//Reconoce números octales de hasta 8 bits
-      
+
       //d16
       <D16: (<D16D>|<D16H>|<D16O>|<D16B>)>|//reconoce los D16
       <D16B: "B"(<DIG_BINARIO>){1,16}>|//Reconoce números binarios de hasta 16 bits
@@ -74,189 +74,191 @@ TOKEN :
 
 
    /*SIMBOLOS ESPECIALES*/
-    <Mas: "+"> |
-    <Guion: "-">  |
-    <Diagonal: "/">  |
-    <Asterisco: "*">  |
+    <Mas: "+">|
+    <Guion: "-"> |
+    <Diagonal: "/"> |
+    <Asterisco: "*"> |
     <ParentesisA: "("> |
-    <ParentesisC: ")">  |
+    <ParentesisC: ")"> |
     <CorcheteA: "["> |
-    <CorcheteC: "]">  |
+    <CorcheteC: "]"> |
     <LlaveA: "{"> |
-    <LlaveC: "}">  |
-    <DosPuntos: ":">  |
-    <PuntoComa: ";">  |
+    <LlaveC: "}"> |
+    <DosPuntos: ":"> |
+    <PuntoComa: ";"> |
     <Punto: "."> |
-    <Coma: ",">  |
-    <Apersant: "&">|
+    <Coma: ","> |
+    <Apersant: "&"> |
     <Linea: "|"> |
-    <Admiracion: "!">  |
-    <Pesos: "$">  |
-    <Porcentaje: "%">|
-    <Gato: "#">  |
+    <Admiracion: "!"> |
+    <Pesos: "$"> |
+    <Porcentaje: "%"> |
+    <Gato: "#"> |
     /*COMENTARIOS*/
     <Comentario: "//"(~["\n"])+> |
     /*DIRECTIVAS*/
-    <CODE: "CODE">  |
-    <ORG: "ORG">  |
-    <DDATA: "DDATA">  |
+    <CODE: "CODE"> |
+    <ORG: "ORG"> |
+    <DDATA: "DDATA"> |
     <BYTE: "BYTE"> |
-    <WORD: "WORD">  |
-    <LONG: "LONG">  |
-    <EXT: "EXT">  |
-    <DEF: "DEF">  |
-    <EQU: "EQU">  |
-    <END: "END">  |
+    <WORD: "WORD"> |
+    <LONG: "LONG"> |
+    <EXT: "EXT"> |
+    <DEF: "DEF"> |
+    <EQU: "EQU"> |
+    <END: "END"> |
    /*REGISTROS*/
-    <Datos: "D"["0"-"7"]>  |
+    <Datos: "D"["0"-"7"]> |
     <Memoria: "A"["0"-"7"]> |
-    <PC: "PC">  |
+    <PC: "PC"> |
     <SR: "SR"> |
-    <CCR: "CCR">  |
+    <CCR: "CCR"> |
     <SP: "SP"> |
     /*MNEMOTECNICOS TABLA 3.2 (15 INSTRUCCIONES)*/
-    <EXG: "EXG"> |
+    <EXG: "EXG">  |
     <FMOVE: "FMOVE">  |
-    <FSMOVE: "FSMOVE"> |
-    <FDMOVE: "FDMOVE">  |
-    <FMOVEM: "FMOVEM"> |
-    <LEA: "LEA">  |
-    <LINK: "LINK">  |
+    <FSMOVE: "FSMOVE">  |
+    <FDMOVE: "FDMOVE"> |
+    <FMOVEM: "FMOVEM">  |
+    <LEA: "LEA"> |
+    <LINK: "LINK"> |
     <MOVE: "MOVE">  |
-    <MOVE16: "MOVE16">  |
-    <MOVEA: "MOVEA">  |
-    <MOVEM: "MOVEM">  |
+    <MOVE16: "MOVE16"> |
+    <MOVEA: "MOVEA"> |
+    <MOVEM: "MOVEM"> |
     <MOVEP: "MOVEP">  |
-    <MOVEQ: "MOVEQ">   |
-    <PEA: "PEA">   |
-    <UNLK: "UNLK">   |
+    <MOVEQ: "MOVEQ"> |
+    <PEA: "PEA"> |
+    <UNLK: "UNLK">  |
     /*MNEMOTECNICOS TABLA 3.3 (26 INSTRUCCIONES)*/
-    <ADD: "ADD">   |
-    <ADDA: "ADDA">   |
-    <ADDI: "ADDI">   |
-    <ADDQ: "ADDQ">   |
-    <ADDX: "ADDX">   |
-    <CLR: "CLR">   |
-    <CMP: "CMP">   |
-    <CMPA: "CMPA">   |
-    <CMPI: "CMPI">   |
-    <CMPM: "CMPM">   |
-    <CMP2: "CMP2">   |
-    <DIVS: "DIVS">   |
-    <DIVU: "DIVU">   |
-    <DIVSL: "DIVSL">   |
-    <DIVUL: "DIVUL">   |
-    <EXTB: "EXTB">   |
-    <MULS: "MULS">   |
-    <MULU: "MULU">   |
-    <NEG: "NEG">   |
-    <NEGX: "NEGX">   |
-    <SUB: "SUB">   |
-    <SUBA: "SUBA">   |
-    <SUBI: "SUBI">   |
-    <SUBQ: "SUBQ">   |
-    <SUBX: "SUBX">   |
+    <ADD: "ADD">  |
+    <ADDA: "ADDA">  |
+    <ADDI: "ADDI">  |
+    <ADDQ: "ADDQ">  |
+    <ADDX: "ADDX"> |
+    <CLR: "CLR">  |
+    <CMP: "CMP"> |
+    <CMPA: "CMPA">  |
+    <CMPI: "CMPI"> |
+    <CMPM: "CMPM">  |
+    <CMP2: "CMP2"> |
+    <DIVS: "DIVS">  |
+    <DIVU: "DIVU">  |
+    <DIVSL: "DIVSL">  |
+    <DIVUL: "DIVUL">  |
+    <EXTB: "EXTB">  |
+    <MULS: "MULS">  |
+    <MULU: "MULU">  |
+    <NEG: "NEG">  |
+    <NEGX: "NEGX">  |
+    <SUB: "SUB">  |
+    <SUBA: "SUBA"> |
+    <SUBI: "SUBI"> |
+    <SUBQ: "SUBQ"> |
+    <SUBX: "SUBX"> |
     /*MNEMOTECNICOS TABLA 3.4 (7 INSTRUCCIONES)*/
-    <AND: "AND">   |
-    <ANDI: "ANDI">   |
-    <EOR: "EOR">   |
-    <EORI: "EORI">   |
-    <NOT: "NOT">   |
-    <OR: "OR">   |
-    <ORI: "ORI">   |
+    <AND: "AND">  |
+    <ANDI: "ANDI">  |
+    <EOR: "EOR">  |
+    <EORI: "EORI">  |
+    <NOT: "NOT">  |
+    <OR: "OR">  |
+    <ORI: "ORI">  |
     /*MNEMOTECNICOS TABLA 3.5 (9 INSTRUCCIONES)*/
-    <ASL: "ASL">   |
-    <ASR: "ASR">   |
-    <LSL: "LSL">   |
-    <LSR: "LSR">   |
-    <ROL: "ROL">   |
-    <ROR: "ROR">   |
-    <ROXL: "ROXL">   |
-    <ROXR: "ROXR">   |
-    <SWAP: "SWAP">   |
+    <ASL: "ASL">  |
+    <ASR: "ASR">  |
+    <LSL: "LSL">  |
+    <LSR: "LSR">  |
+    <ROL: "ROL">  |
+    <ROR: "ROR">  |
+    <ROXL: "ROXL">  |
+    <ROXR: "ROXR">  |
+    <SWAP: "SWAP">  |
     /*MNEMOTECNICOS TABLA 3.6 (4 INSTRUCCIONES)*/
-    <BCHG: "BCHG">   |
-    <BCLR: "BCLR">   |
-    <BSET: "BSET">   |
-    <BTST: "BTST">   |
+    <BCHG: "BCHG"> |
+    <BCLR: "BCLR"> |
+    <BSET: "BSET"> |
+    <BTST: "BTST"> |
     /*MNEMOTECNICOS TABLA 3.7 (8 INSTRUCCIONES)*/
-    <BFCHG: "BFCHG">   |
-    <BFCLR: "BFCLR">   |
-    <BFEXTS: "BFEXTS">   |
-    <BFEXTU: "BFEXTU">   |
-    <BFFFO: "BFFFO">   |
-    <BFINS: "BFINS">   |
-    <BFSET: "BFSET">   |
-    <BFTST: "BFTST">   |
+    <BFCHG: "BFCHG">  |
+    <BFCLR: "BFCLR">  |
+    <BFEXTS: "BFEXTS">  |
+    <BFEXTU: "BFEXTU">  |
+    <BFFFO: "BFFFO">  |
+    <BFINS: "BFINS">  |
+    <BFSET: "BFSET">  |
+    <BFTST: "BFTST">  |
     /*MNEMOTECNICOS TABLA 3.8*/
-    <ABCD: "ABCD">   |
-    <NBCD: "NBCD">   |
-    <PACK: "PACK">   |
-    <SBCD: "SBCD">   |
-    <UNPK: "UNPK">   |
+    <ABCD: "ABCD">  |
+    <NBCD: "NBCD">  |
+    <PACK: "PACK">  |
+    <SBCD: "SBCD">  |
+    <UNPK: "UNPK">  |
     /*MNEMOTECNICOS TABLA 3.9 (17 INSTRUCCIONES)*/
-    <Bcc: "Bcc">   |
-    <FBcc: "FBcc">   |
-    <DBcc: "DBcc">   |
-    <FDBcc: "FDBcc">   |
-    <Scc: "Scc">   |
-    <FScc: "FScc" >  |
-    <BRA: "BRA">   |
-    <BSR: "BSR">   |
-    <JMP: "JMP">   |
-    <JSR: "JSR">   |
-    <NOP:"NOP">   |
-    <FNOP: "FNOP">   |
-    <RTD: "RTD">   |
-    <RTR: "RTR">   |
-    <RTS: "RTS">   |
-    <TST: "TST">   |
-    <FTST: "FTST">   |
+    <Bcc: "Bcc"> |
+    <FBcc: "FBcc"> |
+    <DBcc: "DBcc"> |
+    <FDBcc: "FDBcc"> |
+    <Scc: "Scc"> |
+    <FScc: "FScc" >|
+    <BRA: "BRA"> |
+    <BSR: "BSR"> |
+    <JMP: "JMP"> |
+    <JSR: "JSR"> |
+    <NOP:"NOP"> |
+    <FNOP: "FNOP">  |
+    <RTD: "RTD">  |
+    <RTR: "RTR">  |
+    <RTS: "RTS">  |
+    <TST: "TST">  |
+    <FTST: "FTST">  |
     /*MNEMOTECNICOS TABLA 3.10*/
-    <FRESTORE: "FRESTORE">   |
-  <FSAVE: "FSAVE">   |
-  <MOVEC: "MOVEC">   |
-  <MOVES: "MOVES">   |
-  <RESET: "RESET">   |
-  <RTE: "RTE">   |
-  <STOP: "STOP">   |
-  <BKTP: "BKTP">   |
-  <CHK: "CHK">   |
-  <CHK2: "CHK2">   |
-  <ILEGAL: "ILEGAL">   |
-  <TRAP: "TRAP">   |
-  <TRAPcc: "TRAPcc">   |
-  <FTRAPcc: "FTRAPcc">   |
-  <TRAPV: "TRAPV">   |
+    <FRESTORE: "FRESTORE">  |
+  <FSAVE: "FSAVE">  |
+  <MOVEC: "MOVEC">  |
+  <MOVES: "MOVES">  |
+  <RESET: "RESET">  |
+  <RTE: "RTE">  |
+  <STOP: "STOP">  |
+  <BKTP: "BKTP">  |
+  <CHK: "CHK">  |
+  <CHK2: "CHK2">  |
+  <ILEGAL: "ILEGAL">  |
+  <TRAP: "TRAP">  |
+  <TRAPcc: "TRAPcc">  |
+  <FTRAPcc: "FTRAPcc">  |
+  <TRAPV: "TRAPV">  |
     /*CONDICIONALES*/
-    <CC: "CC">    | 
+    <CC: "CC">  |
     <LS:"LS">   |
-    <CS: "CS">    |
-    <LT: "LT">    |
-    <EQ: "EQ">    |
-    <MI: "MI">    |
-    <NE: "NE"> {System.out.println("Line:   "+matchedToken.beginLine+" Condicional("+image+")");} |
-    <GE: "GE">    |
-    <PL: "PL">    |
-    <GT: "GT">    |
-    <T: "T">    |
-    <HI: "HI">    |
-    <VC: "VC">    |
-    <LE: "LE">    |
-    <VS: "VS">    |
+    <CS: "CS">  |
+    <LT: "LT">  |
+    <EQ: "EQ">  |
+    <MI: "MI">  |
+    <NE: "NE">  |
+    <GE: "GE">  |
+    <PL: "PL">  |
+    <GT: "GT">  |
+    <T: "T">  |
+    <HI: "HI">  |
+    <VC: "VC">  |
+    <LE: "LE">  |
+    <VS: "VS">  |
     /*IDENTIFICADORES*/
     <Identificador: <LETRA>(<LETRA> | <DIG>){0,7}>  |
     <LETRA: (["a"-"z"]|["A"-"Z"])>|
     <CADENA: <LETRA>(<LETRA>|<DIG>)+>
-    
+
 }
 /*METODOS PARA ESTRUCTURA DEL PROGRAMA*/
 
 
 void Estructura(): {}
 {
-
-    <Identificador><ORG>(<D32>|<D16>|<D8>)Directivas_Est()Instrucciones_Est(){System.out.println("\n");tabla.imprimir();}<END><EOF>{System.out.println("No hay errores sintacticos");}
+{System.out.println("Analsisi Inicializado");}
+    <Identificador>
+    <ORG>
+    (<D32>|<D16>|<D8>)Directivas_Est()Instrucciones_Est(){System.out.println("\n");tabla.imprimir();}<END><EOF>{System.out.println("No hay errores sintacticos");}
 }
 
 void Directivas_Est(): {
@@ -271,16 +273,17 @@ void Instrucciones_Est(): {
     String Identi="";
 }
 {
+
     <Punto><CODE>((id=<Identificador>{
                         if(!tabla.existe(id.image)){
-                            tabla.insertar(id.image, countloc, "DIR"); 
+                            tabla.insertar(id.image, countloc, "DIR");
                             Identi=id.image;
                         }
                         else{
                             System.out.println("Error! el ID \""+id.image+"\" ya existe!");
                             java.lang.System.exit(1);
                         }
-                    }   
+                    }
     )?Instrucciones(Identi))+
 }
 
@@ -301,26 +304,46 @@ void DDATA(Token id): {
  String Identi= id.image;
  int bytesOcupados=0;
  String TipoDato="DB";
+ Token v;
 }
 {
     <DDATA>{
-        multi=Tamanio();
-        switch(multi){
-            case 1:
-                TipoDato="DB";
+      int tipo2=Tamanio();
+      v=Valor();
+      String tipo=v.image;
+      //System.out.printf("\ntipo: "+tipo);
+      tipo=tipo.substring(0,1);
+      int longitud=0;
+      if (tipo=="$"|tipo=="B"|tipo=="0")
+      longitud=v.image.length()-2;
+      else
+      longitud=v.image.length()-1;
+      int total=0;
+   
+
+        switch(tipo2){
+            case 1://DDATA.B
+             total=longitud/2;
+             total += (longitud % 2 == 0)? 0:1;
                 break;
-            
-            case 2:
-                TipoDato="DW";
+            case 2://DDATA.W
+            total=longitud/4;
+            total += (longitud % 4 == 0)? 0:1;
+            total *=2;
+            TipoDato="DW";
+
                 break;
-            
-            case 4:
-                TipoDato="DL";
+            case 3://DDATA.L
+              total=longitud/8;
+              total += (longitud % 8 == 0)? 0:1;
+              total *=4;
+              
+            TipoDato="DL";
                 break;
-            
         }
-        bytesOcupados=Valor(Identi);
-        {
+        //System.out.printf("\nel total es: "+total);
+        countloc+=total;
+
             if (!tabla.existe(Identi)) {
                 tabla.insertar(Identi,countloc,TipoDato);
             }
@@ -328,43 +351,241 @@ void DDATA(Token id): {
                 System.out.println("Error el ID \""+Identi+"\"Ya se encuentra");
                 java.lang.System.exit(0);
             }
-                countloc=(countloc)+(bytesOcupados*multi);
-                tabla.setTam(Identi, bytesOcupados*multi);
-        }
-    }
+                tabla.setTam(Identi, total);
 
-    //Metodo para identificar que sigue despues de DDATA
+    }
 }
 
 void BWLEDE(Token id): {
-    String Identi=id.image;  
+    String Identi=id.image;
     int bytes=0;
+    int val=0;
     int aux;
+    Token v;
 }
 {
-    (<BYTE>{
-        aux=1;
-        if(!tabla.existe(Identi)){
-                  tabla.insertar(Identi, countloc, "B"); 
-              }else{
-                System.out.println("Error! el ID \""+Identi+"\" ya existe!");
-                java.lang.System.exit(1);
-              }
-    }
-    |
-    <WORD>{
-        aux=2;
-       if(!tabla.existe(Identi)){
-                  tabla.insertar(Identi, countloc, "B"); 
-              }else{
-                System.out.println("Error! el ID \""+Identi+"\" ya existe!");
-                java.lang.System.exit(1);
-              }
+  (<BYTE>{val=1;}|<WORD>{val=2;}|<LONG>{val=3;}|<EQU>|<EXT>|<DEF>) v=Valor()
+  { if (val!=0){CONTADORBW(Identi,val,v);} }
+}
+/*FIN METODOS PARA CREAR LAS DIRECTIVAS*/
+
+/*METODOS INSTRUCCION PACK Y MOVEC*/
+/*********************MATTA***************************/
+void PACK(String Identi): {
+    int bytesOcupados=0x1;
+    
+}
 {
-    <EOR>(<Punto>(<BY>|<LO>|<WO>))?<Datos><Coma>EOR_EA( id)(<Comentario>)?
+    (<PACK>((PACK_RM()<Coma>PACK_RM())|(<Datos><Coma><Datos>))){
+        countloc=(countloc)+(bytesOcupados*2);
+        tabla.setTam(Identi, bytesOcupados*2);
+    System.out.println(countloc+"---"+Identi+"---PACK---"+(bytesOcupados*2)+"----UNSIZED");
+    }
+
 }
 
-void EOR_EA(String id): {
+void PACK_RM(): {}
+{
+    <Guion><ParentesisA><Memoria><ParentesisC>
+}
+
+void BCHG(String Identi): {
+  String tipo="Default";
+}
+{
+    <BCHG>(<Punto>(<LO>{tipo="L";}|<BY>{tipo="B";}))?BCHG_VAR(Identi,tipo)
+}
+
+void BCHG_VAR(String Identi, String tipo): {
+    int bytesOcupados=0x1;
+}
+{
+    <Datos><Coma>BCHG_EA(bytesOcupados, Identi,tipo) | <Gato>(<D32>{bytesOcupados=bytesOcupados+4;}|<D16>{bytesOcupados=bytesOcupados+2;}|<D8>{bytesOcupados=bytesOcupados+2;})<Coma>BCHG_EA(bytesOcupados, Identi,tipo)
+}
+
+void BCHG_EA(int bytesOcupados, String Identi, String tipo): {}
+{
+    (<Datos> |
+    <Guion><ParentesisA><Memoria><ParentesisC> |
+    <ParentesisA>((
+                     (<D16>) ( <Coma><Memoria><ParentesisC>{bytesOcupados++;} | <ParentesisC><Punto>(<WO>{bytesOcupados++;}|<LO>{bytesOcupados=bytesOcupados+2;}) )  |
+                     (<D8>)<Coma><Memoria><Coma>(<Memoria>|<Datos>)<ParentesisC>{bytesOcupados++;}
+    ) | <Memoria><ParentesisC>(<Mas>)?))
+    {
+        countloc=(countloc)+(bytesOcupados*2);
+    System.out.println(countloc+"---"+Identi+"---BCHG---"+(bytesOcupados*2)+"----"+tipo);        
+        tabla.setTam(Identi, bytesOcupados*2);
+    }
+}
+/*******************FIN*MATTA***************************/
+/*FIN METTODOS INSTRUCCION PACK y MOVEC*/
+
+/*METODOS INSTRUCCIONES JMP Y ADD*/
+
+void JMP_Metodo(String id):{}
+{
+    <JMP>JMP_Ea(id)
+}
+
+
+void JMP_Ea(String id):{
+  int bytesOcupados=0x1;
+  int multi=2;
+}
+{
+
+<ParentesisA>
+(   <Memoria><ParentesisC>|((<D16>{bytesOcupados++;})((<ParentesisC><Punto>(<WO>{bytesOcupados++;}|<LO>{bytesOcupados+=2;})|<Coma>(<Memoria>|<PC>)<ParentesisC>)))
+|(<D8>{bytesOcupados++;})<Coma>(<Memoria>|<PC>)<Coma>(<Datos>|<Memoria>)<ParentesisC> )
+    {
+ 
+    countloc+=bytesOcupados*multi;
+    System.out.println(countloc+"---"+id+"---JMP---"+(bytesOcupados*multi)+"----UNSIZED");
+    tabla.setTam(id,bytesOcupados*multi); }
+}
+
+
+void ADD_METODO(String id):{
+  String tipo="Default";
+}
+{
+  <ADD>(<Punto>(<BY>{tipo="B";}|<WO>{tipo="W";}|<LO>{tipo="L";}))?( <Datos><Coma>(ADD_Ea2(id)|<Datos>)|ADD_Ea1(id,tipo)<Coma><Datos> )
+}
+
+void ADD_Ea1(String id,String tipo):{
+  int bytesOcupados=0x1;
+  int multi=2;
+}
+{
+(
+<Memoria> |
+    <Guion><ParentesisA><Memoria><ParentesisC>  |
+    <ParentesisA>(
+        <Memoria><ParentesisC>(<Mas>)?|
+        (<D16>{bytesOcupados++;})(
+            <Coma>(<Memoria>|<PC>)<ParentesisC>|
+            <ParentesisC><Punto>(<WO>{bytesOcupados++;}|<LO>{bytesOcupados+=2;})
+
+            )|
+        (<D8>{bytesOcupados++;})<Coma>(<Memoria>|<PC>)<Coma>(<Datos>|<Memoria>)<ParentesisC>
+
+        )
+    |<Gato>(<D16>{bytesOcupados+=2;}|<D32>{bytesOcupados+=4;}|<D8>{bytesOcupados+=2;})
+    )
+ {
+ 
+    countloc+=bytesOcupados*multi;
+    tabla.setTam(id,bytesOcupados*multi);
+    System.out.println(countloc+"---"+id+"---ADD---"+(bytesOcupados*multi)+"----"+tipo);
+}
+}
+
+void ADD_Ea2(String id):{}
+{
+    (<ParentesisA>((<D16>)<ParentesisC><Punto>(<WO>|<LO>)|<Memoria><ParentesisC>(<Mas>)?
+            (<D16>)<Coma><Memoria><ParentesisC>|
+            (<D8>)<Coma><Memoria><Coma>(<Datos>|<Memoria>)<ParentesisC>)
+            )
+    |<Guion><ParentesisA><Memoria><ParentesisC>
+
+}
+
+/*FIN METODOS INSTRUCCIONES JMP Y ADD*/
+
+/*METODOS INSTRUCCIONES CMP Y SBCD*/
+void SBCD(String id):{
+  String tipo="Default";
+}
+{
+    <SBCD>(<Punto><BY>{tipo="B";})?SBCD_VAR(id,tipo)
+}
+
+void SBCD_VAR(String id,String tipo): {
+  int bytesOcupados=0x1;
+}
+{
+    <Datos><Coma><Datos>|<Guion><ParentesisA><Memoria><ParentesisC><Coma><Guion><ParentesisA><Memoria><ParentesisC>
+{
+    countloc+=bytesOcupados*2;
+  System.out.println(countloc+"---"+id+"---SBCD---"+(bytesOcupados*2)+"----"+tipo);
+    tabla.setTam(id,bytesOcupados*2);
+}
+}
+/**************************MATTA*********************/
+void CMP(String Identi):{
+  String tipo="Default";
+}
+{
+    <CMP>(<Punto>(<BY>{tipo="B";}|<LO>{tipo="L";}|<WO>{tipo="W";}))?CMP_EA(Identi,tipo)<Coma><Datos>
+}
+
+void CMP_EA(String Identi, String tipo): {
+    int bytesOcupados=0x1;
+}
+{
+    ((<Datos>|<Memoria>) |
+    <Guion><ParentesisA><Memoria><ParentesisC> |
+    <ParentesisA>((
+                     ((<D16>) ( <Coma>(<Memoria>{bytesOcupados++;}|<PC>{bytesOcupados++;})<ParentesisC> | <ParentesisC><Punto>(<WO>{bytesOcupados++;}|<LO>{bytesOcupados=bytesOcupados+2;}) ))  |
+                     (<D8>)<Coma>(<Memoria>|<PC>)<Coma>(<Memoria>|<Datos>)<ParentesisC>{bytesOcupados++;}
+    ) | <Memoria><ParentesisC>(<Mas>)?) |
+    <Gato>(<D32>{bytesOcupados=bytesOcupados+4;}|<D16>{bytesOcupados=bytesOcupados+2;}|<D8>{bytesOcupados=bytesOcupados+2;}))
+    {
+
+        countloc=(countloc)+(bytesOcupados*2);
+    System.out.println(countloc+"---"+Identi+"---CMP---"+(bytesOcupados*2)+"----"+tipo);
+
+        tabla.setTam(Identi, bytesOcupados*2);
+    }
+
+}
+/**************************FIN MATTA*********************/
+/*FIN METODOS INSTRUCCIONES CMP Y BCSD*/
+
+/*METODOS INSTRUCCIONES EOR Y LSL-LSR*/
+/***************************MATTA***********************/
+void LSL(String Identi): {
+  String tipo="DEFAULT";
+}
+{
+    (<LSL>(<Punto>(<BY>{tipo="B";}|<LO>{tipo="L";}|<WO>{tipo="W";}))?|<LSR>(<Punto>(<BY>|<LO>|<WO>))?)LSL_VAR(Identi,tipo)
+}
+
+void LSL_VAR(String Identi, String tipo): {
+    int bytesOcupados=0x1;
+}
+{
+    <Datos><Coma><Datos> |
+    <Gato>(<D32>{bytesOcupados=bytesOcupados+4;}|<D16>{bytesOcupados=bytesOcupados+2;}|<D8>{bytesOcupados=bytesOcupados+2;})<Coma><Datos> |
+    LSL_EA(Identi, bytesOcupados,tipo)
+}
+
+void LSL_EA(String Identi, int bytesOcupados,String tipo): {}
+{
+    (<Guion><ParentesisA><Memoria><ParentesisC> |
+    <ParentesisA>(
+                    (<D16>(<Coma><Memoria><ParentesisC>{bytesOcupados++;}
+                    |
+                    <ParentesisC><Punto>(<WO>{bytesOcupados++;} |<LO>{bytesOcupados=bytesOcupados+2;}))
+                    |
+                    (<D8><Coma><Memoria><Coma>(<Memoria>|<Datos>)<ParentesisC>{bytesOcupados++;}) |
+                    <Memoria><ParentesisC>(<Mas>)?)))
+    {
+        countloc=(countloc)+(bytesOcupados*2);
+    System.out.println(countloc+"---"+Identi+"---LSL---"+(bytesOcupados*2)+"----"+tipo);
+        tabla.setTam(Identi, bytesOcupados*2);
+    }
+}
+/****************************FIN MATTA*******************/
+
+void EOR(String id): {
+  String tipo="Default";
+}
+{
+    <EOR>(<Punto>(<BY>{tipo="B";}|<LO>{tipo="L";}|<WO>{tipo="W";}))?<Datos><Coma>EOR_EA(id, tipo)
+}
+
+void EOR_EA(String id, String tipo): {
   int bytesOcupados=0x1;
   int multi=2;
 
@@ -376,19 +597,21 @@ void EOR_EA(String id): {
     <ParentesisA>(
         <Memoria><ParentesisC>(<Mas>)?|
         (<D16>)(
-            <Coma><Memoria><ParentesisC>{bytesOcupados++;System.out.println("Resultados:"+bytesOcupados);}|
+            <Coma><Memoria><ParentesisC>|
             <ParentesisC><Punto>(<WO>{bytesOcupados++;}|<LO>{bytesOcupados+=2;})
 
             )|
         (<D8>)<Coma><Memoria><Coma>(<Datos>|<Memoria>)<ParentesisC>{bytesOcupados++;}
 
-        )   
+        )
     )
+
 {
-    System.out.println("Instruccion EOR");
+  
     countloc+=bytesOcupados*multi;
-    System.out.println("DIRECTIVA EOR "+id+" tam: "+bytesOcupados);
-    tabla.setTam(id,bytesOcupados*multi); 
+    System.out.println(countloc+"---"+id+"---EOR---"+(bytesOcupados*multi)+"----"+tipo);
+
+    tabla.setTam(id,bytesOcupados*multi);
 }
 
 }
@@ -400,18 +623,9 @@ int Tamanio(): {
     int TipoDato2;
 }
 {
-    <Punto>(<BY>{mult=1;}|<WO>{mult=2;}|<LO>{mult=4;})
+    <Punto>(<BY>{mult=1;}|<WO>{mult=2;}|<LO>{mult=3;})
    { return mult;}
 }
-
-int Valor(): {
-    int bytes;
-}
-{
-   (<D32>{bytes=4;}|<D16>{bytes=2;}|<D8>{bytes=1;})
-   {return bytes;}
-}
-
 
 void Valor2(int aux, Token id): {
     int bytes=0;
@@ -420,7 +634,7 @@ void Valor2(int aux, Token id): {
 {
     (<D32>{bytes=bytes+4;}|<D16>{bytes=bytes+2;}|<D8>{bytes=bytes+1;})?
     {
-      
+
     switch(aux){
     case 1:
         System.out.println("DIRECTIVA BYTE "+Identi+" tam: "+bytes);
@@ -441,7 +655,7 @@ void Valor2(int aux, Token id): {
         System.out.println("DIRECTIVAB EQU id "+Identi);
     break;
     case 5:
-        System.out.println("DIRECTIVA  EXT id "+Identi);
+        System.out.println("DIRECTIVA  EXT id"+Identi);
     break;
     case 6:
         System.out.println("DIRECTIVA DEF id "+Identi);
@@ -449,5 +663,60 @@ void Valor2(int aux, Token id): {
     }
    }
 }
+void CONTADORBW(String id,int tipo,Token valor):{int valor2=0; String Convertir; int localidades=0; String Tipovalor; String tipoC="";}
+{
+    {
+        Tipovalor=valor.image.substring(0,1);
+         //System.out.println("Valores  :"+Tipovalor);
+         //int direccion = Contador;
+            int total=0;
+            if(Tipovalor.equals("B")){
+                valor2=Integer.parseInt(valor.image.substring(1,valor.image.length()),2);
+            }
+            if(Tipovalor.equals("$")){
+                valor2=Integer.parseInt(valor.image.substring(1,valor.image.length()),16);
+            }
+             if(Tipovalor.equals("0")){
+                 valor2=Integer.parseInt(valor.image.substring(1,valor.image.length()),8);
+            }
+            if(Tipovalor.equals("1") ||Tipovalor.equals("2") ||Tipovalor.equals("3") ||Tipovalor.equals("4")
+            ||Tipovalor.equals("5") ||Tipovalor.equals("6") ||Tipovalor.equals("7") ||Tipovalor.equals("8")
+            ||Tipovalor.equals("9") )
+            {  valor2=Integer.parseInt(valor.image);}
+            switch(tipo){
+                case 1:
+                    total= valor2;
+                    //localidades=valor2;
+                    tipoC=".B";
 
+                    break;
+                case 2:
+                    total=2*valor2;
+                    //localidades=valor2;
+                    tipoC=".W";
+                    break;
+                case 3:
+                    total= 4*valor2;
+                    //localidades=valor2;
+                    tipoC=".L";
+                    break;
+            }
+            countloc+=total;
+            if (!tabla.existe(id)) {
+                tabla.insertar(id,countloc,tipoC);
+            }
+            else{
+                System.out.println("Error el ID \""+id+"\"Ya se encuentra");
+                java.lang.System.exit(0);
+            }
+                tabla.setTam(id, total);
+          }
+
+
+          }
+          Token Valor(): { Token v; String str="";}
+          {
+              (v=<D8>|v=<D16>|v=<D32>)
+              {return v;}
+          }
 /*FIN METODOS PARA ASIGNAGION DE TAMAÑO Y VALOR*/

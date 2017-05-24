@@ -1,0 +1,66 @@
+tipo: $FFFFFAEsta wea:6
+el total es: 3tipo: $ABAAEsta wea:4
+el total es: 2tipo: $FFFFEsta wea:4
+el total es: 4Instruccion ADD
+Instruccion ADD
+Instruccion ADD
+Instruccion ADD
+Instruccion ADD
+Instruccion ADD
+Instruccion ADD
+Instruccion ADD
+Instruccion ADD
+Instruccion ADD
+Instruccion ADD
+Instruccion ADD
+Instruccion EOR
+Instruccion EOR
+Instruccion EOR
+Instruccion EOR
+Resultados:2
+Instruccion EOR
+Instruccion EOR
+Instruccion EOR
+Instruccion SBCD
+Instruccion JMP
+Instruccion JMP
+Instruccion JMP
+Instruccion JMP
+Instruccion JMP
+Instruccion JMP
+
+
+Tabla de Simbolos 
+Id    Dirección    Tipo    Tamaño
+E20  ||  7A  ||  DIR   ||  A
+E22  ||  84  ||  DIR   ||  2
+E21  ||  84  ||  DIR   ||  0
+E23  ||  8A  ||  DIR   ||  4
+E26  ||  9A  ||  DIR   ||  6
+E25  ||  92  ||  DIR   ||  4
+E1  ||  3  ||  DB   ||  3
+E2  ||  5  ||  DW   ||  2
+E3  ||  9  ||  DL   ||  4
+E4  ||  C  ||  .B   ||  3
+E5  ||  1A  ||  .W   ||  E
+E6  ||  2E  ||  .L   ||  14
+E51  ||  D0  ||  DIR   ||  2
+E50  ||  CE  ||  DIR   ||  2
+E53  ||  D4  ||  DIR   ||  2
+E52  ||  D2  ||  DIR   ||  2
+E11  ||  32  ||  DIR   ||  2
+E55  ||  DA  ||  DIR   ||  4
+E10  ||  2E  ||  DIR   ||  2
+E54  ||  D6  ||  DIR   ||  4
+E13  ||  3A  ||  DIR   ||  4
+E12  ||  34  ||  DIR   ||  4
+E56  ||  DE  ||  DIR   ||  8
+E15  ||  4A  ||  DIR   ||  2
+E14  ||  42  ||  DIR   ||  2
+E17  ||  54  ||  DIR   ||  4
+E16  ||  4C  ||  DIR   ||  4
+E19  ||  5C  ||  DIR   ||  8
+E18  ||  58  ||  DIR   ||  4
+Tamaño total :E6
+No hay errores sintacticos
+Analisis Finalizado:

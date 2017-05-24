@@ -1,2 +1,0 @@
-Daniel		|	ADD EOR JMP SBCD 
-Mata		|	PACK MOVEC CMP LSL-LSR

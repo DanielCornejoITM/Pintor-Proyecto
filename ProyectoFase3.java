@@ -2,8 +2,8 @@
 /** Simple brace matcher. */
 public class ProyectoFase3 implements ProyectoFase3Constants {
         public static int countloc=0x00;
+            static int LONGITUD=0;
         public static TablaSimbolos tabla= new TablaSimbolos();
-
   /** Main entry point. */
   public static void main(String args[]) throws ParseException {
     ProyectoFase3 parser = new ProyectoFase3(System.in);
@@ -13,6 +13,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
 
 /*METODOS PARA ESTRUCTURA DEL PROGRAMA*/
   static final public void Estructura() throws ParseException {
+ System.out.println("Analsisi Inicializado");
     jj_consume_token(Identificador);
     jj_consume_token(ORG);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -32,10 +33,10 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     }
     Directivas_Est();
     Instrucciones_Est();
-                                                                              System.out.println("\u005cn");tabla.imprimir();
+                                                          System.out.println("\u005cn");tabla.imprimir();
     jj_consume_token(END);
     jj_consume_token(0);
-                                                                                                                                    System.out.println("No hay errores sintacticos");
+                                                                                                                System.out.println("No hay errores sintacticos");
   }
 
   static final public void Directivas_Est() throws ParseException {
@@ -161,24 +162,44 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
  String Identi= id.image;
  int bytesOcupados=0;
  String TipoDato="DB";
+ Token v;
     jj_consume_token(DDATA);
-        multi=Tamanio();
-        switch(multi){
-            case 1:
-                TipoDato="DB";
-                break;
+      int tipo2=Tamanio();
+      v=Valor();
+      String tipo=v.image;
+      //System.out.printf("\ntipo: "+tipo);
+      tipo=tipo.substring(0,1);
+      int longitud=0;
+      if (tipo=="$"|tipo=="B"|tipo=="0")
+      longitud=v.image.length()-2;
+      else
+      longitud=v.image.length()-1;
+      int total=0;
 
-            case 2:
-                TipoDato="DW";
-                break;
 
-            case 4:
-                TipoDato="DL";
+        switch(tipo2){
+            case 1://DDATA.B
+             total=longitud/2;
+             total += (longitud % 2 == 0)? 0:1;
                 break;
+            case 2://DDATA.W
+            total=longitud/4;
+            total += (longitud % 4 == 0)? 0:1;
+            total *=2;
+            TipoDato="DW";
 
+                break;
+            case 3://DDATA.L
+              total=longitud/8;
+              total += (longitud % 8 == 0)? 0:1;
+              total *=4;
+
+            TipoDato="DL";
+                break;
         }
-        bytesOcupados=Valor();
-        {
+        //System.out.printf("\nel total es: "+total);
+        countloc+=total;
+
             if (!tabla.existe(Identi)) {
                 tabla.insertar(Identi,countloc,TipoDato);
             }
@@ -186,85 +207,44 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                 System.out.println("Error el ID \u005c""+Identi+"\u005c"Ya se encuentra");
                 java.lang.System.exit(0);
             }
-                countloc=(countloc)+(bytesOcupados*multi);
-                tabla.setTam(Identi, bytesOcupados*multi);
-        }
+                tabla.setTam(Identi, total);
   }
 
   static final public void BWLEDE(Token id) throws ParseException {
     String Identi=id.image;
     int bytes=0;
+    int val=0;
     int aux;
+    Token v;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case BYTE:
       jj_consume_token(BYTE);
-        aux=1;
-        if(!tabla.existe(Identi)){
-                  tabla.insertar(Identi, countloc, "B");
-              }else{
-                System.out.println("Error! el ID \u005c""+Identi+"\u005c" ya existe!");
-                java.lang.System.exit(1);
-              }
+          val=1;
       break;
     case WORD:
       jj_consume_token(WORD);
-        aux=2;
-        if(!tabla.existe(Identi)){
-                  tabla.insertar(Identi, countloc, "W");
-              }else{
-                System.out.println("Error! el ID \u005c""+Identi+"\u005c" ya existe!");
-                java.lang.System.exit(1);
-              }
+                         val=2;
       break;
     case LONG:
       jj_consume_token(LONG);
-        aux=3;
-        if(!tabla.existe(Identi)){
-                  tabla.insertar(Identi, countloc, "L");
-              }else{
-                System.out.println("Error! el ID \u005c""+Identi+"\u005c" ya existe!");
-                java.lang.System.exit(1);
-              }
+                                        val=3;
       break;
     case EQU:
       jj_consume_token(EQU);
-      jj_consume_token(CADENA);
-        aux=4;
-        if(!tabla.existe(Identi)){
-                  tabla.insertar(Identi, countloc, "EQU");
-              }else{
-                System.out.println("Error! el ID \u005c""+Identi+"\u005c" ya existe!");
-                java.lang.System.exit(1);
-              }
       break;
     case EXT:
       jj_consume_token(EXT);
-      jj_consume_token(CADENA);
-        aux=5;
-        if(!tabla.existe(Identi)){
-                  tabla.insertar(Identi, countloc, "EXT");
-              }else{
-                System.out.println("Error! el ID \u005c""+Identi+"\u005c" ya existe!");
-                java.lang.System.exit(1);
-              }
       break;
     case DEF:
       jj_consume_token(DEF);
-      jj_consume_token(CADENA);
-        aux=6;
-        if(!tabla.existe(Identi)){
-                  tabla.insertar(Identi, countloc, "DEF");
-              }else{
-                System.out.println("Error! el ID \u005c""+Identi+"\u005c" ya existe!");
-                java.lang.System.exit(1);
-              }
       break;
     default:
       jj_la1[6] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
-    Valor2(aux, id);
+    v = Valor();
+    if (val!=0){CONTADORBW(Identi,val,v);}
   }
 
 /*FIN METODOS PARA CREAR LAS DIRECTIVAS*/
@@ -291,16 +271,8 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       throw new ParseException();
     }
         countloc=(countloc)+(bytesOcupados*2);
-        System.out.println("DIRECTIVA PACK "+Identi+" tam: "+bytesOcupados);
         tabla.setTam(Identi, bytesOcupados*2);
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case Comentario:
-      jj_consume_token(Comentario);
-      break;
-    default:
-      jj_la1[8] = jj_gen;
-      ;
-    }
+    System.out.println(countloc+"---"+Identi+"---PACK---"+(bytesOcupados*2)+"----UNSIZED");
   }
 
   static final public void PACK_RM() throws ParseException {
@@ -311,6 +283,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
   }
 
   static final public void BCHG(String Identi) throws ParseException {
+  String tipo="Default";
     jj_consume_token(BCHG);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Punto:
@@ -318,70 +291,64 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case LO:
         jj_consume_token(LO);
+                        tipo="L";
         break;
       case BY:
         jj_consume_token(BY);
+                                        tipo="B";
         break;
       default:
-        jj_la1[9] = jj_gen;
+        jj_la1[8] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[10] = jj_gen;
+      jj_la1[9] = jj_gen;
       ;
     }
-    BCHG_VAR(Identi);
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case Comentario:
-      jj_consume_token(Comentario);
-      break;
-    default:
-      jj_la1[11] = jj_gen;
-      ;
-    }
+    BCHG_VAR(Identi,tipo);
   }
 
-  static final public void BCHG_VAR(String Identi) throws ParseException {
+  static final public void BCHG_VAR(String Identi, String tipo) throws ParseException {
     int bytesOcupados=0x1;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Datos:
       jj_consume_token(Datos);
       jj_consume_token(Coma);
-      BCHG_EA(bytesOcupados, Identi);
+      BCHG_EA(bytesOcupados, Identi,tipo);
       break;
     case Gato:
       jj_consume_token(Gato);
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case D32:
         jj_consume_token(D32);
-                                                               bytesOcupados=bytesOcupados+4;
+                                                                    bytesOcupados=bytesOcupados+4;
         break;
       case D16:
         jj_consume_token(D16);
-                                                                                                     bytesOcupados=bytesOcupados+2;
+                                                                                                          bytesOcupados=bytesOcupados+2;
         break;
       case D8:
         jj_consume_token(D8);
-                                                                                                                                          bytesOcupados=bytesOcupados+2;
+                                                                                                                                               bytesOcupados=bytesOcupados+2;
         break;
       default:
-        jj_la1[12] = jj_gen;
+        jj_la1[10] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       jj_consume_token(Coma);
-      BCHG_EA(bytesOcupados, Identi);
+      BCHG_EA(bytesOcupados, Identi,tipo);
       break;
     default:
-      jj_la1[13] = jj_gen;
+      jj_la1[11] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
   }
 
-  static final public void BCHG_EA(int bytesOcupados, String Identi) throws ParseException {
+  static final public void BCHG_EA(int bytesOcupados, String Identi, String tipo) throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Datos:
       jj_consume_token(Datos);
@@ -420,13 +387,13 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                                                                                                  bytesOcupados=bytesOcupados+2;
               break;
             default:
-              jj_la1[14] = jj_gen;
+              jj_la1[12] = jj_gen;
               jj_consume_token(-1);
               throw new ParseException();
             }
             break;
           default:
-            jj_la1[15] = jj_gen;
+            jj_la1[13] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
@@ -444,7 +411,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
             jj_consume_token(Datos);
             break;
           default:
-            jj_la1[16] = jj_gen;
+            jj_la1[14] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
@@ -452,7 +419,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                                                  bytesOcupados++;
           break;
         default:
-          jj_la1[17] = jj_gen;
+          jj_la1[15] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -465,22 +432,23 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(Mas);
           break;
         default:
-          jj_la1[18] = jj_gen;
+          jj_la1[16] = jj_gen;
           ;
         }
         break;
       default:
-        jj_la1[19] = jj_gen;
+        jj_la1[17] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[20] = jj_gen;
+      jj_la1[18] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
         countloc=(countloc)+(bytesOcupados*2);
+    System.out.println(countloc+"---"+Identi+"---BCHG---"+(bytesOcupados*2)+"----"+tipo);
         tabla.setTam(Identi, bytesOcupados*2);
   }
 
@@ -491,14 +459,6 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
   static final public void JMP_Metodo(String id) throws ParseException {
     jj_consume_token(JMP);
     JMP_Ea(id);
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case Comentario:
-      jj_consume_token(Comentario);
-      break;
-    default:
-      jj_la1[21] = jj_gen;
-      ;
-    }
   }
 
   static final public void JMP_Ea(String id) throws ParseException {
@@ -527,7 +487,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                                                                         bytesOcupados+=2;
           break;
         default:
-          jj_la1[22] = jj_gen;
+          jj_la1[19] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -542,14 +502,14 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(PC);
           break;
         default:
-          jj_la1[23] = jj_gen;
+          jj_la1[20] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         jj_consume_token(ParentesisC);
         break;
       default:
-        jj_la1[24] = jj_gen;
+        jj_la1[21] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -566,7 +526,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
         jj_consume_token(PC);
         break;
       default:
-        jj_la1[25] = jj_gen;
+        jj_la1[22] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -579,24 +539,24 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
         jj_consume_token(Memoria);
         break;
       default:
-        jj_la1[26] = jj_gen;
+        jj_la1[23] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       jj_consume_token(ParentesisC);
       break;
     default:
-      jj_la1[27] = jj_gen;
+      jj_la1[24] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
-    System.out.println("Instruccion JMP");
-     System.out.println("DIRECTIVA JMP "+id+" tam: "+bytesOcupados);
     countloc+=bytesOcupados*multi;
+    System.out.println(countloc+"---"+id+"---JMP---"+(bytesOcupados*multi)+"----UNSIZED");
     tabla.setTam(id,bytesOcupados*multi);
   }
 
   static final public void ADD_METODO(String id) throws ParseException {
+  String tipo="Default";
     jj_consume_token(ADD);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Punto:
@@ -604,21 +564,24 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case BY:
         jj_consume_token(BY);
+                     tipo="B";
         break;
       case WO:
         jj_consume_token(WO);
+                                     tipo="W";
         break;
       case LO:
         jj_consume_token(LO);
+                                                     tipo="L";
         break;
       default:
-        jj_la1[28] = jj_gen;
+        jj_la1[25] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[29] = jj_gen;
+      jj_la1[26] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -634,7 +597,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
         jj_consume_token(Datos);
         break;
       default:
-        jj_la1[30] = jj_gen;
+        jj_la1[27] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -643,26 +606,18 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     case ParentesisA:
     case Gato:
     case Memoria:
-      ADD_Ea1(id);
+      ADD_Ea1(id,tipo);
       jj_consume_token(Coma);
       jj_consume_token(Datos);
       break;
     default:
-      jj_la1[31] = jj_gen;
+      jj_la1[28] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case Comentario:
-      jj_consume_token(Comentario);
-      break;
-    default:
-      jj_la1[32] = jj_gen;
-      ;
-    }
   }
 
-  static final public void ADD_Ea1(String id) throws ParseException {
+  static final public void ADD_Ea1(String id,String tipo) throws ParseException {
   int bytesOcupados=0x1;
   int multi=2;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -686,7 +641,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(Mas);
           break;
         default:
-          jj_la1[33] = jj_gen;
+          jj_la1[29] = jj_gen;
           ;
         }
         break;
@@ -704,7 +659,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
             jj_consume_token(PC);
             break;
           default:
-            jj_la1[34] = jj_gen;
+            jj_la1[30] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
@@ -723,13 +678,13 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                              bytesOcupados+=2;
             break;
           default:
-            jj_la1[35] = jj_gen;
+            jj_la1[31] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
           break;
         default:
-          jj_la1[36] = jj_gen;
+          jj_la1[32] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -746,7 +701,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(PC);
           break;
         default:
-          jj_la1[37] = jj_gen;
+          jj_la1[33] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -759,14 +714,14 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(Memoria);
           break;
         default:
-          jj_la1[38] = jj_gen;
+          jj_la1[34] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         jj_consume_token(ParentesisC);
         break;
       default:
-        jj_la1[39] = jj_gen;
+        jj_la1[35] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -787,21 +742,19 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                                    bytesOcupados+=2;
         break;
       default:
-        jj_la1[40] = jj_gen;
+        jj_la1[36] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[41] = jj_gen;
+      jj_la1[37] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
-    System.out.println("Instruccion ADD");
-
     countloc+=bytesOcupados*multi;
-    System.out.println("DIRECTIVA ADD "+id+" tam: "+bytesOcupados);
     tabla.setTam(id,bytesOcupados*multi);
+    System.out.println(countloc+"---"+id+"---ADD---"+(bytesOcupados*multi)+"----"+tipo);
   }
 
   static final public void ADD_Ea2(String id) throws ParseException {
@@ -821,7 +774,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(LO);
           break;
         default:
-          jj_la1[42] = jj_gen;
+          jj_la1[38] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -834,7 +787,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(Mas);
           break;
         default:
-          jj_la1[43] = jj_gen;
+          jj_la1[39] = jj_gen;
           ;
         }
         jj_consume_token(D16);
@@ -855,14 +808,14 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(Memoria);
           break;
         default:
-          jj_la1[44] = jj_gen;
+          jj_la1[40] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         jj_consume_token(ParentesisC);
         break;
       default:
-        jj_la1[45] = jj_gen;
+        jj_la1[41] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -874,7 +827,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       jj_consume_token(ParentesisC);
       break;
     default:
-      jj_la1[46] = jj_gen;
+      jj_la1[42] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -884,30 +837,23 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
 
 /*METODOS INSTRUCCIONES CMP Y SBCD*/
   static final public void SBCD(String id) throws ParseException {
+  String tipo="Default";
     jj_consume_token(SBCD);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Punto:
       jj_consume_token(Punto);
       jj_consume_token(BY);
+                       tipo="B";
       break;
     default:
-      jj_la1[47] = jj_gen;
+      jj_la1[43] = jj_gen;
       ;
     }
-    SBCD_VAR(id);
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case Comentario:
-      jj_consume_token(Comentario);
-      break;
-    default:
-      jj_la1[48] = jj_gen;
-      ;
-    }
+    SBCD_VAR(id,tipo);
   }
 
-  static final public void SBCD_VAR(String id) throws ParseException {
+  static final public void SBCD_VAR(String id,String tipo) throws ParseException {
   int bytesOcupados=0x1;
-  int temp=0;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Datos:
       jj_consume_token(Datos);
@@ -924,21 +870,20 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       jj_consume_token(ParentesisA);
       jj_consume_token(Memoria);
       jj_consume_token(ParentesisC);
+    countloc+=bytesOcupados*2;
+  System.out.println(countloc+"---"+id+"---SBCD---"+(bytesOcupados*2)+"----"+tipo);
+    tabla.setTam(id,bytesOcupados*2);
       break;
     default:
-      jj_la1[49] = jj_gen;
+      jj_la1[44] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
-    System.out.println("Instruccion SBCD");
-        temp=bytesOcupados*2;
-      System.out.println("DIRECTIVA SBCD "+id+" tam: "+bytesOcupados);
-    countloc+=temp;
-    tabla.setTam(id,temp);
   }
 
 /**************************MATTA*********************/
   static final public void CMP(String Identi) throws ParseException {
+  String tipo="Default";
     jj_consume_token(CMP);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Punto:
@@ -946,37 +891,32 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case BY:
         jj_consume_token(BY);
+                       tipo="B";
         break;
       case LO:
         jj_consume_token(LO);
+                                       tipo="L";
         break;
       case WO:
         jj_consume_token(WO);
+                                                       tipo="W";
         break;
       default:
-        jj_la1[50] = jj_gen;
+        jj_la1[45] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[51] = jj_gen;
+      jj_la1[46] = jj_gen;
       ;
     }
-    CMP_EA(Identi);
+    CMP_EA(Identi,tipo);
     jj_consume_token(Coma);
     jj_consume_token(Datos);
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case Comentario:
-      jj_consume_token(Comentario);
-      break;
-    default:
-      jj_la1[52] = jj_gen;
-      ;
-    }
   }
 
-  static final public void CMP_EA(String Identi) throws ParseException {
+  static final public void CMP_EA(String Identi, String tipo) throws ParseException {
     int bytesOcupados=0x1;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Datos:
@@ -989,7 +929,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
         jj_consume_token(Memoria);
         break;
       default:
-        jj_la1[53] = jj_gen;
+        jj_la1[47] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1021,7 +961,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                                         bytesOcupados++;
               break;
             default:
-              jj_la1[54] = jj_gen;
+              jj_la1[48] = jj_gen;
               jj_consume_token(-1);
               throw new ParseException();
             }
@@ -1040,13 +980,13 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                                                                                                                            bytesOcupados=bytesOcupados+2;
               break;
             default:
-              jj_la1[55] = jj_gen;
+              jj_la1[49] = jj_gen;
               jj_consume_token(-1);
               throw new ParseException();
             }
             break;
           default:
-            jj_la1[56] = jj_gen;
+            jj_la1[50] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
@@ -1062,7 +1002,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
             jj_consume_token(PC);
             break;
           default:
-            jj_la1[57] = jj_gen;
+            jj_la1[51] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
@@ -1075,7 +1015,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
             jj_consume_token(Datos);
             break;
           default:
-            jj_la1[58] = jj_gen;
+            jj_la1[52] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
@@ -1083,7 +1023,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                                                         bytesOcupados++;
           break;
         default:
-          jj_la1[59] = jj_gen;
+          jj_la1[53] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -1096,12 +1036,12 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(Mas);
           break;
         default:
-          jj_la1[60] = jj_gen;
+          jj_la1[54] = jj_gen;
           ;
         }
         break;
       default:
-        jj_la1[61] = jj_gen;
+        jj_la1[55] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1122,18 +1062,19 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                                                             bytesOcupados=bytesOcupados+2;
         break;
       default:
-        jj_la1[62] = jj_gen;
+        jj_la1[56] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[63] = jj_gen;
+      jj_la1[57] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
         countloc=(countloc)+(bytesOcupados*2);
-        System.out.println("DIRECTIVA CMP "+Identi+" tam: "+bytesOcupados);
+    System.out.println(countloc+"---"+Identi+"---CMP---"+(bytesOcupados*2)+"----"+tipo);
+
         tabla.setTam(Identi, bytesOcupados*2);
   }
 
@@ -1143,6 +1084,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
 /*METODOS INSTRUCCIONES EOR Y LSL-LSR*/
 /***************************MATTA***********************/
   static final public void LSL(String Identi) throws ParseException {
+  String tipo="DEFAULT";
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case LSL:
       jj_consume_token(LSL);
@@ -1152,21 +1094,24 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case BY:
           jj_consume_token(BY);
+                        tipo="B";
           break;
         case LO:
           jj_consume_token(LO);
+                                        tipo="L";
           break;
         case WO:
           jj_consume_token(WO);
+                                                        tipo="W";
           break;
         default:
-          jj_la1[64] = jj_gen;
+          jj_la1[58] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         break;
       default:
-        jj_la1[65] = jj_gen;
+        jj_la1[59] = jj_gen;
         ;
       }
       break;
@@ -1186,33 +1131,25 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(WO);
           break;
         default:
-          jj_la1[66] = jj_gen;
+          jj_la1[60] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         break;
       default:
-        jj_la1[67] = jj_gen;
+        jj_la1[61] = jj_gen;
         ;
       }
       break;
     default:
-      jj_la1[68] = jj_gen;
+      jj_la1[62] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
-    LSL_VAR(Identi);
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case Comentario:
-      jj_consume_token(Comentario);
-      break;
-    default:
-      jj_la1[69] = jj_gen;
-      ;
-    }
+    LSL_VAR(Identi,tipo);
   }
 
-  static final public void LSL_VAR(String Identi) throws ParseException {
+  static final public void LSL_VAR(String Identi, String tipo) throws ParseException {
     int bytesOcupados=0x1;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Datos:
@@ -1236,7 +1173,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                                                             bytesOcupados=bytesOcupados+2;
         break;
       default:
-        jj_la1[70] = jj_gen;
+        jj_la1[63] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1245,16 +1182,16 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       break;
     case Guion:
     case ParentesisA:
-      LSL_EA(Identi, bytesOcupados);
+      LSL_EA(Identi, bytesOcupados,tipo);
       break;
     default:
-      jj_la1[71] = jj_gen;
+      jj_la1[64] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
   }
 
-  static final public void LSL_EA(String Identi, int bytesOcupados) throws ParseException {
+  static final public void LSL_EA(String Identi, int bytesOcupados,String tipo) throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Guion:
       jj_consume_token(Guion);
@@ -1287,13 +1224,13 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                                       bytesOcupados=bytesOcupados+2;
             break;
           default:
-            jj_la1[72] = jj_gen;
+            jj_la1[65] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
           break;
         default:
-          jj_la1[73] = jj_gen;
+          jj_la1[66] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -1311,7 +1248,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(Datos);
           break;
         default:
-          jj_la1[74] = jj_gen;
+          jj_la1[67] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -1326,28 +1263,29 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(Mas);
           break;
         default:
-          jj_la1[75] = jj_gen;
+          jj_la1[68] = jj_gen;
           ;
         }
         break;
       default:
-        jj_la1[76] = jj_gen;
+        jj_la1[69] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[77] = jj_gen;
+      jj_la1[70] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
         countloc=(countloc)+(bytesOcupados*2);
-        System.out.println("DIRECTIVA LSL "+Identi+" tam: "+bytesOcupados);
+    System.out.println(countloc+"---"+Identi+"---LSL---"+(bytesOcupados*2)+"----"+tipo);
         tabla.setTam(Identi, bytesOcupados*2);
   }
 
 /****************************FIN MATTA*******************/
   static final public void EOR(String id) throws ParseException {
+  String tipo="Default";
     jj_consume_token(EOR);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Punto:
@@ -1355,37 +1293,32 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case BY:
         jj_consume_token(BY);
+                       tipo="B";
         break;
       case LO:
         jj_consume_token(LO);
+                                       tipo="L";
         break;
       case WO:
         jj_consume_token(WO);
+                                                       tipo="W";
         break;
       default:
-        jj_la1[78] = jj_gen;
+        jj_la1[71] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[79] = jj_gen;
+      jj_la1[72] = jj_gen;
       ;
     }
     jj_consume_token(Datos);
     jj_consume_token(Coma);
-    EOR_EA(id);
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case Comentario:
-      jj_consume_token(Comentario);
-      break;
-    default:
-      jj_la1[80] = jj_gen;
-      ;
-    }
+    EOR_EA(id, tipo);
   }
 
-  static final public void EOR_EA(String id) throws ParseException {
+  static final public void EOR_EA(String id, String tipo) throws ParseException {
   int bytesOcupados=0x1;
   int multi=2;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1409,7 +1342,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(Mas);
           break;
         default:
-          jj_la1[81] = jj_gen;
+          jj_la1[73] = jj_gen;
           ;
         }
         break;
@@ -1420,7 +1353,6 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(Coma);
           jj_consume_token(Memoria);
           jj_consume_token(ParentesisC);
-                                         bytesOcupados++;System.out.println("Resultados:"+bytesOcupados);
           break;
         case ParentesisC:
           jj_consume_token(ParentesisC);
@@ -1435,13 +1367,13 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                              bytesOcupados+=2;
             break;
           default:
-            jj_la1[82] = jj_gen;
+            jj_la1[74] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
           break;
         default:
-          jj_la1[83] = jj_gen;
+          jj_la1[75] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -1459,7 +1391,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(Memoria);
           break;
         default:
-          jj_la1[84] = jj_gen;
+          jj_la1[76] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -1467,19 +1399,19 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                                     bytesOcupados++;
         break;
       default:
-        jj_la1[85] = jj_gen;
+        jj_la1[77] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[86] = jj_gen;
+      jj_la1[78] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
-    System.out.println("Instruccion EOR");
     countloc+=bytesOcupados*multi;
-    System.out.println("DIRECTIVA EOR "+id+" tam: "+bytesOcupados);
+    System.out.println(countloc+"---"+id+"---EOR---"+(bytesOcupados*multi)+"----"+tipo);
+
     tabla.setTam(id,bytesOcupados*multi);
   }
 
@@ -1501,38 +1433,14 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       break;
     case LO:
       jj_consume_token(LO);
-                                             mult=4;
+                                             mult=3;
       break;
     default:
-      jj_la1[87] = jj_gen;
+      jj_la1[79] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
      {if (true) return mult;}
-    throw new Error("Missing return statement in function");
-  }
-
-  static final public int Valor() throws ParseException {
-    int bytes;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case D32:
-      jj_consume_token(D32);
-          bytes=4;
-      break;
-    case D16:
-      jj_consume_token(D16);
-                          bytes=2;
-      break;
-    case D8:
-      jj_consume_token(D8);
-                                         bytes=1;
-      break;
-    default:
-      jj_la1[88] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
-    }
-    {if (true) return bytes;}
     throw new Error("Missing return statement in function");
   }
 
@@ -1557,13 +1465,13 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
                                                       bytes=bytes+1;
         break;
       default:
-        jj_la1[89] = jj_gen;
+        jj_la1[80] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[90] = jj_gen;
+      jj_la1[81] = jj_gen;
       ;
     }
     switch(aux){
@@ -1586,12 +1494,81 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
         System.out.println("DIRECTIVAB EQU id "+Identi);
     break;
     case 5:
-        System.out.println("DIRECTIVA  EXT id "+Identi);
+        System.out.println("DIRECTIVA  EXT id"+Identi);
     break;
     case 6:
         System.out.println("DIRECTIVA DEF id "+Identi);
     break;
     }
+  }
+
+  static final public void CONTADORBW(String id,int tipo,Token valor) throws ParseException {
+                                                 int valor2=0; String Convertir; int localidades=0; String Tipovalor; String tipoC="";
+        Tipovalor=valor.image.substring(0,1);
+         //System.out.println("Valores  :"+Tipovalor);
+         //int direccion = Contador;
+            int total=0;
+            if(Tipovalor.equals("B")){
+                valor2=Integer.parseInt(valor.image.substring(1,valor.image.length()),2);
+            }
+            if(Tipovalor.equals("$")){
+                valor2=Integer.parseInt(valor.image.substring(1,valor.image.length()),16);
+            }
+             if(Tipovalor.equals("0")){
+                 valor2=Integer.parseInt(valor.image.substring(1,valor.image.length()),8);
+            }
+            if(Tipovalor.equals("1") ||Tipovalor.equals("2") ||Tipovalor.equals("3") ||Tipovalor.equals("4")
+            ||Tipovalor.equals("5") ||Tipovalor.equals("6") ||Tipovalor.equals("7") ||Tipovalor.equals("8")
+            ||Tipovalor.equals("9") )
+            {  valor2=Integer.parseInt(valor.image);}
+            switch(tipo){
+                case 1:
+                    total= valor2;
+                    //localidades=valor2;
+                    tipoC=".B";
+
+                    break;
+                case 2:
+                    total=2*valor2;
+                    //localidades=valor2;
+                    tipoC=".W";
+                    break;
+                case 3:
+                    total= 4*valor2;
+                    //localidades=valor2;
+                    tipoC=".L";
+                    break;
+            }
+            countloc+=total;
+            if (!tabla.existe(id)) {
+                tabla.insertar(id,countloc,tipoC);
+            }
+            else{
+                System.out.println("Error el ID \u005c""+id+"\u005c"Ya se encuentra");
+                java.lang.System.exit(0);
+            }
+                tabla.setTam(id, total);
+  }
+
+  static final public Token Valor() throws ParseException {
+                           Token v; String str="";
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case D8:
+      v = jj_consume_token(D8);
+      break;
+    case D16:
+      v = jj_consume_token(D16);
+      break;
+    case D32:
+      v = jj_consume_token(D32);
+      break;
+    default:
+      jj_la1[82] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+               {if (true) return v;}
+    throw new Error("Missing return statement in function");
   }
 
   static private boolean jj_initialized_once = false;
@@ -1604,7 +1581,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
   static public Token jj_nt;
   static private int jj_ntk;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[91];
+  static final private int[] jj_la1 = new int[83];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static private int[] jj_la1_2;
@@ -1620,22 +1597,22 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       jj_la1_init_5();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x104100,0x0,0x0,0x0,0x0,0x0,0x0,0x80000000,0x0,0xa0,0x0,0x0,0x104100,0x0,0xc0,0x0,0x0,0x4100,0x40000000,0x4100,0x80000000,0x0,0xc0,0x0,0x0,0x0,0x0,0x4100,0xe0,0x0,0x80000000,0x80000000,0x0,0x40000000,0x0,0xc0,0x0,0x0,0x0,0x4100,0x104100,0x80000000,0xc0,0x40000000,0x0,0x4100,0x80000000,0x0,0x0,0x80000000,0xe0,0x0,0x0,0x0,0x0,0xc0,0x0,0x0,0x0,0x4100,0x40000000,0x4100,0x104100,0x80000000,0xe0,0x0,0xe0,0x0,0x0,0x0,0x104100,0x80000000,0xc0,0x0,0x0,0x40000000,0x4100,0x80000000,0xe0,0x0,0x0,0x40000000,0xc0,0x0,0x0,0x4100,0x80000000,0xe0,0x104100,0x104100,0x104100,};
+      jj_la1_0 = new int[] {0x104100,0x0,0x0,0x0,0x0,0x0,0x0,0x80000000,0xa0,0x0,0x104100,0x0,0xc0,0x0,0x0,0x4100,0x40000000,0x4100,0x80000000,0xc0,0x0,0x0,0x0,0x0,0x4100,0xe0,0x0,0x80000000,0x80000000,0x40000000,0x0,0xc0,0x0,0x0,0x0,0x4100,0x104100,0x80000000,0xc0,0x40000000,0x0,0x4100,0x80000000,0x0,0x80000000,0xe0,0x0,0x0,0x0,0xc0,0x0,0x0,0x0,0x4100,0x40000000,0x4100,0x104100,0x80000000,0xe0,0x0,0xe0,0x0,0x0,0x104100,0x80000000,0xc0,0x0,0x0,0x40000000,0x4100,0x80000000,0xe0,0x0,0x40000000,0xc0,0x0,0x0,0x4100,0x80000000,0xe0,0x104100,0x104100,0x104100,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0xfe00000,0xfc00000,0x20000000,0x40000,0x0,0x400,0x40000,0x0,0x20020000,0x0,0x808,0x60000000,0x0,0x0,0x40000000,0x20000004,0x40000,0x0,0xc0000000,0x808,0xc0000000,0x60000000,0x40000000,0x0,0x400,0x20000004,0x60020004,0x40000,0x0,0xc0000000,0x0,0x808,0xc0000000,0x60000000,0x40000000,0x0,0x40020004,0x0,0x0,0x60000000,0x40000000,0x4,0x400,0x40000,0x20000000,0x0,0x400,0x40000,0x60000000,0xc0000000,0x0,0x808,0xc0000000,0x60000000,0x0,0x0,0x40000000,0x0,0x60020004,0x0,0x400,0x0,0x400,0x0,0x40000,0x0,0x20020004,0x0,0x808,0x60000000,0x0,0x40000000,0x4,0x0,0x400,0x40000,0x0,0x0,0x808,0x60000000,0x40000000,0x20000004,0x0,0x0,0x0,0x0,};
+      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0xfe00000,0xfc00000,0x20000000,0x0,0x400,0x0,0x20020000,0x0,0x808,0x60000000,0x0,0x0,0x40000000,0x20000004,0x0,0xc0000000,0x808,0xc0000000,0x60000000,0x40000000,0x0,0x400,0x20000004,0x60020004,0x0,0xc0000000,0x0,0x808,0xc0000000,0x60000000,0x40000000,0x0,0x40020004,0x0,0x0,0x60000000,0x40000000,0x4,0x400,0x20000000,0x0,0x400,0x60000000,0xc0000000,0x0,0x808,0xc0000000,0x60000000,0x0,0x0,0x40000000,0x0,0x60020004,0x0,0x400,0x0,0x400,0x0,0x0,0x20020004,0x0,0x808,0x60000000,0x0,0x40000000,0x4,0x0,0x400,0x0,0x0,0x808,0x60000000,0x40000000,0x20000004,0x0,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_2() {
-      jj_la1_2 = new int[] {0x0,0x0,0x0,0x1040000,0x1040000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
+      jj_la1_2 = new int[] {0x0,0x0,0x0,0x1040000,0x1040000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_3() {
-      jj_la1_3 = new int[] {0x0,0x0,0x0,0x8302000,0x8302000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x300000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
+      jj_la1_3 = new int[] {0x0,0x0,0x0,0x8302000,0x8302000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x300000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_4() {
-      jj_la1_4 = new int[] {0x0,0x0,0x0,0x100600,0x100600,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
+      jj_la1_4 = new int[] {0x0,0x0,0x0,0x100600,0x100600,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_5() {
-      jj_la1_5 = new int[] {0x0,0x8000000,0x8000000,0x8000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
+      jj_la1_5 = new int[] {0x0,0x8000000,0x8000000,0x8000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
 
   /** Constructor with InputStream. */
@@ -1656,7 +1633,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 91; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 83; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -1670,7 +1647,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 91; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 83; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -1687,7 +1664,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 91; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 83; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -1697,7 +1674,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 91; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 83; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -1713,7 +1690,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 91; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 83; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -1722,7 +1699,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 91; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 83; i++) jj_la1[i] = -1;
   }
 
   static private Token jj_consume_token(int kind) throws ParseException {
@@ -1778,7 +1755,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 91; i++) {
+    for (int i = 0; i < 83; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
