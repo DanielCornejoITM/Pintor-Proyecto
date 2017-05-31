@@ -434,7 +434,6 @@ void BCHG_EA(int bytesOcupados, String Identi, String tipo): {
 
 
         countloc=(countloc)+(bytesOcupados*2);
-  /*  System.out.println(countloc+"---"+Identi+"---BCHG---"+(bytesOcupados*2)+"----"+tipo);*/
         tabla.setTam(Identi, bytesOcupados*2);
 
 ensamblar.BCHG(registro1, modo,registro2,ext,type);
@@ -464,7 +463,7 @@ void JMP_Ea(String id):{
     {
 
     countloc+=bytesOcupados*multi;
-    System.out.println(countloc+"---"+id+"---JMP---"+(bytesOcupados*multi)+"----UNSIZED");
+    //System.out.println(countloc+"---"+id+"---JMP---"+(bytesOcupados*multi)+"----UNSIZED");
     tabla.setTam(id,bytesOcupados*multi); }
 }
 
@@ -500,7 +499,7 @@ void ADD_Ea1(String id,String tipo):{
 
     countloc+=bytesOcupados*multi;
     tabla.setTam(id,bytesOcupados*multi);
-    System.out.println(countloc+"---"+id+"---ADD---"+(bytesOcupados*multi)+"----"+tipo);
+    //.out.println(countloc+"---"+id+"---ADD---"+(bytesOcupados*multi)+"----"+tipo);
 }
 }
 
@@ -596,7 +595,6 @@ void LSL_EA(String Identi, int bytesOcupados,String tipo): {}
                     <Memoria><ParentesisC>(<Mas>)?)))
     {
         countloc=(countloc)+(bytesOcupados*2);
-    System.out.println(countloc+"---"+Identi+"---LSL---"+(bytesOcupados*2)+"----"+tipo);
         tabla.setTam(Identi, bytesOcupados*2);
     }
 }

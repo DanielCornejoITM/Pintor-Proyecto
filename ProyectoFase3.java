@@ -470,7 +470,6 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
 
 
         countloc=(countloc)+(bytesOcupados*2);
-  /*  System.out.println(countloc+"---"+Identi+"---BCHG---"+(bytesOcupados*2)+"----"+tipo);*/
         tabla.setTam(Identi, bytesOcupados*2);
 
 ensamblar.BCHG(registro1, modo,registro2,ext,type);
@@ -575,7 +574,7 @@ ensamblar.BCHG(registro1, modo,registro2,ext,type);
       throw new ParseException();
     }
     countloc+=bytesOcupados*multi;
-    System.out.println(countloc+"---"+id+"---JMP---"+(bytesOcupados*multi)+"----UNSIZED");
+    //System.out.println(countloc+"---"+id+"---JMP---"+(bytesOcupados*multi)+"----UNSIZED");
     tabla.setTam(id,bytesOcupados*multi);
   }
 
@@ -778,7 +777,8 @@ ensamblar.BCHG(registro1, modo,registro2,ext,type);
     }
     countloc+=bytesOcupados*multi;
     tabla.setTam(id,bytesOcupados*multi);
-    System.out.println(countloc+"---"+id+"---ADD---"+(bytesOcupados*multi)+"----"+tipo);
+    //.out.println(countloc+"---"+id+"---ADD---"+(bytesOcupados*multi)+"----"+tipo);
+
   }
 
   static final public void ADD_Ea2(String id) throws ParseException {
@@ -1303,7 +1303,6 @@ ensamblar.BCHG(registro1, modo,registro2,ext,type);
       throw new ParseException();
     }
         countloc=(countloc)+(bytesOcupados*2);
-    System.out.println(countloc+"---"+Identi+"---LSL---"+(bytesOcupados*2)+"----"+tipo);
         tabla.setTam(Identi, bytesOcupados*2);
   }
 
