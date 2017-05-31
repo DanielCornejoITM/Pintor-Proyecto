@@ -3,6 +3,13 @@
 public class ProyectoFase3 implements ProyectoFase3Constants {
         public static int countloc=0x00;
             static int LONGITUD=0;
+            static String RAD1="";
+            static String RAD2="";
+            static Ensamble ensamblar = new Ensamble();
+              static int modo=0;
+            static int type=2;
+
+            static String bitnumber="";
         public static TablaSimbolos tabla= new TablaSimbolos();
   /** Main entry point. */
   public static void main(String args[]) throws ParseException {
@@ -33,10 +40,8 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     }
     Directivas_Est();
     Instrucciones_Est();
-                                                          System.out.println("\u005cn");tabla.imprimir();
     jj_consume_token(END);
     jj_consume_token(0);
-                                                                                                                System.out.println("No hay errores sintacticos");
   }
 
   static final public void Directivas_Est() throws ParseException {
@@ -167,7 +172,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       int tipo2=Tamanio();
       v=Valor();
       String tipo=v.image;
-      //System.out.printf("\ntipo: "+tipo);
+
       tipo=tipo.substring(0,1);
       int longitud=0;
       if (tipo=="$"|tipo=="B"|tipo=="0")
@@ -197,7 +202,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
             TipoDato="DL";
                 break;
         }
-        //System.out.printf("\nel total es: "+total);
+
         countloc+=total;
 
             if (!tabla.existe(Identi)) {
@@ -314,24 +319,25 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     int bytesOcupados=0x1;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Datos:
-      jj_consume_token(Datos);
+      RAD1 = jj_consume_token(Datos).image;
       jj_consume_token(Coma);
       BCHG_EA(bytesOcupados, Identi,tipo);
+                                                                 type=1;
       break;
     case Gato:
       jj_consume_token(Gato);
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case D32:
         jj_consume_token(D32);
-                                                                    bytesOcupados=bytesOcupados+4;
+                                                                                         bytesOcupados=bytesOcupados+4;
         break;
       case D16:
         jj_consume_token(D16);
-                                                                                                          bytesOcupados=bytesOcupados+2;
+                                                                                                                               bytesOcupados=bytesOcupados+2;
         break;
       case D8:
         jj_consume_token(D8);
-                                                                                                                                               bytesOcupados=bytesOcupados+2;
+                                                                                                                                                                    bytesOcupados=bytesOcupados+2;
         break;
       default:
         jj_la1[10] = jj_gen;
@@ -349,14 +355,19 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
   }
 
   static final public void BCHG_EA(int bytesOcupados, String Identi, String tipo) throws ParseException {
+  int registro2=0;
+  int registro1=0;
+  int ext=0;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Datos:
-      jj_consume_token(Datos);
+      RAD2 = jj_consume_token(Datos).image;
+                        modo=0;
       break;
     case Guion:
       jj_consume_token(Guion);
       jj_consume_token(ParentesisA);
-      jj_consume_token(Memoria);
+      RAD2 = jj_consume_token(Memoria).image;
+                                             modo=4;
       jj_consume_token(ParentesisC);
       break;
     case ParentesisA:
@@ -366,13 +377,13 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       case D16:
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case D16:
-          jj_consume_token(D16);
+          bitnumber = jj_consume_token(D16).image;
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case Coma:
             jj_consume_token(Coma);
-            jj_consume_token(Memoria);
+            RAD2 = jj_consume_token(Memoria).image;
             jj_consume_token(ParentesisC);
-                                                            bytesOcupados++;
+                                                                                       bytesOcupados++;modo=5;
             break;
           case ParentesisC:
             jj_consume_token(ParentesisC);
@@ -380,11 +391,11 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
             switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
             case WO:
               jj_consume_token(WO);
-                                                                                                          bytesOcupados++;
+                                                                                                                                            bytesOcupados++;modo=7;RAD2="00";
               break;
             case LO:
               jj_consume_token(LO);
-                                                                                                                                 bytesOcupados=bytesOcupados+2;
+                                                                                                                                                                                    RAD2="01";bytesOcupados=bytesOcupados+2;modo=7;
               break;
             default:
               jj_la1[12] = jj_gen;
@@ -399,16 +410,16 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           }
           break;
         case D8:
-          jj_consume_token(D8);
+          bitnumber = jj_consume_token(D8).image;
           jj_consume_token(Coma);
-          jj_consume_token(Memoria);
+          RAD2 = jj_consume_token(Memoria).image;
           jj_consume_token(Coma);
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case Memoria:
-            jj_consume_token(Memoria);
+            RAD2 = jj_consume_token(Memoria).image;
             break;
           case Datos:
-            jj_consume_token(Datos);
+            RAD2 = jj_consume_token(Datos).image;
             break;
           default:
             jj_la1[14] = jj_gen;
@@ -416,7 +427,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
             throw new ParseException();
           }
           jj_consume_token(ParentesisC);
-                                                                                 bytesOcupados++;
+                                                                                                                                  bytesOcupados++;modo=6;
           break;
         default:
           jj_la1[15] = jj_gen;
@@ -425,11 +436,13 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
         }
         break;
       case Memoria:
-        jj_consume_token(Memoria);
+        RAD2 = jj_consume_token(Memoria).image;
+                             modo=2;
         jj_consume_token(ParentesisC);
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case Mas:
           jj_consume_token(Mas);
+                                                         modo=3;
           break;
         default:
           jj_la1[16] = jj_gen;
@@ -447,9 +460,20 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       jj_consume_token(-1);
       throw new ParseException();
     }
+      if(modo==7 || modo==6 || modo==5){
+                      ext=Integer.parseInt(bitnumber.substring(1,bitnumber.length()),16);
+                         // System.out.println("extension: " +ext);
+                  }
+                  registro2=Integer.parseInt(RAD2.substring(1,RAD2.length()));
+                  registro1=Integer.parseInt(RAD1.substring(1,RAD1.length()));
+                  //System.out.println(registro+"modo: " +modo);
+
+
         countloc=(countloc)+(bytesOcupados*2);
-    System.out.println(countloc+"---"+Identi+"---BCHG---"+(bytesOcupados*2)+"----"+tipo);
+  /*  System.out.println(countloc+"---"+Identi+"---BCHG---"+(bytesOcupados*2)+"----"+tipo);*/
         tabla.setTam(Identi, bytesOcupados*2);
+
+ensamblar.BCHG(registro1, modo,registro2,ext,type);
   }
 
 /*******************FIN*MATTA***************************/
