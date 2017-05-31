@@ -1,16 +1,24 @@
 Analsisi Inicializado
-2---FOCO---SBCD---2----B
-4---PEPE---SBCD---2----Default
-6---MATA---SBCD---2----Default
-8---CARR---SBCD---2----B
+2---E10---CMP---2----B
+4---FFA---CMP---2----W
+6---E11---CMP---2----L
+8---E12---CMP---2----Default
+12---GGB---CMP---4----Default
+16---E13---CMP---4----Default
+20---DDE---CMP---4----Default
+26---E14---CMP---6----Default
 
 
 Tabla de Simbolos 
 Id    Dirección    Tipo    Tamaño
-CARR  ||  6  ||  DIR   ||  2
-MATA  ||  4  ||  DIR   ||  2
-FOCO  ||  0  ||  DIR   ||  2
-PEPE  ||  2  ||  DIR   ||  2
-Tamaño total :8
+FFA  ||  2  ||  DIR   ||  2
+GGB  ||  8  ||  DIR   ||  4
+E11  ||  4  ||  DIR   ||  2
+DDE  ||  10  ||  DIR   ||  4
+E10  ||  0  ||  DIR   ||  2
+E13  ||  C  ||  DIR   ||  4
+E12  ||  6  ||  DIR   ||  2
+E14  ||  14  ||  DIR   ||  6
+Tamaño total :1A
 No hay errores sintacticos
 Analisis Finalizado:
