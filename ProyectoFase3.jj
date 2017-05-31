@@ -504,7 +504,7 @@ void SBCD_VAR(String id,String tipo): {
   int bytesOcupados=0x1;
 }
 {
-    <Datos><Coma><Datos>|<Guion><ParentesisA><Memoria><ParentesisC><Coma><Guion><ParentesisA><Memoria><ParentesisC>
+   ( <Datos><Coma><Datos>|<Guion><ParentesisA><Memoria><ParentesisC><Coma><Guion><ParentesisA><Memoria><ParentesisC>)
 {
     countloc+=bytesOcupados*2;
   System.out.println(countloc+"---"+id+"---SBCD---"+(bytesOcupados*2)+"----"+tipo);

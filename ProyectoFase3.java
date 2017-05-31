@@ -870,15 +870,15 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       jj_consume_token(ParentesisA);
       jj_consume_token(Memoria);
       jj_consume_token(ParentesisC);
-    countloc+=bytesOcupados*2;
-  System.out.println(countloc+"---"+id+"---SBCD---"+(bytesOcupados*2)+"----"+tipo);
-    tabla.setTam(id,bytesOcupados*2);
       break;
     default:
       jj_la1[44] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
+    countloc+=bytesOcupados*2;
+  System.out.println(countloc+"---"+id+"---SBCD---"+(bytesOcupados*2)+"----"+tipo);
+    tabla.setTam(id,bytesOcupados*2);
   }
 
 /**************************MATTA*********************/

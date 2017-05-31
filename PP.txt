@@ -1,0 +1,11 @@
+PROG1	ORG	$0
+
+.CODE
+
+
+
+FOCO	SBCD.B  -(A1),-(A2)
+PEPE	SBCD  -(A1),-(A2)
+MATA	SBCD  -(A1),-(A2)
+CARR	SBCD.B D1,D2
+END

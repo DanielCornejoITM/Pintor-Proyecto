@@ -59,8 +59,9 @@ E54  EOR     D5,($FFFF,A4)
 E55  EOR     D5,($FF,A4,D1)
 E56   EOR     D5,($FFFF).W
 
-	SBCD.B D1,D2
+CARR	SBCD.B D1,D2
 FOCO	SBCD  -(A1),-(A2)
+
 
 
 JMP	(A0)
