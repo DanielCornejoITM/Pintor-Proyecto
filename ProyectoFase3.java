@@ -7,8 +7,10 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
             static String RAD2="";
             static Ensamble ensamblar = new Ensamble();
               static int modo=0;
+              static int lsir=0;
+              static String data="";
             static int type=2;
-
+            static String Instruct="";
             static String bitnumber="";
         public static TablaSimbolos tabla= new TablaSimbolos();
   /** Main entry point. */
@@ -277,7 +279,6 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     }
         countloc=(countloc)+(bytesOcupados*2);
         tabla.setTam(Identi, bytesOcupados*2);
-    System.out.println(countloc+"---"+Identi+"---PACK---"+(bytesOcupados*2)+"----UNSIZED");
   }
 
   static final public void PACK_RM() throws ParseException {
@@ -462,11 +463,9 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     }
       if(modo==7 || modo==6 || modo==5){
                       ext=Integer.parseInt(bitnumber.substring(1,bitnumber.length()),16);
-                         // System.out.println("extension: " +ext);
                   }
                   registro2=Integer.parseInt(RAD2.substring(1,RAD2.length()));
                   registro1=Integer.parseInt(RAD1.substring(1,RAD1.length()));
-                  //System.out.println(registro+"modo: " +modo);
 
 
         countloc=(countloc)+(bytesOcupados*2);
@@ -574,7 +573,6 @@ ensamblar.BCHG(registro1, modo,registro2,ext,type);
       throw new ParseException();
     }
     countloc+=bytesOcupados*multi;
-    //System.out.println(countloc+"---"+id+"---JMP---"+(bytesOcupados*multi)+"----UNSIZED");
     tabla.setTam(id,bytesOcupados*multi);
   }
 
@@ -777,8 +775,6 @@ ensamblar.BCHG(registro1, modo,registro2,ext,type);
     }
     countloc+=bytesOcupados*multi;
     tabla.setTam(id,bytesOcupados*multi);
-    //.out.println(countloc+"---"+id+"---ADD---"+(bytesOcupados*multi)+"----"+tipo);
-
   }
 
   static final public void ADD_Ea2(String id) throws ParseException {
@@ -878,22 +874,27 @@ ensamblar.BCHG(registro1, modo,registro2,ext,type);
 
   static final public void SBCD_VAR(String id,String tipo) throws ParseException {
   int bytesOcupados=0x1;
+  int rm=0;
+  int registro1=0;
+  int registro2=0;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Datos:
-      jj_consume_token(Datos);
+      RAD1 = jj_consume_token(Datos).image;
       jj_consume_token(Coma);
-      jj_consume_token(Datos);
+      RAD2 = jj_consume_token(Datos).image;
+                                                rm=0;
       break;
     case Guion:
       jj_consume_token(Guion);
       jj_consume_token(ParentesisA);
-      jj_consume_token(Memoria);
+      RAD1 = jj_consume_token(Memoria).image;
       jj_consume_token(ParentesisC);
       jj_consume_token(Coma);
       jj_consume_token(Guion);
       jj_consume_token(ParentesisA);
-      jj_consume_token(Memoria);
+      RAD2 = jj_consume_token(Memoria).image;
       jj_consume_token(ParentesisC);
+                                                                                                                                                                        rm=1;
       break;
     default:
       jj_la1[44] = jj_gen;
@@ -901,8 +902,10 @@ ensamblar.BCHG(registro1, modo,registro2,ext,type);
       throw new ParseException();
     }
     countloc+=bytesOcupados*2;
-  System.out.println(countloc+"---"+id+"---SBCD---"+(bytesOcupados*2)+"----"+tipo);
+    registro1=Integer.parseInt(RAD1.substring(1,RAD1.length()));
+    registro2=Integer.parseInt(RAD2.substring(1,RAD2.length()));
     tabla.setTam(id,bytesOcupados*2);
+    ensamblar.SBCD(registro1,registro2,rm);
   }
 
 /**************************MATTA*********************/
@@ -1097,7 +1100,6 @@ ensamblar.BCHG(registro1, modo,registro2,ext,type);
       throw new ParseException();
     }
         countloc=(countloc)+(bytesOcupados*2);
-    System.out.println(countloc+"---"+Identi+"---CMP---"+(bytesOcupados*2)+"----"+tipo);
 
         tabla.setTam(Identi, bytesOcupados*2);
   }
@@ -1109,6 +1111,7 @@ ensamblar.BCHG(registro1, modo,registro2,ext,type);
 /***************************MATTA***********************/
   static final public void LSL(String Identi) throws ParseException {
   String tipo="DEFAULT";
+  type=0;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case LSL:
       jj_consume_token(LSL);
@@ -1177,24 +1180,25 @@ ensamblar.BCHG(registro1, modo,registro2,ext,type);
     int bytesOcupados=0x1;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Datos:
-      jj_consume_token(Datos);
+      RAD1 = jj_consume_token(Datos).image;
       jj_consume_token(Coma);
-      jj_consume_token(Datos);
+      RAD2 = jj_consume_token(Datos).image;
+                                               type=1; lsir=1;
       break;
     case Gato:
       jj_consume_token(Gato);
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case D32:
-        jj_consume_token(D32);
-                 bytesOcupados=bytesOcupados+4;
+        data = jj_consume_token(D32).image;
+                            bytesOcupados=bytesOcupados+4; type =2; lsir=0;
         break;
       case D16:
         jj_consume_token(D16);
-                                                       bytesOcupados=bytesOcupados+2;
+                                                                                   bytesOcupados=bytesOcupados+2;
         break;
       case D8:
         jj_consume_token(D8);
-                                                                                            bytesOcupados=bytesOcupados+2;
+                                                                                                                        bytesOcupados=bytesOcupados+2;
         break;
       default:
         jj_la1[63] = jj_gen;
@@ -1433,7 +1437,6 @@ ensamblar.BCHG(registro1, modo,registro2,ext,type);
       throw new ParseException();
     }
     countloc+=bytesOcupados*multi;
-    System.out.println(countloc+"---"+id+"---EOR---"+(bytesOcupados*multi)+"----"+tipo);
 
     tabla.setTam(id,bytesOcupados*multi);
   }
@@ -1499,28 +1502,25 @@ ensamblar.BCHG(registro1, modo,registro2,ext,type);
     }
     switch(aux){
     case 1:
-        System.out.println("DIRECTIVA BYTE "+Identi+" tam: "+bytes);
         countloc=(countloc)+(bytes);
         tabla.setTam(Identi, bytes);
     break;
     case 2:
-        System.out.println("DIRECTIVA WORD id "+Identi+" tam: "+bytes*2);
         countloc=(countloc)+(bytes*2);
         tabla.setTam(Identi, bytes*2);
     break;
     case 3:
-        System.out.println("DIRECTIVA LONG id "+Identi+" tam: "+bytes*4);
         countloc=(countloc)+(bytes*4);
         tabla.setTam(Identi, bytes*4);
     break;
     case 4:
-        System.out.println("DIRECTIVAB EQU id "+Identi);
+        //System.out.println("DIRECTIVAB EQU id "+Identi);
     break;
     case 5:
-        System.out.println("DIRECTIVA  EXT id"+Identi);
+        //System.out.println("DIRECTIVA  EXT id"+Identi);
     break;
     case 6:
-        System.out.println("DIRECTIVA DEF id "+Identi);
+        //System.out.println("DIRECTIVA DEF id "+Identi);
     break;
     }
   }

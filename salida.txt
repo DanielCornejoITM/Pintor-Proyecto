@@ -1,14 +1,4 @@
 Analsisi Inicializado
-48---E10---CMP---2----B
-50---E10---CMP---2----W
-52---E11---CMP---2----L
-54---E12---CMP---2----Default
-58---E12---CMP---4----Default
-62---E13---CMP---4----Default
-66---E13---CMP---4----Default
-72---E14---CMP---6----Default
-74---E14---PACK---2----UNSIZED
-76---E15---PACK---2----UNSIZED
 ensamblado BCHG:086c
 ensamblado BCHG:0375
 ensamblado BCHG:0375
@@ -18,41 +8,478 @@ ensamblado BCHG:036c
 ensamblado BCHG:0375
 ensamblado BCHG:0378
 ensamblado BCHG:0379
-134---E22---LSL---2----L
-136---E22---LSL---2----W
-138---E22---LSL---2----B
-142---E23---LSL---4----DEFAULT
-146---E23---LSL---4----DEFAULT
-148---E25---LSL---2----DEFAULT
-150---E25---LSL---2----DEFAULT
-154---E25---LSL---4----DEFAULT
-158---E26---LSL---4----DEFAULT
-164---E26---LSL---6----DEFAULT
-166---E26---ADD---2----Default
-168---E26---ADD---2----L
-170---E26---ADD---2----W
-172---E26---ADD---2----B
-174---E26---ADD---2----B
-180---E26---ADD---6----Default
-184---E26---ADD---4----Default
-188---E26---ADD---4----Default
-192---E26---ADD---4----Default
-194---E26---ADD---2----B
-200---E26---ADD---6----Default
-206---E26---ADD---6----Default
-208---E50---EOR---2----W
-210---E51---EOR---2----B
-212---E52---EOR---2----Default
-214---E53---EOR---2----Default
-216---E54---EOR---2----Default
-220---E55---EOR---4----Default
-224---E56---EOR---4----Default
-226---CARR---SBCD---2----B
-228---FOCO---SBCD---2----Default
-230---FOCO---JMP---2----UNSIZED
-234---FOCO---JMP---4----UNSIZED
-238---FOCO---JMP---4----UNSIZED
-242---FOCO---JMP---4----UNSIZED
-248---FOCO---JMP---6----UNSIZED
-256---FOCO---JMP---8----UNSIZED
-Analisis Finalizado:
+ensamblado SBCD:84a1
+
+RESULTADO20
+
+ensamblado SBCD:84a1
+
+RESULTADO22
+
+ensamblado SBCD:84a1
+
+RESULTADO24
+
+ensamblado SBCD:84a1
+
+RESULTADO26
+
+ensamblado SBCD:84a1
+
+RESULTADO28
+
+ensamblado SBCD:84a1
+
+RESULTADO30
+
+ensamblado SBCD:84a1
+
+RESULTADO32
+
+ensamblado SBCD:84a1
+
+RESULTADO34
+
+ensamblado SBCD:84a1
+
+RESULTADO36
+
+ensamblado SBCD:84a1
+
+RESULTADO38
+
+ensamblado SBCD:84a1
+
+RESULTADO40
+
+ensamblado SBCD:84a1
+
+RESULTADO42
+
+ensamblado SBCD:84a1
+
+RESULTADO44
+
+ensamblado SBCD:84a1
+
+RESULTADO46
+
+ensamblado SBCD:84a1
+
+RESULTADO48
+
+ensamblado SBCD:84a1
+
+RESULTADO50
+
+ensamblado SBCD:84a1
+
+RESULTADO52
+
+ensamblado SBCD:84a1
+
+RESULTADO54
+
+ensamblado SBCD:84a1
+
+RESULTADO56
+
+ensamblado SBCD:84a1
+
+RESULTADO58
+
+ensamblado SBCD:84a1
+
+RESULTADO60
+
+ensamblado SBCD:84a1
+
+RESULTADO62
+
+ensamblado SBCD:84a1
+
+RESULTADO64
+
+ensamblado SBCD:84a1
+
+RESULTADO66
+
+ensamblado SBCD:84a1
+
+RESULTADO68
+
+ensamblado SBCD:84a1
+
+RESULTADO70
+
+ensamblado SBCD:84a1
+
+RESULTADO72
+
+ensamblado SBCD:84a1
+
+RESULTADO74
+
+ensamblado SBCD:84a1
+
+RESULTADO76
+
+ensamblado SBCD:84a1
+
+RESULTADO78
+
+ensamblado SBCD:84a1
+
+RESULTADO80
+
+ensamblado SBCD:84a1
+
+RESULTADO82
+
+ensamblado SBCD:84a1
+
+RESULTADO84
+
+ensamblado SBCD:84a1
+
+RESULTADO86
+
+ensamblado SBCD:84a1
+
+RESULTADO88
+
+ensamblado SBCD:84a1
+
+RESULTADO90
+
+ensamblado SBCD:84a1
+
+RESULTADO92
+
+ensamblado SBCD:84a1
+
+RESULTADO94
+
+ensamblado SBCD:84a1
+
+RESULTADO96
+
+ensamblado SBCD:84a1
+
+RESULTADO98
+
+ensamblado SBCD:84a1
+
+RESULTADO100
+
+ensamblado SBCD:84a1
+
+RESULTADO102
+
+ensamblado SBCD:84a1
+
+RESULTADO104
+
+ensamblado SBCD:84a1
+
+RESULTADO106
+
+ensamblado SBCD:84a1
+
+RESULTADO108
+
+ensamblado SBCD:84a1
+
+RESULTADO110
+
+ensamblado SBCD:84a1
+
+RESULTADO112
+
+ensamblado SBCD:84a1
+
+RESULTADO114
+
+ensamblado SBCD:84a1
+
+RESULTADO116
+
+ensamblado SBCD:84a1
+
+RESULTADO118
+
+ensamblado SBCD:84a1
+
+RESULTADO120
+
+ensamblado SBCD:84a1
+
+RESULTADO122
+
+ensamblado SBCD:84a1
+
+RESULTADO124
+
+ensamblado SBCD:84a1
+
+RESULTADO126
+
+ensamblado SBCD:84a1
+
+RESULTADO128
+
+ensamblado SBCD:84a1
+
+RESULTADO130
+
+ensamblado SBCD:84a1
+
+RESULTADO132
+
+ensamblado SBCD:84a1
+
+RESULTADO134
+
+ensamblado SBCD:84a1
+
+RESULTADO136
+
+ensamblado SBCD:84a1
+
+RESULTADO138
+
+ensamblado SBCD:84a1
+
+RESULTADO140
+
+ensamblado SBCD:84a1
+
+RESULTADO142
+
+ensamblado SBCD:84a1
+
+RESULTADO144
+
+ensamblado SBCD:84a1
+
+RESULTADO146
+
+ensamblado SBCD:84a1
+
+RESULTADO148
+
+ensamblado SBCD:84a1
+
+RESULTADO150
+
+ensamblado SBCD:84a1
+
+RESULTADO152
+
+ensamblado SBCD:84a1
+
+RESULTADO154
+
+ensamblado SBCD:84a1
+
+RESULTADO156
+
+ensamblado SBCD:84a1
+
+RESULTADO158
+
+ensamblado SBCD:84a1
+
+RESULTADO160
+
+ensamblado SBCD:84a1
+
+RESULTADO162
+
+ensamblado SBCD:84a1
+
+RESULTADO164
+
+ensamblado SBCD:84a1
+
+RESULTADO166
+
+ensamblado SBCD:84a1
+
+RESULTADO168
+
+ensamblado SBCD:84a1
+
+RESULTADO170
+
+ensamblado SBCD:84a1
+
+RESULTADO172
+
+ensamblado SBCD:84a1
+
+RESULTADO174
+
+ensamblado SBCD:84a1
+
+RESULTADO176
+
+ensamblado SBCD:84a1
+
+RESULTADO178
+
+ensamblado SBCD:84a1
+
+RESULTADO180
+
+ensamblado SBCD:84a1
+
+RESULTADO182
+
+ensamblado SBCD:84a1
+
+RESULTADO184
+
+ensamblado SBCD:84a1
+
+RESULTADO186
+
+ensamblado SBCD:84a1
+
+RESULTADO188
+
+ensamblado SBCD:84a1
+
+RESULTADO190
+
+ensamblado SBCD:84a1
+
+RESULTADO192
+
+ensamblado SBCD:84a1
+
+RESULTADO194
+
+ensamblado SBCD:84a1
+
+RESULTADO196
+
+ensamblado SBCD:84a1
+
+RESULTADO198
+
+ensamblado SBCD:84a1
+
+RESULTADO200
+
+ensamblado SBCD:84a1
+
+RESULTADO202
+
+ensamblado SBCD:84a1
+
+RESULTADO204
+
+ensamblado SBCD:84a1
+
+RESULTADO206
+
+ensamblado SBCD:84a1
+
+RESULTADO208
+
+ensamblado SBCD:84a1
+
+RESULTADO210
+
+ensamblado SBCD:84a1
+
+RESULTADO212
+
+ensamblado SBCD:84a1
+
+RESULTADO214
+
+ensamblado SBCD:84a1
+
+RESULTADO216
+
+ensamblado SBCD:84a1
+
+RESULTADO218
+
+ensamblado SBCD:84a1
+
+RESULTADO220
+
+ensamblado SBCD:84a1
+
+RESULTADO222
+
+ensamblado SBCD:84a1
+
+RESULTADO224
+
+ensamblado SBCD:84a1
+
+RESULTADO226
+
+ensamblado SBCD:84a1
+
+RESULTADO228
+
+ensamblado SBCD:84a1
+
+RESULTADO230
+
+ensamblado SBCD:84a1
+
+RESULTADO232
+
+ensamblado SBCD:84a1
+
+RESULTADO234
+
+ensamblado SBCD:84a1
+
+RESULTADO236
+
+ensamblado SBCD:84a1
+
+RESULTADO238
+
+ensamblado SBCD:84a1
+
+RESULTADO240
+
+ensamblado SBCD:84a1
+
+RESULTADO242
+
+ensamblado SBCD:84a1
+
+RESULTADO244
+
+ensamblado SBCD:84a1
+
+RESULTADO246
+
+ensamblado SBCD:84a1
+
+RESULTADO248
+
+ensamblado SBCD:84a1
+
+RESULTADO250
+
+ensamblado SBCD:84a1
+
+RESULTADO252
+
+S1MIERDA
+FF
+ANDRE
+SALUDO=0
+
+SALUDO=252
+Valor inválido para inicio del programa.

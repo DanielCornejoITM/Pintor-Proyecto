@@ -7,8 +7,10 @@ public class ProyectoFase3 {
             static String RAD2="";
             static Ensamble ensamblar = new Ensamble();
               static int modo=0;
+              static int lsir=0;
+              static String data="";
             static int type=2;
-
+            static String Instruct="";
             static String bitnumber="";
         public static TablaSimbolos tabla= new TablaSimbolos();
   /** Main entry point. */
@@ -386,7 +388,6 @@ void PACK(String Identi): {
     (<PACK>((PACK_RM()<Coma>PACK_RM())|(<Datos><Coma><Datos>))){
         countloc=(countloc)+(bytesOcupados*2);
         tabla.setTam(Identi, bytesOcupados*2);
-    System.out.println(countloc+"---"+Identi+"---PACK---"+(bytesOcupados*2)+"----UNSIZED");
     }
 
 }
@@ -426,11 +427,9 @@ void BCHG_EA(int bytesOcupados, String Identi, String tipo): {
     {
       if(modo==7 || modo==6 || modo==5){
                       ext=Integer.parseInt(bitnumber.substring(1,bitnumber.length()),16);
-                         // System.out.println("extension: " +ext);
                   }
                   registro2=Integer.parseInt(RAD2.substring(1,RAD2.length()));
                   registro1=Integer.parseInt(RAD1.substring(1,RAD1.length()));
-                  //System.out.println(registro+"modo: " +modo);
 
 
         countloc=(countloc)+(bytesOcupados*2);
@@ -454,16 +453,16 @@ void JMP_Metodo(String id):{}
 void JMP_Ea(String id):{
   int bytesOcupados=0x1;
   int multi=2;
+  int ModoJ=b0;
 }
 {
 
 <ParentesisA>
-(   <Memoria><ParentesisC>|((<D16>{bytesOcupados++;})((<ParentesisC><Punto>(<WO>{bytesOcupados++;}|<LO>{bytesOcupados+=2;})|<Coma>(<Memoria>|<PC>)<ParentesisC>)))
-|(<D8>{bytesOcupados++;})<Coma>(<Memoria>|<PC>)<Coma>(<Datos>|<Memoria>)<ParentesisC> )
+(   RAD1=<Memoria>.image{ModoJ=b010;}<ParentesisC>|((<D16>{bytesOcupados++;ModoJ=b101;})((<ParentesisC><Punto>(<WO>{bytesOcupados++;}|<LO>{bytesOcupados+=2;})|<Coma>(RAD1=<Memoria>.image|<PC>)<ParentesisC>)))
+|(<D8>{bytesOcupados++;})<Coma>(RAD1=<Memoria>.image|<PC>)<Coma>(RAD1<Datos>.image|RAD1=<Memoria>.image)<ParentesisC> )
     {
 
     countloc+=bytesOcupados*multi;
-    //System.out.println(countloc+"---"+id+"---JMP---"+(bytesOcupados*multi)+"----UNSIZED");
     tabla.setTam(id,bytesOcupados*multi); }
 }
 
@@ -499,7 +498,6 @@ void ADD_Ea1(String id,String tipo):{
 
     countloc+=bytesOcupados*multi;
     tabla.setTam(id,bytesOcupados*multi);
-    //.out.println(countloc+"---"+id+"---ADD---"+(bytesOcupados*multi)+"----"+tipo);
 }
 }
 
@@ -525,13 +523,18 @@ void SBCD(String id):{
 
 void SBCD_VAR(String id,String tipo): {
   int bytesOcupados=0x1;
+  int rm=0;
+  int registro1=0;
+  int registro2=0;
 }
 {
-   ( <Datos><Coma><Datos>|<Guion><ParentesisA><Memoria><ParentesisC><Coma><Guion><ParentesisA><Memoria><ParentesisC>)
+   ( RAD1=<Datos>.image<Coma>RAD2=<Datos>.image{rm=0;}|<Guion><ParentesisA>RAD1=<Memoria>.image<ParentesisC><Coma><Guion><ParentesisA>RAD2=<Memoria>.image<ParentesisC>{rm=1;})
 {
     countloc+=bytesOcupados*2;
-  System.out.println(countloc+"---"+id+"---SBCD---"+(bytesOcupados*2)+"----"+tipo);
+    registro1=Integer.parseInt(RAD1.substring(1,RAD1.length()));
+    registro2=Integer.parseInt(RAD2.substring(1,RAD2.length()));
     tabla.setTam(id,bytesOcupados*2);
+    ensamblar.SBCD(registro1,registro2,rm);
 }
 }
 /**************************MATTA*********************/
@@ -556,7 +559,6 @@ void CMP_EA(String Identi, String tipo): {
     {
 
         countloc=(countloc)+(bytesOcupados*2);
-    System.out.println(countloc+"---"+Identi+"---CMP---"+(bytesOcupados*2)+"----"+tipo);
 
         tabla.setTam(Identi, bytesOcupados*2);
     }
@@ -569,6 +571,7 @@ void CMP_EA(String Identi, String tipo): {
 /***************************MATTA***********************/
 void LSL(String Identi): {
   String tipo="DEFAULT";
+  type=0;
 }
 {
     (<LSL>(<Punto>(<BY>{tipo="B";}|<LO>{tipo="L";}|<WO>{tipo="W";}))?|<LSR>(<Punto>(<BY>|<LO>|<WO>))?)LSL_VAR(Identi,tipo)
@@ -578,8 +581,8 @@ void LSL_VAR(String Identi, String tipo): {
     int bytesOcupados=0x1;
 }
 {
-    <Datos><Coma><Datos> |
-    <Gato>(<D32>{bytesOcupados=bytesOcupados+4;}|<D16>{bytesOcupados=bytesOcupados+2;}|<D8>{bytesOcupados=bytesOcupados+2;})<Coma><Datos> |
+    RAD1=<Datos>.image<Coma>RAD2=<Datos>.image{type=1; lsir=1;} |
+    <Gato>(data=<D32>.image{bytesOcupados=bytesOcupados+4; type =2; lsir=0;}|<D16>{bytesOcupados=bytesOcupados+2;}|<D8>{bytesOcupados=bytesOcupados+2;})<Coma><Datos> |
     LSL_EA(Identi, bytesOcupados,tipo)
 }
 
@@ -631,7 +634,6 @@ void EOR_EA(String id, String tipo): {
 {
 
     countloc+=bytesOcupados*multi;
-    System.out.println(countloc+"---"+id+"---EOR---"+(bytesOcupados*multi)+"----"+tipo);
 
     tabla.setTam(id,bytesOcupados*multi);
 }
@@ -659,28 +661,25 @@ void Valor2(int aux, Token id): {
 
     switch(aux){
     case 1:
-        System.out.println("DIRECTIVA BYTE "+Identi+" tam: "+bytes);
         countloc=(countloc)+(bytes);
         tabla.setTam(Identi, bytes);
     break;
     case 2:
-        System.out.println("DIRECTIVA WORD id "+Identi+" tam: "+bytes*2);
         countloc=(countloc)+(bytes*2);
         tabla.setTam(Identi, bytes*2);
     break;
     case 3:
-        System.out.println("DIRECTIVA LONG id "+Identi+" tam: "+bytes*4);
         countloc=(countloc)+(bytes*4);
         tabla.setTam(Identi, bytes*4);
     break;
     case 4:
-        System.out.println("DIRECTIVAB EQU id "+Identi);
+        //System.out.println("DIRECTIVAB EQU id "+Identi);
     break;
     case 5:
-        System.out.println("DIRECTIVA  EXT id"+Identi);
+        //System.out.println("DIRECTIVA  EXT id"+Identi);
     break;
     case 6:
-        System.out.println("DIRECTIVA DEF id "+Identi);
+        //System.out.println("DIRECTIVA DEF id "+Identi);
     break;
     }
    }

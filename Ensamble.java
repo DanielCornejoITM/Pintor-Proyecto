@@ -58,45 +58,9 @@ void ORG(String inicio,String Et){
 
 
 
-  void ADDI(int size, int mode, int registro,int data){
-      int a = 3 <<9;
-      a |=size<<6;
-      a |= mode <<3;
-      a |= registro;
-
-      String com=Integer.toString(a, 16);
-         com="0"+com;
-          sumaBytes+=longitud(com);//201+10
-      S1principal+=com;
-
-       System.out.println("ensamblado ADDI:"+ com);
-  }
 
 
-  void ORI(int size, int mode, int registro,int data){
-      int a = size<<6;
-      a |= mode <<3;
-      a |= registro;
 
-      String com=Integer.toString(a, 16);
-
-      if(size==0&&mode==0){
-          com="000"+com;
-      }
-
-      if(size==0 && mode != 0){
-          com="00"+com;
-      }
-
-      if(size==1 || size==2){
-          com="00"+com;
-      }
-
-         sumaBytes+=longitud(com);//201+10
-      S1principal+=com;
-
-       System.out.println("ensamblado ORI:"+ com);
-  }
 
   void BCHG(int registro, int mode, int registro2, int ext, int version){
       if(version == 1){
@@ -129,87 +93,7 @@ void ORG(String inicio,String Et){
 
   }
 
-  void BTST(int ext, int registro, int registro2, int mode, int version,int data){
-      if(version==1){
-          int a = registro<<9;
-          a|=1<<8;
-          a|= mode<<3;
-          a|= registro2;
-          String com=Integer.toString(a, 16);
-          com="0"+com;
-         sumaBytes+=longitud(com);//201+10
-      S1principal+=com;
-         /* S1principal+=com;
-          contS1+=2;//Número de bytes de la instrucción
-          sumaBytes+=hex2decimal(com.substring(0, 2))+hex2decimal(com.substring(2, 4));//201+10
-          if (contS1==252) {
-              Imprimir2S1();
-          }*/
 
-
-          System.out.println("ensamblado BTST:"+ com);
-      }
-
-      if(version==2){
-          int a = 1<<11;
-          a|= mode<<3;
-          a|= registro2;
-          String com=Integer.toString(a, 16);
-          com="0"+com;
-          sumaBytes+=longitud(com);//201+10
-      S1principal+=com;
-          /*S1principal+=com;
-          contS1+=2;//Número de bytes de la instrucción
-          sumaBytes+=hex2decimal(com.substring(0, 2))+hex2decimal(com.substring(2, 4));//201+10
-          if (contS1==252) {
-              Imprimir2S1();
-          }*/
-
-
-          System.out.println("ensamblado BTST:"+ com);
-      }
-
-  }
-
-
-
-  void JSR (int ext, int registro, int mode){
-      int a = 1<<14;
-      a|=7<<9;
-      a|=1<<7;
-      a|= mode<<3;
-      a|= registro;
-      String com=Integer.toString(a, 16);
-       sumaBytes+=longitud(com);//201+10
-      S1principal+=com;
-     /* S1principal+=com;
-      contS1+=2;//Número de bytes de la instrucción
-      sumaBytes+=hex2decimal(com.substring(0, 2))+hex2decimal(com.substring(2, 4));//201+10
-      if (contS1==252) {
-          Imprimir2S1();
-      }*/
-
-      System.out.println("ensamblado JSR:"+ com);
-  }
-
-
-
-  void ANDITOSR (int ext,int data){
-      int a = 1<<9;
-      a|=31<<2;
-      String com=Integer.toString(a, 16);
-      com="0"+com;
-       sumaBytes+=longitud(com);//201+10
-      S1principal+=com;
-        /*  S1principal+=com;
-      contS1+=2;//Número de bytes de la instrucción
-      sumaBytes+=hex2decimal(com.substring(0, 2))+hex2decimal(com.substring(2, 4));//201+10
-      if (contS1==252) {
-          Imprimir2S1();
-      }
-*/
-      System.out.println("ensamblado Andi to sr:"+ com);
-  }
 
   void LSL(int registro, int registro2, int ext, int ir, int size, int version, int mode,int data){
       if(version == 1){
@@ -239,7 +123,7 @@ void ORG(String inicio,String Et){
 
       if(version == 2){
           int a = 7<<13;
-          a |= ext<<9;
+          a |= data<<9;
           a |= 1<<8;
           a |= size<<6;
           a |= ir<<5;
@@ -348,78 +232,22 @@ void ORG(String inicio,String Et){
       }
   }
 
-  void MOVETOSR (int registro,int ext, int mode){
-      int a = 1<<14;
-      a|=3<<9;
-      a|=3<<6;
-      a|=mode<<3; /*Primero es dato , segundo posicion*/
-      a|=registro;
-      String com=Integer.toString(a, 16);
-       sumaBytes+=longitud(com);//201+10
-      S1principal+=com;
-      /*S1principal+=com;
-      contS1+=2;//Número de bytes de la instrucción
-      sumaBytes+=hex2decimal(com.substring(0, 2))+hex2decimal(com.substring(2, 4));//201+10
-      if (contS1==252) {
-          Imprimir2S1();
-      }*/
 
-      System.out.println("ensamblado move to sr:"+com);
-  }
+void SBCD(int RAD1, int RAD2,int rm){
+  int a=8<<12;
+  a|=RAD2<<9;
+  a|=10<<4;
+  a|=rm<<3;
+  a|=RAD1<<0;
+  String com = Integer.toString(a,16);
+  sumaBytes+=longitud(com);
+  S1principal+=com;
+  System.out.println("ensamblado SBCD:"+com);
+  System.out.println("\nRESULTADO"+contS1+"\n");
+  if (contS1==252) Imprimir2S1();
 
+}
 
-  void MOVEFROMSR (int registro,int ext, int mode){
-      int a = 1<<14;
-      a|=3<<6;
-      a|=mode<<3; /*Primero es dato , segundo posicion*/
-      a|=registro;
-      String com=Integer.toString(a, 16);
-       sumaBytes+=longitud(com);//201+10
-      S1principal+=com;
-      /*S1principal+=com;
-      contS1+=2;//Número de bytes de la instrucción
-      sumaBytes+=hex2decimal(com.substring(0, 2))+hex2decimal(com.substring(2, 4));//201+10
-      if (contS1==252) {
-          Imprimir2S1();
-      }*/
-
-      System.out.println("ensamblado move from sr:"+com);
-  }
-
-void BSET (int registro1,int registro2,int ext, int mode,int version,int data){
-
-      if(version==1){
-      int a =0<<12;
-      a|=registro1<<9;
-      a|=1<<8;
-      a|=1<<7;
-      a|=1<<6;
-      a|=mode<<3;
-      a|=registro2;
-      String com=Integer.toString(a, 16);
-         com="0"+com;
-    sumaBytes+=longitud(com);//201+10
-      S1principal+=com;
-          System.out.println("ensamblado:"+com);
-      }
-
-      if(version==2){
-      int a =0<<12;
-      a|=1<<11;
-      a|=1<<7;
-      a|=1<<6;
-      a|=mode<<3;
-      a|=registro1;
-      String com=Integer.toString(a, 16);
-          com="0"+com;
-    sumaBytes+=longitud(com);//201+10
-      S1principal+=com;
-
-System.out.println("ensamblado:"+com);
-      }
-
-
-  }
 
 
 
@@ -430,11 +258,11 @@ void Imprimir2S1(){
           System.out.print("0"+Integer.toHexString(contS1+3).toUpperCase());
 
       }else{
-          System.out.print(Integer.toHexString(contS1+3).toUpperCase());
+          System.out.print("MIERDA\n"+Integer.toHexString(contS1+3).toUpperCase());
 
       }
       //System.out.println(" Direccion: "+inicio+" noBytes: "+noBytes+" Contador de bytes:"+contS1);
-
+      System.out.print("\nANDRE"+primerej);
       if (first) {
           inicio=Integer.toHexString(hex2decimal(inicio)+noBytes);
           //Direccion+=255;
@@ -443,6 +271,10 @@ void Imprimir2S1(){
           first=true;
       }
       //System.out.println(" Direccion: "+inicio+" noBytes: "+noBytes+" Contador de bytes:"+contS1);
+int r= inicio.length();
+System.out.println("\nSALUDO="+r);
+      System.out.println("\nSALUDO="+contS1);
+
       switch(inicio.length()){
           case 1:
               inicio="000"+inicio;
