@@ -1,13 +1,101 @@
 public class Ensamble{
   String S1principal="";//Inserta TODOS los codigos Hexadecimales del código, al imprimir se generan las lineas automaticas.
-int contS1=0;//Contador de bytes
-int sumaBytes=0;
-int Direccion=0;
-int noBytes=0;
+  int contS1=0;//Contador de bytes
+  int sumaBytes=0;
+  int Direccion=0;
+  int noBytes=0;
 String inicio="";
-String S0="S0";
-String primerej="";
-boolean first=false;
+  String S0="S0";
+  String primerej="";
+  boolean first=false;
+boolean banderacode=false;
+
+
+void bandera(){
+  banderacode=true;
+  Imprimir2S1();
+}
+void DWLB(int opcion,int datatipo, int valor){
+      String Cadena="";
+      int modulo=0;
+      int top=0;
+      /*System.out.println("Adios "+opcion+"  "+datatipo+"  "+valor);*/
+      switch(opcion){
+
+          case 1:  for (int i=0;i<valor;i++ ) {
+               Cadena+="00";
+                       }
+           break;//BYTE
+          case 2: for (int i=0;i<valor;i++ ) {
+          Cadena+="0000";
+            }
+           break;//WORD
+          case 3: for (int i=0;i<valor;i++ ) {
+          Cadena+="00000000";
+          }
+           break;//LONG
+          case  4: //Data
+              String com=Integer.toString(valor, 16);
+
+              switch(datatipo){
+              case 1: /*if(com.length()==1){ //Byte
+                      Cadena+="0"+com;
+                  }
+                    else if(com.length()==2){ Cadena+=com;}*/
+                     modulo=com.length()%2;
+               if(modulo!=0){
+               top = 2 - modulo;
+              for(int x=0;x<top;x++){
+                      Cadena+="0";
+                   }
+                   Cadena+=com;}
+                 else{Cadena+=com;}
+                    break;
+
+               case 2: //Word
+                 /* if(com.length()==4){Cadena+=com;}
+                  else{
+                   for(int x=com.length();x<4;x++){
+                      Cadena+="0";
+                   }
+               }*/
+
+                modulo=com.length()%4;
+               if(modulo!=0){
+               top = 4 - modulo;
+              for(int x=0;x<top;x++){
+                      Cadena+="0";
+                   } Cadena+=com;}
+                 else{Cadena+=com;}
+               break;
+
+               case 3://Long
+                 /* if(com.length()==8){Cadena+=com;}
+                  else{
+                   for(int x=com.length();x<8;x++){
+                      Cadena+="0";
+                   }
+               }
+               Cadena+=com;
+              */
+
+                modulo=com.length()%8;
+               if(modulo!=0){
+               top = 8 - modulo;
+              for(int x=0;x<top;x++){
+                      Cadena+="0";
+                   } Cadena+=com;}
+                 else{Cadena+=com;}
+              break;
+
+
+          }
+      }
+      System.out.println("Suuuuu"+Cadena);
+          sumaBytes+=longitud(Cadena);//201+10
+      S1principal+=Cadena;
+
+}
 
 void ORG(String inicio,String Et){
       String start="0000";
@@ -58,11 +146,118 @@ void ORG(String inicio,String Et){
 
 
 
+  void ADDI(int size, int mode, int registro,int data, int ext){
+      int a = 3 <<9;
+
+      String extH=Integer.toHexString(ext).toUpperCase();
+      String dataH=Integer.toHexString(data).toUpperCase();
+      dataH = agregarCeros(dataH, 0);
+      extH = addCerosExt(extH,mode,registro);
+
+      a |= size<<6;
+      a |= mode <<3;
+      a |= registro;
+      String com=Integer.toString(a, 16);
+         com="0"+com+dataH;
+      if(mode == 5 || mode == 6 || mode == 7)
+          com+=extH;
+
+          sumaBytes+=longitud(com);//201+10
+      S1principal+=com;
+
+       System.out.println("ensamblado ADDI:"+ com);
+  }
+
+  String addCerosExt(String ext, int mode, int registro){
+      int top;
+      if (mode == 5 || (mode == 7 && (registro == 0 || registro == 2))){ // Word 16 bits
+          top = 4 - ext.length();
+          for(int i=0; i < top; i++)
+              ext = '0'+ext;
+      }
+      else if(mode == 6 || (mode == 7 && registro == 3)){// Byte 8 bits
+          top = 4 - ext.length();
+          for(int i=0; i < top; i++)
+              ext = '0'+ext;
+      }
+      else if( mode == 7 && registro == 1){//Long 32 bits
+          top = 8 - ext.length();
+          for(int i=0; i < top; i++)
+              ext = '0'+ext;
+      }
+      else if( mode == 7 && registro == 1){//Long 32 bits
+          top = 8 - ext.length();
+          for(int i=0; i < top; i++)
+              ext = '0'+ext;
+      }
+      else if(mode == 7 && registro == 4){
+          ext = agregarCeros(ext,0);
+      }
+      return ext;
+  }
+  String agregarCeros(String data, int band){
+      int lngData = data.length();
+      int top;
+      if(lngData <= 2 && band == 0){
+          top = 4 - lngData;
+          for(int i=0; i < top; i++)
+              data = '0'+data;
+      }
+      else if(lngData <= 4){
+          top = 4 - lngData;
+          for(int i=0; i < top; i++)
+              data = '0'+data;
+      }
+      else if(lngData <= 8 && band == 0){
+          top = 8 - lngData;
+          for(int i=0; i < top; i++)
+              data = '0'+data;
+      }
+      return data;
+  }
+
+  void ORI(int size, int mode, int registro,int data, int ext){
+      int a = size<<6;
+      a |= mode <<3;
+      a |= registro;
+
+      String extH=Integer.toHexString(ext).toUpperCase();
+      String dataH=Integer.toHexString(data).toUpperCase();
+      dataH = agregarCeros(dataH, 0);
+      extH = addCerosExt(extH,mode,registro);
 
 
+      String com=Integer.toString(a, 16);
 
+      if(size==0&&mode==0){
+          com="000"+com;
+      }
+
+      if(size==0 && mode != 0){
+          com="00"+com;
+      }
+
+      if(size==1 || size==2){
+          com="00"+com;
+      }
+          com+=dataH;
+       if(mode == 5 || mode == 6 || mode == 7)
+          com+=extH;
+
+         sumaBytes+=longitud(com);//201+10
+
+      S1principal+=com;
+
+       System.out.println("ensamblado ORI:"+ com);
+  }
 
   void BCHG(int registro, int mode, int registro2, int ext, int version){
+
+    /*System.out.println("\nRegistro1="+registro
+    +"\nRegistro2="+registro2
+    +"\nExtension= "+ext
+    +"\nMODO= "+mode
+    +"\nVersion"+version);*/
       if(version == 1){
           int a = registro<<9;
           a |= 1<<8;
@@ -231,20 +426,29 @@ void ORG(String inicio,String Et){
 
       }
   }
-
+void EOR(int RAD1, int RAD2, int EOPMODO,int mode,int Ext){
+  int a=11<<12;
+  a|= RAD1<<9;
+  a|=EOPMODO<<6;
+  a|=mode<<3;
+  a|=RAD2<<0;
+  String com = Integer.toString(a,16);
+  sumaBytes+=longitud(com);
+  S1principal+=com;
+  System.out.println("ensamblado EOR:"+com);
+}
 
 void SBCD(int RAD1, int RAD2,int rm){
   int a=8<<12;
   a|=RAD2<<9;
-  a|=10<<4;
+  a|=16<<4;
   a|=rm<<3;
   a|=RAD1<<0;
   String com = Integer.toString(a,16);
+
   sumaBytes+=longitud(com);
   S1principal+=com;
   System.out.println("ensamblado SBCD:"+com);
-  System.out.println("\nRESULTADO"+contS1+"\n");
-  if (contS1==252) Imprimir2S1();
 
 }
 
@@ -253,98 +457,105 @@ void SBCD(int RAD1, int RAD2,int rm){
 
 void Imprimir2S1(){
 
-      System.out.print("S1");
-      if (contS1+3<16) {
-          System.out.print("0"+Integer.toHexString(contS1+3).toUpperCase());
+        System.out.print("S1");
+        if (contS1+3<16) {
+            System.out.print("0"+Integer.toHexString(contS1+3).toUpperCase());
 
-      }else{
-          System.out.print("MIERDA\n"+Integer.toHexString(contS1+3).toUpperCase());
+        }else{
+            System.out.print(Integer.toHexString(contS1+3).toUpperCase());
 
-      }
-      //System.out.println(" Direccion: "+inicio+" noBytes: "+noBytes+" Contador de bytes:"+contS1);
-      System.out.print("\nANDRE"+primerej);
-      if (first) {
-          inicio=Integer.toHexString(hex2decimal(inicio)+noBytes);
-          //Direccion+=255;
-      }else{
-          inicio=primerej;
-          first=true;
-      }
-      //System.out.println(" Direccion: "+inicio+" noBytes: "+noBytes+" Contador de bytes:"+contS1);
-int r= inicio.length();
-System.out.println("\nSALUDO="+r);
-      System.out.println("\nSALUDO="+contS1);
+        }
+        //System.out.println(" Direccion: "+inicio+" noBytes: "+noBytes+" Contador de bytes:"+contS1);
 
-      switch(inicio.length()){
-          case 1:
-              inicio="000"+inicio;
-              break;
-          case 2:
-              inicio="00"+inicio;
-              break;
-          case 3:
-              inicio="0"+inicio;
-              break;
-          case 4:
-              inicio=inicio;
-              break;
-          default:
-              System.out.println("Valor inválido para inicio del programa.");
-              break;
+        if (first) {
+            inicio=Integer.toHexString(hex2decimal(inicio)+noBytes);
+            if(banderacode){
+             primerej=inicio;
+            }
+            //Direccion+=255;
+        }else{
+            inicio=primerej;
+            first=true;
+            if(banderacode){
 
-      }
-      //System.out.println("Numeros:"+contS1+" "+Direccion+" "+noBytes+" "+sumaBytes);
-      System.out.println(" "+inicio.toUpperCase()+" "+S1principal.toUpperCase()+" "+Complemento(contS1+3+hex2decimal(inicio.substring(0,2))+hex2decimal(inicio.substring(2,4))+sumaBytes));
-      Direccion=Direccion+noBytes;
-      noBytes=contS1;
-      contS1=0;
-      sumaBytes=0;
-      S1principal="";
-  }
-void ImprimirS9(){
-      int pbaja=hex2decimal(primerej.substring(0,2)),palta=hex2decimal(primerej.substring(2,4));
-      //System.out.println("baja= "+pbaja+" alta= "+palta);
-      System.out.println("S903"+primerej+Complemento(3+pbaja+palta));
-  }
-String Complemento(int op){
-    //System.out.print("\nParidad="+op);
-      String numero=String.valueOf(op);
-      int operador=Integer.parseInt(numero);
-      operador=~operador;
-      numero=Integer.toHexString(operador).toUpperCase();
-      String fin=numero.substring(numero.length()-2, numero.length());
-      return fin;
-  }
-public static int hex2decimal(String s) {
-           String digits = "0123456789ABCDEF";
-           s = s.toUpperCase();
-           int val = 0;
-           for (int i = 0; i < s.length(); i++) {
-               char c = s.charAt(i);
-               int d = digits.indexOf(c);
-               val = 16*val + d;
-           }
-           return val;
-       }
+            }
+        }
+        //System.out.println(" Direccion: "+inicio+" noBytes: "+noBytes+" Contador de bytes:"+contS1);
+        switch(inicio.length()){
+            case 1:
+                inicio="000"+inicio;
+                break;
+            case 2:
+                inicio="00"+inicio;
+                break;
+            case 3:
+                inicio="0"+inicio;
+                break;
+            case 4:
+                inicio=inicio;
+                break;
+            default:
+                System.out.println("Valor inválido para inicio del programa.");
+                break;
+
+        }
+        //System.out.println("Numeros:"+contS1+" "+Direccion+" "+noBytes+" "+sumaBytes);
+        System.out.println(" "+inicio.toUpperCase()+" "+S1principal.toUpperCase()+" "+Complemento(contS1+3+hex2decimal(inicio.substring(0,2))+hex2decimal(inicio.substring(2,4))+sumaBytes));
+        Direccion=Direccion+noBytes;
+        noBytes=contS1;
+        contS1=0;
+        sumaBytes=0;
+        S1principal="";
+    }
+  void ImprimirS9(){
+        int top = 4-primerej.length();
+        for(int i=0; i<top;i++)
+            primerej="0"+primerej;
+        int pbaja=hex2decimal(primerej.substring(0,2)),palta=hex2decimal(primerej.substring(2,4));
+        //System.out.println("baja= "+pbaja+" alta= "+palta);
+        System.out.println("S903"+primerej+Complemento(3+pbaja+palta));
+    }
+  String Complemento(int op){
+      //System.out.print("\nParidad="+op);
+        String numero=String.valueOf(op);
+        int operador=Integer.parseInt(numero);
+        operador=~operador;
+        numero=Integer.toHexString(operador).toUpperCase();
+        String fin=numero.substring(numero.length()-2, numero.length());
+        return fin;
+    }
+  public static int hex2decimal(String s) {
+             String digits = "0123456789ABCDEF";
+             s = s.toUpperCase();
+             int val = 0;
+             for (int i = 0; i < s.length(); i++) {
+                 char c = s.charAt(i);
+                 int d = digits.indexOf(c);
+                 val = 16*val + d;
+             }
+             return val;
+         }
 
 
 
+         int longitud(String ensamblado){
 
-int longitud(String ensamblado){
+             int par=0;
+             int canti=0;
+            for (int a=0;a<ensamblado.length();a+=2) {
+                par+=hex2decimal(ensamblado.substring(a,a+2));
+              canti++;
+            }
+            int verificar= contS1+canti;
 
-   int par=0;
-   int canti=0;
-  for (int a=0;a<ensamblado.length();a+=2) {
-      par+=hex2decimal(ensamblado.substring(a,a+2));
-    canti++;
-  }
-  int verificar= contS1+canti;
+            if(verificar>252){
+                Imprimir2S1();
+                contS1+=canti;//Número de bytes de la instrucción
+            }
+            else{contS1+=verificar;}//Número de bytes de la instrucción
 
-  if(verificar>252){
-      Imprimir2S1();
-      contS1+=canti;//Número de bytes de la instrucción
-  }
-  else{contS1=verificar;}//Número de bytes de la instrucción
-  return par;
-}
+            return par;
+
+
+        }
 }

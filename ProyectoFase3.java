@@ -6,7 +6,8 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
             static String RAD1="";
             static String RAD2="";
             static Ensamble ensamblar = new Ensamble();
-              static int modo=0;
+            static int modo=0;
+              static int EOPMODO=0;
               static int lsir=0;
               static String data="";
             static int type=2;
@@ -330,15 +331,15 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case D32:
         jj_consume_token(D32);
-                                                                                         bytesOcupados=bytesOcupados+4;
+                   bytesOcupados=bytesOcupados+4;
         break;
       case D16:
         jj_consume_token(D16);
-                                                                                                                               bytesOcupados=bytesOcupados+2;
+                                                         bytesOcupados=bytesOcupados+2;
         break;
       case D8:
         jj_consume_token(D8);
-                                                                                                                                                                    bytesOcupados=bytesOcupados+2;
+                                                                                              bytesOcupados=bytesOcupados+2;
         break;
       default:
         jj_la1[10] = jj_gen;
@@ -347,6 +348,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       }
       jj_consume_token(Coma);
       BCHG_EA(bytesOcupados, Identi,tipo);
+                                                                                                                                                                        type=2;
       break;
     default:
       jj_la1[11] = jj_gen;
@@ -486,15 +488,17 @@ ensamblar.BCHG(registro1, modo,registro2,ext,type);
   static final public void JMP_Ea(String id) throws ParseException {
   int bytesOcupados=0x1;
   int multi=2;
+  int ModoJ=0;
     jj_consume_token(ParentesisA);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Memoria:
-      jj_consume_token(Memoria);
+      RAD1 = jj_consume_token(Memoria).image;
+                         ModoJ=2;
       jj_consume_token(ParentesisC);
       break;
     case D16:
       jj_consume_token(D16);
-                                   bytesOcupados++;
+                                                        bytesOcupados++;ModoJ=5;
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case ParentesisC:
         jj_consume_token(ParentesisC);
@@ -502,11 +506,11 @@ ensamblar.BCHG(registro1, modo,registro2,ext,type);
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case WO:
           jj_consume_token(WO);
-                                                                                 bytesOcupados++;
+                                                                                                              bytesOcupados++;
           break;
         case LO:
           jj_consume_token(LO);
-                                                                                                        bytesOcupados+=2;
+                                                                                                                                     bytesOcupados+=2;
           break;
         default:
           jj_la1[19] = jj_gen;
@@ -518,7 +522,7 @@ ensamblar.BCHG(registro1, modo,registro2,ext,type);
         jj_consume_token(Coma);
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case Memoria:
-          jj_consume_token(Memoria);
+          RAD1 = jj_consume_token(Memoria).image;
           break;
         case PC:
           jj_consume_token(PC);
@@ -542,7 +546,7 @@ ensamblar.BCHG(registro1, modo,registro2,ext,type);
       jj_consume_token(Coma);
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case Memoria:
-        jj_consume_token(Memoria);
+        RAD1 = jj_consume_token(Memoria).image;
         break;
       case PC:
         jj_consume_token(PC);
@@ -555,10 +559,10 @@ ensamblar.BCHG(registro1, modo,registro2,ext,type);
       jj_consume_token(Coma);
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case Datos:
-        jj_consume_token(Datos);
+        RAD1 = jj_consume_token(Datos).image;
         break;
       case Memoria:
-        jj_consume_token(Memoria);
+        RAD1 = jj_consume_token(Memoria).image;
         break;
       default:
         jj_la1[23] = jj_gen;
@@ -902,6 +906,7 @@ ensamblar.BCHG(registro1, modo,registro2,ext,type);
       throw new ParseException();
     }
     countloc+=bytesOcupados*2;
+
     registro1=Integer.parseInt(RAD1.substring(1,RAD1.length()));
     registro2=Integer.parseInt(RAD2.substring(1,RAD2.length()));
     tabla.setTam(id,bytesOcupados*2);
@@ -1320,15 +1325,15 @@ ensamblar.BCHG(registro1, modo,registro2,ext,type);
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case BY:
         jj_consume_token(BY);
-                       tipo="B";
+                       tipo="B";EOPMODO=4;
         break;
       case LO:
         jj_consume_token(LO);
-                                       tipo="L";
+                                                 tipo="L";EOPMODO=6;
         break;
       case WO:
         jj_consume_token(WO);
-                                                       tipo="W";
+                                                                           tipo="W";EOPMODO=5;
         break;
       default:
         jj_la1[71] = jj_gen;
@@ -1340,7 +1345,7 @@ ensamblar.BCHG(registro1, modo,registro2,ext,type);
       jj_la1[72] = jj_gen;
       ;
     }
-    jj_consume_token(Datos);
+    RAD1 = jj_consume_token(Datos).image;
     jj_consume_token(Coma);
     EOR_EA(id, tipo);
   }
@@ -1348,25 +1353,33 @@ ensamblar.BCHG(registro1, modo,registro2,ext,type);
   static final public void EOR_EA(String id, String tipo) throws ParseException {
   int bytesOcupados=0x1;
   int multi=2;
+  int registro1=0;
+  int registro2=0;
+  int mode=0;
+  String number="";
+  int ext=0;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Datos:
-      jj_consume_token(Datos);
+      RAD2 = jj_consume_token(Datos).image;
       break;
     case Guion:
       jj_consume_token(Guion);
       jj_consume_token(ParentesisA);
-      jj_consume_token(Memoria);
+      RAD2 = jj_consume_token(Memoria).image;
       jj_consume_token(ParentesisC);
+                                                          mode=4;
       break;
     case ParentesisA:
       jj_consume_token(ParentesisA);
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case Memoria:
-        jj_consume_token(Memoria);
+        RAD2 = jj_consume_token(Memoria).image;
+                             mode=2;
         jj_consume_token(ParentesisC);
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case Mas:
           jj_consume_token(Mas);
+                                                         mode=3;
           break;
         default:
           jj_la1[73] = jj_gen;
@@ -1374,24 +1387,26 @@ ensamblar.BCHG(registro1, modo,registro2,ext,type);
         }
         break;
       case D16:
-        jj_consume_token(D16);
+        number = jj_consume_token(D16).image;
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case Coma:
           jj_consume_token(Coma);
-          jj_consume_token(Memoria);
+          RAD2 = jj_consume_token(Memoria).image;
           jj_consume_token(ParentesisC);
+                                                    mode=5;
           break;
         case ParentesisC:
           jj_consume_token(ParentesisC);
+                          mode=7;
           jj_consume_token(Punto);
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case WO:
             jj_consume_token(WO);
-                                      bytesOcupados++;
+                                               bytesOcupados++;RAD2="00";
             break;
           case LO:
             jj_consume_token(LO);
-                                                             bytesOcupados+=2;
+                                                                                bytesOcupados+=2;RAD2="01";
             break;
           default:
             jj_la1[74] = jj_gen;
@@ -1406,16 +1421,17 @@ ensamblar.BCHG(registro1, modo,registro2,ext,type);
         }
         break;
       case D8:
-        jj_consume_token(D8);
+        number = jj_consume_token(D8).image;
         jj_consume_token(Coma);
-        jj_consume_token(Memoria);
+        RAD2 = jj_consume_token(Memoria).image;
         jj_consume_token(Coma);
+                                                            mode=6;
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case Datos:
-          jj_consume_token(Datos);
+          RAD2 = jj_consume_token(Datos).image;
           break;
         case Memoria:
-          jj_consume_token(Memoria);
+          RAD2 = jj_consume_token(Memoria).image;
           break;
         default:
           jj_la1[76] = jj_gen;
@@ -1423,7 +1439,7 @@ ensamblar.BCHG(registro1, modo,registro2,ext,type);
           throw new ParseException();
         }
         jj_consume_token(ParentesisC);
-                                                                    bytesOcupados++;
+                                                                                                                           bytesOcupados++;
         break;
       default:
         jj_la1[77] = jj_gen;
@@ -1437,6 +1453,12 @@ ensamblar.BCHG(registro1, modo,registro2,ext,type);
       throw new ParseException();
     }
     countloc+=bytesOcupados*multi;
+registro1=Integer.parseInt(RAD1.substring(1,RAD1.length()));
+registro2=Integer.parseInt(RAD2.substring(1,RAD2.length()));
+ext=Integer.parseInt(number.substring(1,number.length()),16);
+
+ensamblar.EOR(registro1,registro2,EOPMODO,mode,ext);
+
 
     tabla.setTam(id,bytesOcupados*multi);
   }

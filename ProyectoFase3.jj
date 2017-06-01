@@ -6,7 +6,8 @@ public class ProyectoFase3 {
             static String RAD1="";
             static String RAD2="";
             static Ensamble ensamblar = new Ensamble();
-              static int modo=0;
+            static int modo=0;
+              static int EOPMODO=0;
               static int lsir=0;
               static String data="";
             static int type=2;
@@ -409,7 +410,8 @@ void BCHG_VAR(String Identi, String tipo): {
 
 }
 {
-    (RAD1=<Datos>.image<Coma>BCHG_EA(bytesOcupados, Identi,tipo){type=1;} | <Gato>(<D32>{bytesOcupados=bytesOcupados+4;}|<D16>{bytesOcupados=bytesOcupados+2;}|<D8>{bytesOcupados=bytesOcupados+2;})<Coma>BCHG_EA(bytesOcupados, Identi,tipo))
+    (RAD1=<Datos>.image<Coma>BCHG_EA(bytesOcupados, Identi,tipo){type=1;}
+    | <Gato>(<D32>{bytesOcupados=bytesOcupados+4;}|<D16>{bytesOcupados=bytesOcupados+2;}|<D8>{bytesOcupados=bytesOcupados+2;})<Coma>BCHG_EA(bytesOcupados, Identi,tipo){type=2;})
 }
 
 void BCHG_EA(int bytesOcupados, String Identi, String tipo): {
@@ -453,13 +455,13 @@ void JMP_Metodo(String id):{}
 void JMP_Ea(String id):{
   int bytesOcupados=0x1;
   int multi=2;
-  int ModoJ=b0;
+  int ModoJ=0;
 }
 {
 
 <ParentesisA>
-(   RAD1=<Memoria>.image{ModoJ=b010;}<ParentesisC>|((<D16>{bytesOcupados++;ModoJ=b101;})((<ParentesisC><Punto>(<WO>{bytesOcupados++;}|<LO>{bytesOcupados+=2;})|<Coma>(RAD1=<Memoria>.image|<PC>)<ParentesisC>)))
-|(<D8>{bytesOcupados++;})<Coma>(RAD1=<Memoria>.image|<PC>)<Coma>(RAD1<Datos>.image|RAD1=<Memoria>.image)<ParentesisC> )
+(   RAD1=<Memoria>.image{ModoJ=2;}<ParentesisC>|((<D16>{bytesOcupados++;ModoJ=5;})((<ParentesisC><Punto>(<WO>{bytesOcupados++;}|<LO>{bytesOcupados+=2;})|<Coma>(RAD1=<Memoria>.image|<PC>)<ParentesisC>)))
+|(<D8>{bytesOcupados++;})<Coma>(RAD1=<Memoria>.image|<PC>)<Coma>(RAD1=<Datos>.image|RAD1=<Memoria>.image)<ParentesisC> )
     {
 
     countloc+=bytesOcupados*multi;
@@ -531,6 +533,7 @@ void SBCD_VAR(String id,String tipo): {
    ( RAD1=<Datos>.image<Coma>RAD2=<Datos>.image{rm=0;}|<Guion><ParentesisA>RAD1=<Memoria>.image<ParentesisC><Coma><Guion><ParentesisA>RAD2=<Memoria>.image<ParentesisC>{rm=1;})
 {
     countloc+=bytesOcupados*2;
+
     registro1=Integer.parseInt(RAD1.substring(1,RAD1.length()));
     registro2=Integer.parseInt(RAD2.substring(1,RAD2.length()));
     tabla.setTam(id,bytesOcupados*2);
@@ -607,26 +610,32 @@ void EOR(String id): {
   String tipo="Default";
 }
 {
-    <EOR>(<Punto>(<BY>{tipo="B";}|<LO>{tipo="L";}|<WO>{tipo="W";}))?<Datos><Coma>EOR_EA(id, tipo)
+    <EOR>(<Punto>(<BY>{tipo="B";EOPMODO=4;}|<LO>{tipo="L";EOPMODO=6;}|<WO>{tipo="W";EOPMODO=5;}))?RAD1=<Datos>.image<Coma>EOR_EA(id, tipo)
 }
 
 void EOR_EA(String id, String tipo): {
   int bytesOcupados=0x1;
   int multi=2;
+  int registro1=0;
+  int registro2=0;
+  int mode=0;
+  String number="";
+  int ext=0;
+
 
 }
 {
     (
-<Datos> |
-    <Guion><ParentesisA><Memoria><ParentesisC>  |
+RAD2=<Datos>.image |
+    <Guion><ParentesisA>RAD2=<Memoria>.image<ParentesisC>{mode=4;}  |
     <ParentesisA>(
-        <Memoria><ParentesisC>(<Mas>)?|
-        (<D16>)(
-            <Coma><Memoria><ParentesisC>|
-            <ParentesisC><Punto>(<WO>{bytesOcupados++;}|<LO>{bytesOcupados+=2;})
+        RAD2=<Memoria>.image{mode=2;}<ParentesisC>(<Mas>{mode=3;})?|
+        (number=<D16>.image)(
+            <Coma>RAD2=<Memoria>.image<ParentesisC>{mode=5;}|
+            <ParentesisC>{mode=7;}<Punto>(<WO>{bytesOcupados++;RAD2="00";}|<LO>{bytesOcupados+=2;RAD2="01";})
 
             )|
-        (<D8>)<Coma><Memoria><Coma>(<Datos>|<Memoria>)<ParentesisC>{bytesOcupados++;}
+        (number=<D8>.image)<Coma>RAD2=<Memoria>.image<Coma>{mode=6;}(RAD2=<Datos>.image|RAD2=<Memoria>.image)<ParentesisC>{bytesOcupados++;}
 
         )
     )
@@ -634,6 +643,12 @@ void EOR_EA(String id, String tipo): {
 {
 
     countloc+=bytesOcupados*multi;
+registro1=Integer.parseInt(RAD1.substring(1,RAD1.length()));
+registro2=Integer.parseInt(RAD2.substring(1,RAD2.length()));
+ext=Integer.parseInt(number.substring(1,number.length()),16);
+
+ensamblar.EOR(registro1,registro2,EOPMODO,mode,ext);
+
 
     tabla.setTam(id,bytesOcupados*multi);
 }
