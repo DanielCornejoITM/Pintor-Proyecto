@@ -1,5 +1,9 @@
 Analsisi Inicializado
-ensamblado BCHG:086c
-ensamblado SBCD:8501
-ensamblado EOR:bb78
+Locura: 
+Opcion: 2
+Modo: 2
+Parte 2 4
+BitNUMBER: $FF
+Extension: 
+-------------------
 Analisis Finalizado:

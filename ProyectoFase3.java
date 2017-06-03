@@ -3,16 +3,17 @@
 public class ProyectoFase3 implements ProyectoFase3Constants {
         public static int countloc=0x00;
             static int LONGITUD=0;
-            static String RAD1="";
-            static String RAD2="";
-            static Ensamble ensamblar = new Ensamble();
-            static int modo=0;
-              static int EOPMODO=0;
-              static int lsir=0;
-              static String data="";
-            static int type=2;
+            static String RAD1=""; // Para DN o AN lado derecho
+            static String RAD2=""; // Para DN o AN Lado izquierdo
+            static Ensamble ensamblar = new Ensamble(); //Objeto de ensamblar
+            static int modo=0; //Cabecera modo de de instruccion
+              static int EOPMODO=0; //Cabezara OPMODE de EOR
+              static int lsir=0;  //Cabecera s/ir
+              static String data=""; // Guarda el numero de 8 16 y 32
+              static String bitnumber="";//Guarda el Numero de 8 16 y 32
+
+            static int type=0; //Tipo de orden en la instruccion
             static String Instruct="";
-            static String bitnumber="";
         public static TablaSimbolos tabla= new TablaSimbolos();
   /** Main entry point. */
   public static void main(String args[]) throws ParseException {
@@ -319,27 +320,29 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
 
   static final public void BCHG_VAR(String Identi, String tipo) throws ParseException {
     int bytesOcupados=0x1;
+    bitnumber="00";
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Datos:
       RAD1 = jj_consume_token(Datos).image;
       jj_consume_token(Coma);
+                              type=1;
       BCHG_EA(bytesOcupados, Identi,tipo);
-                                                                 type=1;
       break;
     case Gato:
+   type=2;
       jj_consume_token(Gato);
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case D32:
-        jj_consume_token(D32);
-                   bytesOcupados=bytesOcupados+4;
+        bitnumber = jj_consume_token(D32).image;
+                                        bytesOcupados=bytesOcupados+4;
         break;
       case D16:
-        jj_consume_token(D16);
-                                                         bytesOcupados=bytesOcupados+2;
+        bitnumber = jj_consume_token(D16).image;
+                                                                                               bytesOcupados=bytesOcupados+2;
         break;
       case D8:
-        jj_consume_token(D8);
-                                                                                              bytesOcupados=bytesOcupados+2;
+        bitnumber = jj_consume_token(D8).image;
+                                                                                                                                                    bytesOcupados=bytesOcupados+2;
         break;
       default:
         jj_la1[10] = jj_gen;
@@ -348,7 +351,6 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       }
       jj_consume_token(Coma);
       BCHG_EA(bytesOcupados, Identi,tipo);
-                                                                                                                                                                        type=2;
       break;
     default:
       jj_la1[11] = jj_gen;
@@ -360,7 +362,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
   static final public void BCHG_EA(int bytesOcupados, String Identi, String tipo) throws ParseException {
   int registro2=0;
   int registro1=0;
-  int ext=0;
+  String ext="";
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Datos:
       RAD2 = jj_consume_token(Datos).image;
@@ -380,13 +382,13 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       case D16:
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case D16:
-          bitnumber = jj_consume_token(D16).image;
+          ext = jj_consume_token(D16).image;
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case Coma:
             jj_consume_token(Coma);
             RAD2 = jj_consume_token(Memoria).image;
             jj_consume_token(ParentesisC);
-                                                                                       bytesOcupados++;modo=5;
+                                                                                 bytesOcupados++;modo=5;
             break;
           case ParentesisC:
             jj_consume_token(ParentesisC);
@@ -394,11 +396,11 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
             switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
             case WO:
               jj_consume_token(WO);
-                                                                                                                                            bytesOcupados++;modo=7;RAD2="00";
+                                                                                                                                      bytesOcupados++;modo=7;RAD2="00";
               break;
             case LO:
               jj_consume_token(LO);
-                                                                                                                                                                                    RAD2="01";bytesOcupados=bytesOcupados+2;modo=7;
+                                                                                                                                                                              RAD2="01";bytesOcupados=bytesOcupados+2;modo=7;
               break;
             default:
               jj_la1[12] = jj_gen;
@@ -413,7 +415,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           }
           break;
         case D8:
-          bitnumber = jj_consume_token(D8).image;
+          ext = jj_consume_token(D8).image;
           jj_consume_token(Coma);
           RAD2 = jj_consume_token(Memoria).image;
           jj_consume_token(Coma);
@@ -430,7 +432,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
             throw new ParseException();
           }
           jj_consume_token(ParentesisC);
-                                                                                                                                  bytesOcupados++;modo=6;
+                                                                                                                            bytesOcupados++;modo=6;
           break;
         default:
           jj_la1[15] = jj_gen;
@@ -463,17 +465,9 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       jj_consume_token(-1);
       throw new ParseException();
     }
-      if(modo==7 || modo==6 || modo==5){
-                      ext=Integer.parseInt(bitnumber.substring(1,bitnumber.length()),16);
-                  }
-                  registro2=Integer.parseInt(RAD2.substring(1,RAD2.length()));
-                  registro1=Integer.parseInt(RAD1.substring(1,RAD1.length()));
+      System.out.println("Locura: "+ext);
+      ensamblar.BCHG2(RAD1,RAD2,type,modo,bitnumber,ext);
 
-
-        countloc=(countloc)+(bytesOcupados*2);
-        tabla.setTam(Identi, bytesOcupados*2);
-
-ensamblar.BCHG(registro1, modo,registro2,ext,type);
   }
 
 /*******************FIN*MATTA***************************/

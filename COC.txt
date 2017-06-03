@@ -2,8 +2,7 @@ PROG1	ORG	$0
 
 .CODE
 
-E16	BCHG.L	D1,($FFFF,A4)
-SBCD.B D1,D2
-E56   EOR.W     D5,($FFFF).W
+
+BCHG	#$FF,(A4)
 
 END

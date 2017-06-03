@@ -3,16 +3,17 @@ PARSER_BEGIN(ProyectoFase3)
 public class ProyectoFase3 {
         public static int countloc=0x00;
             static int LONGITUD=0;
-            static String RAD1="";
-            static String RAD2="";
-            static Ensamble ensamblar = new Ensamble();
-            static int modo=0;
-              static int EOPMODO=0;
-              static int lsir=0;
-              static String data="";
-            static int type=2;
+            static String RAD1=""; // Para DN o AN lado derecho
+            static String RAD2=""; // Para DN o AN Lado izquierdo
+            static Ensamble ensamblar = new Ensamble(); //Objeto de ensamblar
+            static int modo=0; //Cabecera modo de de instruccion
+              static int EOPMODO=0; //Cabezara OPMODE de EOR
+              static int lsir=0;  //Cabecera s/ir
+              static String data=""; // Guarda el numero de 8 16 y 32
+              static String bitnumber="";//Guarda el Numero de 8 16 y 32
+
+            static int type=0; //Tipo de orden en la instruccion
             static String Instruct="";
-            static String bitnumber="";
         public static TablaSimbolos tabla= new TablaSimbolos();
   /** Main entry point. */
   public static void main(String args[]) throws ParseException {
@@ -407,27 +408,37 @@ void BCHG(String Identi): {
 
 void BCHG_VAR(String Identi, String tipo): {
     int bytesOcupados=0x1;
+    bitnumber="00";
 
 }
 {
-    (RAD1=<Datos>.image<Coma>BCHG_EA(bytesOcupados, Identi,tipo){type=1;}
-    | <Gato>(<D32>{bytesOcupados=bytesOcupados+4;}|<D16>{bytesOcupados=bytesOcupados+2;}|<D8>{bytesOcupados=bytesOcupados+2;})<Coma>BCHG_EA(bytesOcupados, Identi,tipo){type=2;})
+    (RAD1=<Datos>.image<Coma>{type=1;}BCHG_EA(bytesOcupados, Identi,tipo)
+| {type=2;}<Gato>(bitnumber=<D32>.image{bytesOcupados=bytesOcupados+4;}|bitnumber=<D16>.image {bytesOcupados=bytesOcupados+2;}|bitnumber=<D8>.image{bytesOcupados=bytesOcupados+2;})
+        <Coma>BCHG_EA(bytesOcupados, Identi,tipo))
 }
 
 void BCHG_EA(int bytesOcupados, String Identi, String tipo): {
   int registro2=0;
   int registro1=0;
-  int ext=0;
+  String ext="";
 }
 {
     (RAD2=<Datos>.image{modo=0;} |
     <Guion><ParentesisA>RAD2=<Memoria>.image{modo=4;}<ParentesisC> |
     <ParentesisA>((
-                     (bitnumber=<D16>.image) ( <Coma>RAD2=<Memoria>.image<ParentesisC>{bytesOcupados++;modo=5;} | <ParentesisC><Punto>(<WO>{bytesOcupados++;modo=7;RAD2="00";}|<LO>{RAD2="01";bytesOcupados=bytesOcupados+2;modo=7;}) )  |
-                     (bitnumber=<D8>.image)<Coma>RAD2=<Memoria>.image<Coma>(RAD2=<Memoria>.image|RAD2=<Datos>.image)<ParentesisC>{bytesOcupados++;modo=6;}
+                     (ext=<D16>.image) ( <Coma>RAD2=<Memoria>.image<ParentesisC>{bytesOcupados++;modo=5;} | <ParentesisC><Punto>(<WO>{bytesOcupados++;modo=7;RAD2="00";}|<LO>{RAD2="01";bytesOcupados=bytesOcupados+2;modo=7;}) )  |
+                     (ext=<D8>.image)<Coma>RAD2=<Memoria>.image<Coma>(RAD2=<Memoria>.image|RAD2=<Datos>.image)<ParentesisC>{bytesOcupados++;modo=6;}
     ) | RAD2=<Memoria>.image{modo=2;}<ParentesisC>(<Mas>{modo=3;})?))
+
     {
-      if(modo==7 || modo==6 || modo==5){
+      System.out.println("Locura: "+ext);
+      ensamblar.BCHG2(RAD1,RAD2,type,modo,bitnumber,ext);
+
+      }
+
+
+    {
+    /*  if(modo==7 || modo==6 || modo==5){
                       ext=Integer.parseInt(bitnumber.substring(1,bitnumber.length()),16);
                   }
                   registro2=Integer.parseInt(RAD2.substring(1,RAD2.length()));
@@ -437,7 +448,7 @@ void BCHG_EA(int bytesOcupados, String Identi, String tipo): {
         countloc=(countloc)+(bytesOcupados*2);
         tabla.setTam(Identi, bytesOcupados*2);
 
-ensamblar.BCHG(registro1, modo,registro2,ext,type);
+ensamblar.BCHG(registro1, modo,registro2,ext,type);*/
 
     }
 }

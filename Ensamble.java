@@ -146,27 +146,6 @@ void ORG(String inicio,String Et){
 
 
 
-  void ADDI(int size, int mode, int registro,int data, int ext){
-      int a = 3 <<9;
-
-      String extH=Integer.toHexString(ext).toUpperCase();
-      String dataH=Integer.toHexString(data).toUpperCase();
-      dataH = agregarCeros(dataH, 0);
-      extH = addCerosExt(extH,mode,registro);
-
-      a |= size<<6;
-      a |= mode <<3;
-      a |= registro;
-      String com=Integer.toString(a, 16);
-         com="0"+com+dataH;
-      if(mode == 5 || mode == 6 || mode == 7)
-          com+=extH;
-
-          sumaBytes+=longitud(com);//201+10
-      S1principal+=com;
-
-       System.out.println("ensamblado ADDI:"+ com);
-  }
 
   String addCerosExt(String ext, int mode, int registro){
       int top;
@@ -216,40 +195,55 @@ void ORG(String inicio,String Et){
       return data;
   }
 
-  void ORI(int size, int mode, int registro,int data, int ext){
-      int a = size<<6;
-      a |= mode <<3;
-      a |= registro;
-
-      String extH=Integer.toHexString(ext).toUpperCase();
-      String dataH=Integer.toHexString(data).toUpperCase();
-      dataH = agregarCeros(dataH, 0);
-      extH = addCerosExt(extH,mode,registro);
 
 
-      String com=Integer.toString(a, 16);
 
-      if(size==0&&mode==0){
-          com="000"+com;
-      }
 
-      if(size==0 && mode != 0){
-          com="00"+com;
-      }
+void BCHG2(String P1,String P2, int type,int modo,String bitnumber,String ext){
 
-      if(size==1 || size==2){
-          com="00"+com;
-      }
-          com+=dataH;
-       if(mode == 5 || mode == 6 || mode == 7)
-          com+=extH;
+  if(type==1){
+      System.out.println("Opcion: "+type);
+      int RAD1=Integer.parseInt(P1.substring(1,P1.length()));
+      int RAD2=Integer.parseInt(P2.substring(1,P2.length()));
+      int NV1=Integer.parseInt(ext.substring(1,ext.length()),16);
 
-         sumaBytes+=longitud(com);//201+10
 
-      S1principal+=com;
+      System.out.println("Parte 1 "+RAD1);
+      System.out.println("Parte 2 "+RAD2);
+        System.out.println("Modo: "+modo);
+          System.out.println("Extension: "+NV1);
 
-       System.out.println("ensamblado ORI:"+ com);
   }
+  if(type==2){
+    int RAD2=Integer.parseInt(P2.substring(1,P2.length()));
+    //int NV2=Integer.parseInt(ext.substring(1,ext.length()),16);
+    //int NV1=Integer.parseInt(ext.substring(1,ext.length()),16);
+
+
+
+      System.out.println("Opcion: "+type);
+      System.out.println("Modo: "+modo);
+      System.out.println("Parte 2 "+RAD2);
+
+      System.out.println("BitNUMBER: "+bitnumber);
+      System.out.println("Extension: "+ext);
+
+
+
+
+
+  }
+
+
+  System.out.println("-------------------");
+
+
+
+
+  }
+
+
+
 
   void BCHG(int registro, int mode, int registro2, int ext, int version){
 
