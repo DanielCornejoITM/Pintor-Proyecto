@@ -335,13 +335,16 @@ void BCHG2(String P1,String P2, int type,int modo,String bitnumber,String ext){
         }
 
 }
-void EOR(int RAD1, int RAD2, int EOPMODO,int mode,int Ext){
+void EOR(int RAD1, int RAD2, int EOPMODO,int mode,int ext){
+  String extH=Integer.toHexString(ext).toUpperCase();
+  extH = addCerosExt(extH,mode,registro);
         int a=11<<12;
         a|= RAD1<<9;
         a|=EOPMODO<<6;
         a|=mode<<3;
         a|=RAD2<<0;
         String com = Integer.toString(a,16);
+        com=+com+extH;
         sumaBytes+=longitud(com);
         S1principal+=com;
         System.out.println("ensamblado EOR:"+com);
