@@ -594,7 +594,7 @@ void CMP_EA(String Identi, String tipo): {
 void LSL(String Identi): {
   String tipo="DEFAULT";
   type=0;
- 
+
 }
 {
     (<LSL>{DR=1;}(<Punto>(<BY>{tipo="B"; size=0;}|<LO>{tipo="L";size=2;}|<WO>{tipo="W"; size=1;}))?|<LSR>{DR=0;}(<Punto>(<BY>{size=0;}|<LO>{size=2;}|<WO>{size=1;}))?)LSL_VAR(Identi,tipo)
@@ -624,7 +624,7 @@ void LSL_EA(String Identi, int bytesOcupados,String tipo): {}
         tabla.setTam(Identi, bytesOcupados*2);
     }
 
-            Int RA1=0;,RA2=0,dat=0, lsi=0, tam=0, type=0,modo=0,bitnumbe=0;
+            int RA1=0;,RA2=0,dat=0, lsi=0, tam=0, type=0,modo=0,bitnumbe=0;
 
 
 
@@ -642,7 +642,7 @@ void LSL_EA(String Identi, int bytesOcupados,String tipo): {}
 
                     }
                     else {  dat=Integer.parseInt(data);}
-             
+
 
         }
 
@@ -660,7 +660,7 @@ void LSL_EA(String Identi, int bytesOcupados,String tipo): {}
 
                     }
                     else {  bitnumbe=Integer.parseInt(bitnumber);}
-              
+
               RA1=Integer.parseInt(RAD1.substring(1));
 
             }
@@ -668,7 +668,7 @@ void LSL_EA(String Identi, int bytesOcupados,String tipo): {}
           if(type==1){
             RA1=Integer.parseInt(RAD1.substring(1));
             RA2=Integer.parseInt(RAD2.substring(1));
-          }  
+          }
       if(DR==0){
 
         ensamblar.LSR(RAD1,RAD2,data, lsir, tam, type,modo,bitnumber);
