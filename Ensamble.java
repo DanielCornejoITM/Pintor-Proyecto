@@ -17,7 +17,6 @@ void bandera(){
         banderacode=true;
         Imprimir2S1();
 }
-
 void DWLB(int opcion,int datatipo, int valor){
         String Cadena="";
         int modulo=0;
@@ -57,12 +56,12 @@ void DWLB(int opcion,int datatipo, int valor){
                         break;
 
                 case 2:  //Word
-                        /* if(com.length()==4){Cadena+=com;}
-                           else{
-                           for(int x=com.length();x<4;x++){
-                             Cadena+="0";
-                           }
-                           }*/
+                         /* if(com.length()==4){Cadena+=com;}
+                            else{
+                            for(int x=com.length();x<4;x++){
+                              Cadena+="0";
+                            }
+                            }*/
 
                         modulo=com.length()%4;
                         if(modulo!=0) {
@@ -102,7 +101,6 @@ void DWLB(int opcion,int datatipo, int valor){
         S1principal+=Cadena;
 
 }
-
 void ORG(String inicio,String Et){
         String start="0000";
         switch(inicio.length()) {
@@ -149,10 +147,6 @@ void ORG(String inicio,String Et){
 
 
 }
-
-
-
-
 String addCerosExt(String ext, int mode, int registro){
         int top;
         if (mode == 5 || (mode == 7 && (registro == 0 || registro == 2))) { // Word 16 bits
@@ -200,7 +194,6 @@ String agregarCeros(String data, int band){
         }
         return data;
 }
-
 void Imprimir2S1(){
 
         System.out.print("S1");
@@ -281,10 +274,6 @@ public static int hex2decimal(String s) {
         }
         return val;
 }
-
-
-
-
 int longitud(String ensamblado){
 
         int par=0;
@@ -346,11 +335,6 @@ void BCHG2(String P1,String P2, int type,int modo,String bitnumber,String ext){
         }
 
 }
-
-
-
-
-
 void EOR(int RAD1, int RAD2, int EOPMODO,int mode,int Ext){
         int a=11<<12;
         a|= RAD1<<9;
@@ -362,7 +346,6 @@ void EOR(int RAD1, int RAD2, int EOPMODO,int mode,int Ext){
         S1principal+=com;
         System.out.println("ensamblado EOR:"+com);
 }
-
 void SBCD(int RAD1, int RAD2,int rm){
         int a=8<<12;
         a|=RAD2<<9;
@@ -370,13 +353,11 @@ void SBCD(int RAD1, int RAD2,int rm){
         a|=rm<<3;
         a|=RAD1<<0;
         String com = Integer.toString(a,16);
-
         sumaBytes+=longitud(com);
         S1principal+=com;
         System.out.println("ensamblado SBCD:"+com);
 
 }
-
 void LSL(int registro, int registro2, int ext, int ir, int size, int version, int mode,int data){
 
         String extH=Integer.toHexString(ext).toUpperCase();
@@ -427,7 +408,6 @@ void LSL(int registro, int registro2, int ext, int ir, int size, int version, in
                 S1principal+=com;
         }
 }
-
 void LSR(int registro, int registro2, int ext, int ir, int size, int version, int mode,int data){
 
         String extH=Integer.toHexString(ext).toUpperCase();

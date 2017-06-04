@@ -1,596 +1,604 @@
 PARSER_BEGIN(ProyectoFase3)
 /** Simple brace matcher. */
 public class ProyectoFase3 {
-        public static int countloc=0x00;
-            static int LONGITUD=0;
-            static String RAD1=""; // Para DN o AN lado derecho
-            static String RAD2=""; // Para DN o AN Lado izquierdo
-            static Ensamble ensamblar = new Ensamble(); //Objeto de ensamblar
-            static int modo=0; //Cabecera modo de de instruccion
-              static int EOPMODO=0; //Cabezara OPMODE de EOR
-              static int lsir=0;  //Cabecera s/ir
-              static String data=""; // Guarda el numero de 8 16 y 32
-              static String bitnumber="";//Guarda el Numero de 8 16 y 32
-               static int DR=0; //saber si es left o right
-              static int size=0; // saber si es .w .b .l
-            static int type=0; //Tipo de orden en la instruccion
-            static String Instruct="";
-        public static TablaSimbolos tabla= new TablaSimbolos();
-  /** Main entry point. */
-  public static void main(String args[]) throws ParseException {
-    ProyectoFase3 parser = new ProyectoFase3(System.in);
-    parser.Estructura();
-    System.out.println("Analisis Finalizado:");
-  }
+public static int countloc=0x00;
+static int LONGITUD=0;
+static String RAD1="";             // Para DN o AN lado derecho
+static String RAD2="";             // Para DN o AN Lado izquierdo
+static Ensamble ensamblar = new Ensamble();             //Objeto de ensamblar
+static int modo=0;             //Cabecera modo de de instruccion
+static int EOPMODO=0;               //Cabezara OPMODE de EOR
+static int lsir=0;                //Cabecera s/ir
+static String data="";               // Guarda el numero de 8 16 y 32
+static String bitnumber="";              //Guarda el Numero de 8 16 y 32
+static int DR=0;                //saber si es left o right
+static int size=0;               // saber si es .w .b .l
+static int type=0;             //Tipo de orden en la instruccion
+static String Instruct="";
+public static TablaSimbolos tabla= new TablaSimbolos();
+/** Main entry point. */
+public static void main(String args[]) throws ParseException {
+        ProyectoFase3 parser = new ProyectoFase3(System.in);
+        parser.Estructura();
+        System.out.println("Analisis Finalizado:");
+}
 }
 PARSER_END(ProyectoFase3)
 /*Elementos a ignorar*/
-SKIP :
+SKIP:
 {
-  " " | "\t" | "\n" | "\r"
+        " " | "\t" | "\n" | "\r"
 }
 /*Seccion de tokens*/
-TOKEN :
+TOKEN:
 {
-     /*ATRIBUTOS*/
-    <BY: "B"> |
-    <WO: "W"> |
-    <LO: "L"> |
+        /*ATRIBUTOS*/
+        <BY : "B"> |
+        <WO : "W"> |
+        <LO : "L"> |
 
-    /*LITERALES NUMERICAS*/
-        <D8: (<D8D>|<D8H>|<D8O>|<D8B>)>|//reconoce los D8
-      <D8B: "B"(<DIG_BINARIO>){1,8}>|//Reconoce números binarios de hasta 8 bits
-      <D8D: (<DIG>|("1"(<DIG>){1,2})
-                 |("2"["0"-"4"]<DIG>)
-                 |("25"["0"-"5"]))>|//Reconoce números decimales de hasta 8 bits
-      <D8H: "$"(<DIG_HEXA>){1,2}>|//Reconoce números hexadecimales de hasta 8 bits
-      <H8: "$"(<DIG_HEXA>){1,2}>|//Reconoce de 1 a 2 digitos en hexadecimal
-      <D8O: "0"((["1"-"3"])?(<DIG_OCTAL>){1,2})>|//Reconoce números octales de hasta 8 bits
+        /*LITERALES NUMERICAS*/
+        <D8 : (<D8D>|<D8H>|<D8O>|<D8B>)>| //reconoce los D8
+        <D8B : "B" (<DIG_BINARIO>){1,8}>| //Reconoce números binarios de hasta 8 bits
+        <D8D : (<DIG>|("1" (<DIG>){1,2})
+                |("2"["0"-"4"]<DIG>)
+                |("25"["0"-"5"]))>| //Reconoce números decimales de hasta 8 bits
+        <D8H : "$" (<DIG_HEXA>){1,2}>| //Reconoce números hexadecimales de hasta 8 bits
+        <H8 : "$" (<DIG_HEXA>){1,2}>| //Reconoce de 1 a 2 digitos en hexadecimal
+        <D8O : "0" ((["1"-"3"]) ? (<DIG_OCTAL>){1,2})>| //Reconoce números octales de hasta 8 bits
 
-      //d16
-      <D16: (<D16D>|<D16H>|<D16O>|<D16B>)>|//reconoce los D16
-      <D16B: "B"(<DIG_BINARIO>){1,16}>|//Reconoce números binarios de hasta 16 bits
-      <D16D: (<DIG>
-             |(["1"-"5"](<DIG>){1,4})
-             |("6"["0"-"4"](<DIG>){1,3})
-             |("65"["0"-"4"](<DIG>){1,2})
-             |("655"["0"-"2"]<DIG>)
-             |("6553"["0"-"6"])
-             )>|//Reconoce números decimales de hasta 16 bits
-      <D16O: "0"(("1")?(<DIG_OCTAL>){1,5})>|//Reconoce números octales de hasta 16 bits
-      <D16H: "$"(<DIG_HEXA>){1,4}>|//Reconoce números hexadecimales de hasta 16 bits
-      <H16: "$"(<DIG_HEXA>){1,4}>|//Reconoce de 1 a 4 digitos en hexadecimal
-      //d32
-      <D32: (<D32D>|<D32H>|<D32O>|<D32B>)>|//reconoce los D32
-      <D32B: "B"(<DIG_BINARIO>){1,32}>|//Reconoce números binarios de hasta 32 bits
-      <D32D: (<DIG>
-             |(["1"-"3"](<DIG>){1,9})
-             |("4"["0"-"1"](<DIG>){1,8})
-             |("42"["0"-"8"](<DIG>){1,7})
-             |("429"["0"-"3"](<DIG>){1,6})
-             |("4294"["0"-"8"](<DIG>){1,5})
-             |("42949"["0"-"5"](<DIG>){1,4})
-             |("429496"["0"-"6"](<DIG>){1,3})
-             |("4294967"["0"-"1"](<DIG>){1,2})
-             |("42949672"["0"-"8"]<DIG>)
-             |("429496729"["0"-"5"])
-             )>|//Reconoce números decimales de hasta 32 bits
-      <D32O: "0"((["1"-"3"])?(<DIG_OCTAL>){1,10})>|//Reconoce números octales de hasta 32 bits
-      <D32H: "$"(<DIG_HEXA>){1,8}>|//Reconoce números hexadecimales de hasta 32 bits
+        //d16
+        <D16 : (<D16D>|<D16H>|<D16O>|<D16B>)>| //reconoce los D16
+        <D16B : "B" (<DIG_BINARIO>){1,16}>| //Reconoce números binarios de hasta 16 bits
+        <D16D : (<DIG>
+                 |(["1"-"5"](<DIG>){1,4})
+                 |("6"["0"-"4"](<DIG>){1,3})
+                 |("65"["0"-"4"](<DIG>){1,2})
+                 |("655"["0"-"2"]<DIG>)
+                 |("6553"["0"-"6"])
+                 )>| //Reconoce números decimales de hasta 16 bits
+        <D16O : "0" (("1") ? (<DIG_OCTAL>){1,5})>| //Reconoce números octales de hasta 16 bits
+        <D16H : "$" (<DIG_HEXA>){1,4}>| //Reconoce números hexadecimales de hasta 16 bits
+        <H16 : "$" (<DIG_HEXA>){1,4}>| //Reconoce de 1 a 4 digitos en hexadecimal
+        //d32
+        <D32 : (<D32D>|<D32H>|<D32O>|<D32B>)>| //reconoce los D32
+        <D32B : "B" (<DIG_BINARIO>){1,32}>| //Reconoce números binarios de hasta 32 bits
+        <D32D : (<DIG>
+                 |(["1"-"3"](<DIG>){1,9})
+                 |("4"["0"-"1"](<DIG>){1,8})
+                 |("42"["0"-"8"](<DIG>){1,7})
+                 |("429"["0"-"3"](<DIG>){1,6})
+                 |("4294"["0"-"8"](<DIG>){1,5})
+                 |("42949"["0"-"5"](<DIG>){1,4})
+                 |("429496"["0"-"6"](<DIG>){1,3})
+                 |("4294967"["0"-"1"](<DIG>){1,2})
+                 |("42949672"["0"-"8"]<DIG>)
+                 |("429496729"["0"-"5"])
+                 )>| //Reconoce números decimales de hasta 32 bits
+        <D32O : "0" ((["1"-"3"]) ? (<DIG_OCTAL>){1,10})>| //Reconoce números octales de hasta 32 bits
+        <D32H : "$" (<DIG_HEXA>){1,8}>| //Reconoce números hexadecimales de hasta 32 bits
 
-      <DIG: ["0"-"9"]> |//Reconoce un digito del 0 al 9
-      <NUM_DECIMAL: (["1"-"9"](<DIG>)*)>|
-      <DIG_BINARIO: "0"|"1">|//token para un digito binario
-      <DIG_HEXA: (["A"-"F"]|["a"-"f"]|<DIG>)>|//token para un digito hexadecimal
-      <DIG_OCTAL: ["0"-"7"]>|//token para un digito octal
+        <DIG : ["0"-"9"]> | //Reconoce un digito del 0 al 9
+        <NUM_DECIMAL : (["1"-"9"](<DIG>)*)>|
+        <DIG_BINARIO : "0"|"1">| //token para un digito binario
+        <DIG_HEXA : (["A"-"F"]|["a"-"f"]|<DIG>)>| //token para un digito hexadecimal
+        <DIG_OCTAL : ["0"-"7"]>| //token para un digito octal
 
 
-   /*SIMBOLOS ESPECIALES*/
-    <Mas: "+">|
-    <Guion: "-"> |
-    <Diagonal: "/"> |
-    <Asterisco: "*"> |
-    <ParentesisA: "("> |
-    <ParentesisC: ")"> |
-    <CorcheteA: "["> |
-    <CorcheteC: "]"> |
-    <LlaveA: "{"> |
-    <LlaveC: "}"> |
-    <DosPuntos: ":"> |
-    <PuntoComa: ";"> |
-    <Punto: "."> |
-    <Coma: ","> |
-    <Apersant: "&"> |
-    <Linea: "|"> |
-    <Admiracion: "!"> |
-    <Pesos: "$"> |
-    <Porcentaje: "%"> |
-    <Gato: "#"> |
-    /*COMENTARIOS*/
-    <Comentario: "//"(~["\n"])+> |
-    /*DIRECTIVAS*/
-    <CODE: "CODE"> |
-    <ORG: "ORG"> |
-    <DDATA: "DDATA"> |
-    <BYTE: "BYTE"> |
-    <WORD: "WORD"> |
-    <LONG: "LONG"> |
-    <EXT: "EXT"> |
-    <DEF: "DEF"> |
-    <EQU: "EQU"> |
-    <END: "END"> |
-   /*REGISTROS*/
-    <Datos: "D"["0"-"7"]> |
-    <Memoria: "A"["0"-"7"]> |
-    <PC: "PC"> |
-    <SR: "SR"> |
-    <CCR: "CCR"> |
-    <SP: "SP"> |
-    /*MNEMOTECNICOS TABLA 3.2 (15 INSTRUCCIONES)*/
-    <EXG: "EXG">  |
-    <FMOVE: "FMOVE">  |
-    <FSMOVE: "FSMOVE">  |
-    <FDMOVE: "FDMOVE"> |
-    <FMOVEM: "FMOVEM">  |
-    <LEA: "LEA"> |
-    <LINK: "LINK"> |
-    <MOVE: "MOVE">  |
-    <MOVE16: "MOVE16"> |
-    <MOVEA: "MOVEA"> |
-    <MOVEM: "MOVEM"> |
-    <MOVEP: "MOVEP">  |
-    <MOVEQ: "MOVEQ"> |
-    <PEA: "PEA"> |
-    <UNLK: "UNLK">  |
-    /*MNEMOTECNICOS TABLA 3.3 (26 INSTRUCCIONES)*/
-    <ADD: "ADD">  |
-    <ADDA: "ADDA">  |
-    <ADDI: "ADDI">  |
-    <ADDQ: "ADDQ">  |
-    <ADDX: "ADDX"> |
-    <CLR: "CLR">  |
-    <CMP: "CMP"> |
-    <CMPA: "CMPA">  |
-    <CMPI: "CMPI"> |
-    <CMPM: "CMPM">  |
-    <CMP2: "CMP2"> |
-    <DIVS: "DIVS">  |
-    <DIVU: "DIVU">  |
-    <DIVSL: "DIVSL">  |
-    <DIVUL: "DIVUL">  |
-    <EXTB: "EXTB">  |
-    <MULS: "MULS">  |
-    <MULU: "MULU">  |
-    <NEG: "NEG">  |
-    <NEGX: "NEGX">  |
-    <SUB: "SUB">  |
-    <SUBA: "SUBA"> |
-    <SUBI: "SUBI"> |
-    <SUBQ: "SUBQ"> |
-    <SUBX: "SUBX"> |
-    /*MNEMOTECNICOS TABLA 3.4 (7 INSTRUCCIONES)*/
-    <AND: "AND">  |
-    <ANDI: "ANDI">  |
-    <EOR: "EOR">  |
-    <EORI: "EORI">  |
-    <NOT: "NOT">  |
-    <OR: "OR">  |
-    <ORI: "ORI">  |
-    /*MNEMOTECNICOS TABLA 3.5 (9 INSTRUCCIONES)*/
-    <ASL: "ASL">  |
-    <ASR: "ASR">  |
-    <LSL: "LSL">  |
-    <LSR: "LSR">  |
-    <ROL: "ROL">  |
-    <ROR: "ROR">  |
-    <ROXL: "ROXL">  |
-    <ROXR: "ROXR">  |
-    <SWAP: "SWAP">  |
-    /*MNEMOTECNICOS TABLA 3.6 (4 INSTRUCCIONES)*/
-    <BCHG: "BCHG"> |
-    <BCLR: "BCLR"> |
-    <BSET: "BSET"> |
-    <BTST: "BTST"> |
-    /*MNEMOTECNICOS TABLA 3.7 (8 INSTRUCCIONES)*/
-    <BFCHG: "BFCHG">  |
-    <BFCLR: "BFCLR">  |
-    <BFEXTS: "BFEXTS">  |
-    <BFEXTU: "BFEXTU">  |
-    <BFFFO: "BFFFO">  |
-    <BFINS: "BFINS">  |
-    <BFSET: "BFSET">  |
-    <BFTST: "BFTST">  |
-    /*MNEMOTECNICOS TABLA 3.8*/
-    <ABCD: "ABCD">  |
-    <NBCD: "NBCD">  |
-    <PACK: "PACK">  |
-    <SBCD: "SBCD">  |
-    <UNPK: "UNPK">  |
-    /*MNEMOTECNICOS TABLA 3.9 (17 INSTRUCCIONES)*/
-    <Bcc: "Bcc"> |
-    <FBcc: "FBcc"> |
-    <DBcc: "DBcc"> |
-    <FDBcc: "FDBcc"> |
-    <Scc: "Scc"> |
-    <FScc: "FScc" >|
-    <BRA: "BRA"> |
-    <BSR: "BSR"> |
-    <JMP: "JMP"> |
-    <JSR: "JSR"> |
-    <NOP:"NOP"> |
-    <FNOP: "FNOP">  |
-    <RTD: "RTD">  |
-    <RTR: "RTR">  |
-    <RTS: "RTS">  |
-    <TST: "TST">  |
-    <FTST: "FTST">  |
-    /*MNEMOTECNICOS TABLA 3.10*/
-    <FRESTORE: "FRESTORE">  |
-  <FSAVE: "FSAVE">  |
-  <MOVEC: "MOVEC">  |
-  <MOVES: "MOVES">  |
-  <RESET: "RESET">  |
-  <RTE: "RTE">  |
-  <STOP: "STOP">  |
-  <BKTP: "BKTP">  |
-  <CHK: "CHK">  |
-  <CHK2: "CHK2">  |
-  <ILEGAL: "ILEGAL">  |
-  <TRAP: "TRAP">  |
-  <TRAPcc: "TRAPcc">  |
-  <FTRAPcc: "FTRAPcc">  |
-  <TRAPV: "TRAPV">  |
-    /*CONDICIONALES*/
-    <CC: "CC">  |
-    <LS:"LS">   |
-    <CS: "CS">  |
-    <LT: "LT">  |
-    <EQ: "EQ">  |
-    <MI: "MI">  |
-    <NE: "NE">  |
-    <GE: "GE">  |
-    <PL: "PL">  |
-    <GT: "GT">  |
-    <T: "T">  |
-    <HI: "HI">  |
-    <VC: "VC">  |
-    <LE: "LE">  |
-    <VS: "VS">  |
-    /*IDENTIFICADORES*/
-    <Identificador: <LETRA>(<LETRA> | <DIG>){0,7}>  |
-    <LETRA: (["a"-"z"]|["A"-"Z"])>|
-    <CADENA: <LETRA>(<LETRA>|<DIG>)+>
+        /*SIMBOLOS ESPECIALES*/
+        <Mas : "+">|
+        <Guion : "-"> |
+        <Diagonal : "/"> |
+        <Asterisco : "*"> |
+        <ParentesisA : "("> |
+        <ParentesisC : ")"> |
+        <CorcheteA : "["> |
+        <CorcheteC : "]"> |
+        <LlaveA : "{"> |
+        <LlaveC : "}"> |
+        <DosPuntos : ":"> |
+        <PuntoComa : ";"> |
+        <Punto : "."> |
+        <Coma : ","> |
+        <Apersant : "&"> |
+        <Linea : "|"> |
+        <Admiracion : "!"> |
+        <Pesos : "$"> |
+        <Porcentaje : "%"> |
+        <Gato : "#"> |
+        /*COMENTARIOS*/
+        <Comentario : "//" (~["\n"])+> |
+        /*DIRECTIVAS*/
+        <CODE : "CODE"> |
+        <ORG : "ORG"> |
+        <DDATA : "DDATA"> |
+        <BYTE : "BYTE"> |
+        <WORD : "WORD"> |
+        <LONG : "LONG"> |
+        <EXT : "EXT"> |
+        <DEF : "DEF"> |
+        <EQU : "EQU"> |
+        <END : "END"> |
+        /*REGISTROS*/
+        <Datos : "D"["0"-"7"]> |
+        <Memoria : "A"["0"-"7"]> |
+        <PC : "PC"> |
+        <SR : "SR"> |
+        <CCR : "CCR"> |
+        <SP : "SP"> |
+        /*MNEMOTECNICOS TABLA 3.2 (15 INSTRUCCIONES)*/
+        <EXG : "EXG">  |
+        <FMOVE : "FMOVE">  |
+        <FSMOVE : "FSMOVE">  |
+        <FDMOVE : "FDMOVE"> |
+        <FMOVEM : "FMOVEM">  |
+        <LEA : "LEA"> |
+        <LINK : "LINK"> |
+        <MOVE : "MOVE">  |
+        <MOVE16 : "MOVE16"> |
+        <MOVEA : "MOVEA"> |
+        <MOVEM : "MOVEM"> |
+        <MOVEP : "MOVEP">  |
+        <MOVEQ : "MOVEQ"> |
+        <PEA : "PEA"> |
+        <UNLK : "UNLK">  |
+        /*MNEMOTECNICOS TABLA 3.3 (26 INSTRUCCIONES)*/
+        <ADD : "ADD">  |
+        <ADDA : "ADDA">  |
+        <ADDI : "ADDI">  |
+        <ADDQ : "ADDQ">  |
+        <ADDX : "ADDX"> |
+        <CLR : "CLR">  |
+        <CMP : "CMP"> |
+        <CMPA : "CMPA">  |
+        <CMPI : "CMPI"> |
+        <CMPM : "CMPM">  |
+        <CMP2 : "CMP2"> |
+        <DIVS : "DIVS">  |
+        <DIVU : "DIVU">  |
+        <DIVSL : "DIVSL">  |
+        <DIVUL : "DIVUL">  |
+        <EXTB : "EXTB">  |
+        <MULS : "MULS">  |
+        <MULU : "MULU">  |
+        <NEG : "NEG">  |
+        <NEGX : "NEGX">  |
+        <SUB : "SUB">  |
+        <SUBA : "SUBA"> |
+        <SUBI : "SUBI"> |
+        <SUBQ : "SUBQ"> |
+        <SUBX : "SUBX"> |
+        /*MNEMOTECNICOS TABLA 3.4 (7 INSTRUCCIONES)*/
+        <AND : "AND">  |
+        <ANDI : "ANDI">  |
+        <EOR : "EOR">  |
+        <EORI : "EORI">  |
+        <NOT : "NOT">  |
+        <OR : "OR">  |
+        <ORI : "ORI">  |
+        /*MNEMOTECNICOS TABLA 3.5 (9 INSTRUCCIONES)*/
+        <ASL : "ASL">  |
+        <ASR : "ASR">  |
+        <LSL : "LSL">  |
+        <LSR : "LSR">  |
+        <ROL : "ROL">  |
+        <ROR : "ROR">  |
+        <ROXL : "ROXL">  |
+        <ROXR : "ROXR">  |
+        <SWAP : "SWAP">  |
+        /*MNEMOTECNICOS TABLA 3.6 (4 INSTRUCCIONES)*/
+        <BCHG : "BCHG"> |
+        <BCLR : "BCLR"> |
+        <BSET : "BSET"> |
+        <BTST : "BTST"> |
+        /*MNEMOTECNICOS TABLA 3.7 (8 INSTRUCCIONES)*/
+        <BFCHG : "BFCHG">  |
+        <BFCLR : "BFCLR">  |
+        <BFEXTS : "BFEXTS">  |
+        <BFEXTU : "BFEXTU">  |
+        <BFFFO : "BFFFO">  |
+        <BFINS : "BFINS">  |
+        <BFSET : "BFSET">  |
+        <BFTST : "BFTST">  |
+        /*MNEMOTECNICOS TABLA 3.8*/
+        <ABCD : "ABCD">  |
+        <NBCD : "NBCD">  |
+        <PACK : "PACK">  |
+        <SBCD : "SBCD">  |
+        <UNPK : "UNPK">  |
+        /*MNEMOTECNICOS TABLA 3.9 (17 INSTRUCCIONES)*/
+        <Bcc : "Bcc"> |
+        <FBcc : "FBcc"> |
+        <DBcc : "DBcc"> |
+        <FDBcc : "FDBcc"> |
+        <Scc : "Scc"> |
+        <FScc : "FScc" >|
+        <BRA : "BRA"> |
+        <BSR : "BSR"> |
+        <JMP : "JMP"> |
+        <JSR : "JSR"> |
+        <NOP : "NOP"> |
+        <FNOP : "FNOP">  |
+        <RTD : "RTD">  |
+        <RTR : "RTR">  |
+        <RTS : "RTS">  |
+        <TST : "TST">  |
+        <FTST : "FTST">  |
+        /*MNEMOTECNICOS TABLA 3.10*/
+        <FRESTORE : "FRESTORE">  |
+        <FSAVE : "FSAVE">  |
+        <MOVEC : "MOVEC">  |
+        <MOVES : "MOVES">  |
+        <RESET : "RESET">  |
+        <RTE : "RTE">  |
+        <STOP : "STOP">  |
+        <BKTP : "BKTP">  |
+        <CHK : "CHK">  |
+        <CHK2 : "CHK2">  |
+        <ILEGAL : "ILEGAL">  |
+        <TRAP : "TRAP">  |
+        <TRAPcc : "TRAPcc">  |
+        <FTRAPcc : "FTRAPcc">  |
+        <TRAPV : "TRAPV">  |
+        /*CONDICIONALES*/
+        <CC : "CC">  |
+        <LS : "LS">   |
+        <CS : "CS">  |
+        <LT : "LT">  |
+        <EQ : "EQ">  |
+        <MI : "MI">  |
+        <NE : "NE">  |
+        <GE : "GE">  |
+        <PL : "PL">  |
+        <GT : "GT">  |
+        <T : "T">  |
+        <HI : "HI">  |
+        <VC : "VC">  |
+        <LE : "LE">  |
+        <VS : "VS">  |
+        /*IDENTIFICADORES*/
+        <Identificador : <LETRA>(<LETRA> | <DIG>){0,7}>  |
+        <LETRA : (["a"-"z"]|["A"-"Z"])>|
+        <CADENA : <LETRA>(<LETRA>|<DIG>)+>
 
 }
 /*METODOS PARA ESTRUCTURA DEL PROGRAMA*/
 
 
-void Estructura(): {
-  String Inicio="",Etiqueta="";
+void Estructura() : {
+        String Inicio="",Etiqueta="";
 }
 {
-{System.out.println("Analsisi Inicializado");}
-    Etiqueta=<Identificador>.image
-    <ORG>
+        {System.out.println("Analsisi Inicializado"); }
+        Etiqueta=<Identificador>.image
+                  <ORG>
 
-    (Inicio=<D32>.image|Inicio=<D16>.image|Inicio=<D8>.image){
-        Inicio=Inicio.substring(1);
-    ensamblar.ORG(Inicio,Etiqueta);}
+                          (Inicio=<D32>.image|Inicio=<D16>.image|Inicio=<D8>.image){
+                Inicio=Inicio.substring(1);
+                ensamblar.ORG(Inicio,Etiqueta);
+        }
 
-    Directivas_Est()Instrucciones_Est()<END><EOF>
+        Directivas_Est() Instrucciones_Est()<END><EOF>
 }
 
-void Directivas_Est(): {
-    Token id;
-}
-{
-    (id=<Identificador>Directivas(id))*
-}
-
-void Instrucciones_Est(): {
-    Token id;
-    String Identi="";
+void Directivas_Est() : {
+        Token id;
 }
 {
-
-    <Punto><CODE>((id=<Identificador>{
-      ensamblar.bandera();
-                        if(!tabla.existe(id.image)){
-                            tabla.insertar(id.image, countloc, "DIR");
-                            Identi=id.image;
-                        }
-                        else{
-                            System.out.println("Error! el ID \""+id.image+"\" ya existe!");
-                            java.lang.System.exit(1);
-                        }
-                    }
-    )?Instrucciones(Identi))+
+        (id=<Identificador>Directivas(id))*
 }
 
-void Instrucciones(String Identi): {}
+void Instrucciones_Est() : {
+        Token id;
+        String Identi="";
+}
 {
-    (BCHG(Identi)|PACK(Identi)|ADD_METODO(Identi)|JMP_Metodo(Identi)|SBCD(Identi)|CMP(Identi)|LSL(Identi)|EOR(Identi))
+
+        <Punto><CODE>((id=<Identificador>{
+                               ensamblar.bandera();
+                               if(!tabla.existe(id.image)) {
+                                       tabla.insertar(id.image, countloc, "DIR");
+                                       Identi=id.image;
+                               }
+                               else{
+                                       System.out.println("Error! el ID \""+id.image+"\" ya existe!");
+                                       java.lang.System.exit(1);
+                               }
+                       }
+                       ) ? Instrucciones(Identi))+
+}
+
+void Instrucciones(String Identi) : {
+}
+{
+        (BCHG(Identi)|PACK(Identi)|ADD_METODO(Identi)|JMP_Metodo(Identi)|SBCD(Identi)|CMP(Identi)|LSL(Identi)|EOR(Identi))
 }
 /*FIN METODOS PARA ESTRUCTURA DEL PROGRAMA*/
 
 /*METODOS PARA CREAR LAS DIRECTIVAS*/
-void Directivas(Token id) : {}
-{
-    ((DDATA(id)|BWLEDE(id)))
-}
-
-void DDATA(Token id): {
- int multi=1;
- String Identi= id.image;
- int bytesOcupados=0;
- String TipoDato="DB";
- Token v;
+void Directivas(Token id) : {
 }
 {
-    <DDATA>{
-      int tipo2=Tamanio();
-      v=Valor();
+        ((DDATA(id)|BWLEDE(id)))
+}
 
-      String tipo=v.image;
-      int pasarval= Integer.parseInt(tipo.substring(1,tipo.length()),16);  //Agregado
+void DDATA(Token id) : {
+        int multi=1;
+        String Identi= id.image;
+        int bytesOcupados=0;
+        String TipoDato="DB";
+        Token v;
+}
+{
+        <DDATA>{
+                int tipo2=Tamanio();
+                v=Valor();
 
-      ensamblar.DWLB(4,tipo2,pasarval);
+                String tipo=v.image;
+                int pasarval= Integer.parseInt(tipo.substring(1,tipo.length()),16); //Agregado
 
-      tipo=tipo.substring(0,1);
-      int longitud=0;
-      if (tipo=="$"|tipo=="B"|tipo=="0")
-      longitud=v.image.length()-2;
-      else
-      longitud=v.image.length()-1;
-      int total=0;
+                ensamblar.DWLB(4,tipo2,pasarval);
+
+                tipo=tipo.substring(0,1);
+                int longitud=0;
+                if (tipo=="$"|tipo=="B"|tipo=="0")
+                        longitud=v.image.length()-2;
+                else
+                        longitud=v.image.length()-1;
+                int total=0;
 
 
-        switch(tipo2){
-            case 1://DDATA.B
-             total=longitud/2;
-             total += (longitud % 2 == 0)? 0:1;
-                break;
-            case 2://DDATA.W
-            total=longitud/4;
-            total += (longitud % 4 == 0)? 0:1;
-            total *=2;
-            TipoDato="DW";
+                switch(tipo2) {
+                case 1 : //DDATA.B
+                        total=longitud/2;
+                        total += (longitud % 2 == 0) ? 0 : 1;
+                        break;
+                case 2 : //DDATA.W
+                        total=longitud/4;
+                        total += (longitud % 4 == 0) ? 0 : 1;
+                        total *=2;
+                        TipoDato="DW";
 
-                break;
-            case 3://DDATA.L
-              total=longitud/8;
-              total += (longitud % 8 == 0)? 0:1;
-              total *=4;
+                        break;
+                case 3 : //DDATA.L
+                        total=longitud/8;
+                        total += (longitud % 8 == 0) ? 0 : 1;
+                        total *=4;
 
-            TipoDato="DL";
-                break;
-        }
+                        TipoDato="DL";
+                        break;
+                }
 
-        countloc+=total;
+                countloc+=total;
 
-            if (!tabla.existe(Identi)) {
-                tabla.insertar(Identi,countloc,TipoDato);
-            }
-            else{
-                System.out.println("Error el ID \""+Identi+"\"Ya se encuentra");
-                java.lang.System.exit(0);
-            }
+                if (!tabla.existe(Identi)) {
+                        tabla.insertar(Identi,countloc,TipoDato);
+                }
+                else{
+                        System.out.println("Error el ID \""+Identi+"\"Ya se encuentra");
+                        java.lang.System.exit(0);
+                }
                 tabla.setTam(Identi, total);
 
-    }
+        }
 }
 
-void BWLEDE(Token id): {
-    String Identi=id.image;
-    int bytes=0;
-    int val=0;
-    int aux;
-    Token v;
+void BWLEDE(Token id) : {
+        String Identi=id.image;
+        int bytes=0;
+        int val=0;
+        int aux;
+        Token v;
 }
 {
-  (<BYTE>{val=1;}|<WORD>{val=2;}|<LONG>{val=3;}|<EQU>|<EXT>|<DEF>) v=Valor()
-  {
-     String p=v.image;
-     int pasarval= Integer.parseInt(p.substring(1,p.length()),16);  //Agregado
-    ensamblar.DWLB(val,val,pasarval);
-     if (val!=0){CONTADORBW(Identi,val,v);} }
+        (<BYTE>{val=1; }|<WORD>{val=2; }|<LONG>{val=3; }|<EQU>|<EXT>|<DEF>)v=Valor()
+        {
+                String p=v.image;
+                int pasarval= Integer.parseInt(p.substring(1,p.length()),16); //Agregado
+                ensamblar.DWLB(val,val,pasarval);
+                if (val!=0) {CONTADORBW(Identi,val,v); }
+        }
 }
 /*FIN METODOS PARA CREAR LAS DIRECTIVAS*/
 
 /*METODOS INSTRUCCION PACK Y MOVEC*/
 /*********************MATTA***************************/
-void PACK(String Identi): {
-    int bytesOcupados=0x1;
+void PACK(String Identi) : {
+        int bytesOcupados=0x1;
 
 }
 {
-    (<PACK>((PACK_RM()<Coma>PACK_RM())|(<Datos><Coma><Datos>))){
-        countloc=(countloc)+(bytesOcupados*2);
-        tabla.setTam(Identi, bytesOcupados*2);
-    }
+        (<PACK>((PACK_RM()<Coma>PACK_RM())|(<Datos><Coma><Datos>))){
+                countloc=(countloc)+(bytesOcupados*2);
+                tabla.setTam(Identi, bytesOcupados*2);
+        }
 
 }
 
-void PACK_RM(): {}
-{
-    <Guion><ParentesisA><Memoria><ParentesisC>
-}
-
-void BCHG(String Identi): {
-  String tipo="Default";
+void PACK_RM() : {
 }
 {
-    <BCHG>(<Punto>(<LO>{tipo="L";}|<BY>{tipo="B";}))?BCHG_VAR(Identi,tipo)
+        <Guion><ParentesisA><Memoria><ParentesisC>
 }
 
-void BCHG_VAR(String Identi, String tipo): {
-    int bytesOcupados=0x1;
-    bitnumber="00";
+void BCHG(String Identi) : {
+        String tipo="Default";
+}
+{
+        <BCHG>(<Punto>(<LO>{tipo="L"; }|<BY>{tipo="B"; })) ? BCHG_VAR(Identi,tipo)
+}
+
+void BCHG_VAR(String Identi, String tipo) : {
+        int bytesOcupados=0x1;
+        bitnumber="00";
 
 }
 {
-    (RAD1=<Datos>.image<Coma>{type=1;}BCHG_EA(bytesOcupados, Identi,tipo)
-| {type=2;}<Gato>(bitnumber=<D32>.image{bytesOcupados=bytesOcupados+4;}|bitnumber=<D16>.image {bytesOcupados=bytesOcupados+2;}|bitnumber=<D8>.image{bytesOcupados=bytesOcupados+2;})
-        <Coma>BCHG_EA(bytesOcupados, Identi,tipo))
+        (RAD1=<Datos>.image<Coma>{type=1; } BCHG_EA(bytesOcupados, Identi,tipo)
+         | {type=2; }<Gato>(bitnumber=<D32>.image {bytesOcupados=bytesOcupados+4; }|bitnumber=<D16>.image {bytesOcupados=bytesOcupados+2; }|bitnumber=<D8>.image {bytesOcupados=bytesOcupados+2; })
+         <Coma>BCHG_EA(bytesOcupados, Identi,tipo))
 }
 
-void BCHG_EA(int bytesOcupados, String Identi, String tipo): {
-  String ext="";
+void BCHG_EA(int bytesOcupados, String Identi, String tipo) : {
+        String ext="";
 }
 {
-    (RAD2=<Datos>.image{modo=0;} |
-    <Guion><ParentesisA>RAD2=<Memoria>.image{modo=4;}<ParentesisC> |
-    <ParentesisA>((
-                     (ext=<D16>.image) ( <Coma>RAD2=<Memoria>.image<ParentesisC>{bytesOcupados++;modo=5;} | <ParentesisC><Punto>(<WO>{bytesOcupados++;modo=7;RAD2="00";}|<LO>{RAD2="01";bytesOcupados=bytesOcupados+2;modo=7;}) )  |
-                     (ext=<D8>.image)<Coma>RAD2=<Memoria>.image<Coma>(<Memoria>|<Datos>)<ParentesisC>{bytesOcupados++;modo=6;}
-    ) | RAD2=<Memoria>.image{modo=2;}<ParentesisC>(<Mas>{modo=3;})?))
+        (RAD2=<Datos>.image {modo=0; } |
+         <Guion><ParentesisA>RAD2=<Memoria>.image {modo=4; }<ParentesisC> |
+         <ParentesisA>((
+                               (ext=<D16>.image)( <Coma>RAD2=<Memoria>.image<ParentesisC>{bytesOcupados++; modo=5; } | <ParentesisC><Punto>(<WO>{bytesOcupados++; modo=7; RAD2="00"; }|<LO>{RAD2="01"; bytesOcupados=bytesOcupados+2; modo=7; }) )  |
+                               (ext=<D8>.image)<Coma>RAD2=<Memoria>.image<Coma>(<Memoria>|<Datos>)<ParentesisC>{bytesOcupados++; modo=6; }
+                               ) | RAD2=<Memoria>.image {modo=2; }<ParentesisC>(<Mas>{modo=3; }) ?))
 
-    {
+        {
 
-      ensamblar.BCHG2(RAD1,RAD2,type,modo,bitnumber,ext);
+                ensamblar.BCHG2(RAD1,RAD2,type,modo,bitnumber,ext);
 
-      }
-
-
-    {
-    /*  if(modo==7 || modo==6 || modo==5){
-                      ext=Integer.parseInt(bitnumber.substring(1,bitnumber.length()),16);
-                  }
-                  registro2=Integer.parseInt(RAD2.substring(1,RAD2.length()));
-                  registro1=Integer.parseInt(RAD1.substring(1,RAD1.length()));
+        }
 
 
-        countloc=(countloc)+(bytesOcupados*2);
-        tabla.setTam(Identi, bytesOcupados*2);
+        {
+                /*  if(modo==7 || modo==6 || modo==5){
+                                  ext=Integer.parseInt(bitnumber.substring(1,bitnumber.length()),16);
+                              }
+                              registro2=Integer.parseInt(RAD2.substring(1,RAD2.length()));
+                              registro1=Integer.parseInt(RAD1.substring(1,RAD1.length()));
 
-ensamblar.BCHG(registro1, modo,registro2,ext,type);*/
 
-    }
+                    countloc=(countloc)+(bytesOcupados*2);
+                    tabla.setTam(Identi, bytesOcupados*2);
+
+                   ensamblar.BCHG(registro1, modo,registro2,ext,type);*/
+
+        }
 }
 /*******************FIN*MATTA***************************/
 /*FIN METTODOS INSTRUCCION PACK y MOVEC*/
 
 /*METODOS INSTRUCCIONES JMP Y ADD*/
 
-void JMP_Metodo(String id):{}
-{
-    <JMP>JMP_Ea(id)
-}
-
-
-void JMP_Ea(String id):{
-  int bytesOcupados=0x1;
-  int multi=2;
-  int ModoJ=0;
+void JMP_Metodo(String id) : {
 }
 {
-
-<ParentesisA>
-(   RAD1=<Memoria>.image{ModoJ=2;}<ParentesisC>|((<D16>{bytesOcupados++;ModoJ=5;})((<ParentesisC><Punto>(<WO>{bytesOcupados++;}|<LO>{bytesOcupados+=2;})|<Coma>(RAD1=<Memoria>.image|<PC>)<ParentesisC>)))
-|(<D8>{bytesOcupados++;})<Coma>(RAD1=<Memoria>.image|<PC>)<Coma>(RAD1=<Datos>.image|RAD1=<Memoria>.image)<ParentesisC> )
-    {
-
-    countloc+=bytesOcupados*multi;
-    tabla.setTam(id,bytesOcupados*multi); }
+        <JMP>JMP_Ea(id)
 }
 
 
-void ADD_METODO(String id):{
-  String tipo="Default";
+void JMP_Ea(String id) : {
+        int bytesOcupados=0x1;
+        int multi=2;
+        int ModoJ=0;
 }
 {
-  <ADD>(<Punto>(<BY>{tipo="B";}|<WO>{tipo="W";}|<LO>{tipo="L";}))?( <Datos><Coma>(ADD_Ea2(id)|<Datos>)|ADD_Ea1(id,tipo)<Coma><Datos> )
+
+        <ParentesisA>
+        (   RAD1=<Memoria>.image {ModoJ=2; }<ParentesisC>|((<D16>{bytesOcupados++; ModoJ=5; })((<ParentesisC><Punto>(<WO>{bytesOcupados++; }|<LO>{bytesOcupados+=2; })|<Coma>(RAD1=<Memoria>.image|<PC>)<ParentesisC>)))
+            |(<D8>{bytesOcupados++; })<Coma>(RAD1=<Memoria>.image|<PC>)<Coma>(RAD1=<Datos>.image|RAD1=<Memoria>.image)<ParentesisC> )
+        {
+
+                countloc+=bytesOcupados*multi;
+                tabla.setTam(id,bytesOcupados*multi);
+        }
 }
 
-void ADD_Ea1(String id,String tipo):{
-  int bytesOcupados=0x1;
-  int multi=2;
+
+void ADD_METODO(String id) : {
+        String tipo="Default";
 }
 {
-(
-<Memoria> |
-    <Guion><ParentesisA><Memoria><ParentesisC>  |
-    <ParentesisA>(
-        <Memoria><ParentesisC>(<Mas>)?|
-        (<D16>{bytesOcupados++;})(
-            <Coma>(<Memoria>|<PC>)<ParentesisC>|
-            <ParentesisC><Punto>(<WO>{bytesOcupados++;}|<LO>{bytesOcupados+=2;})
+        <ADD>(<Punto>(<BY>{tipo="B"; }|<WO>{tipo="W"; }|<LO>{tipo="L"; })) ? ( <Datos><Coma>(ADD_Ea2(id)|<Datos>)|ADD_Ea1(id,tipo)<Coma><Datos> )
+}
 
-            )|
-        (<D8>{bytesOcupados++;})<Coma>(<Memoria>|<PC>)<Coma>(<Datos>|<Memoria>)<ParentesisC>
+void ADD_Ea1(String id,String tipo) : {
+        int bytesOcupados=0x1;
+        int multi=2;
+}
+{
+        (
+                <Memoria> |
+                <Guion><ParentesisA><Memoria><ParentesisC>  |
+                <ParentesisA>(
+                        <Memoria><ParentesisC>(<Mas>) ?|
+                        (<D16>{bytesOcupados++; })(
+                                <Coma>(<Memoria>|<PC>)<ParentesisC>|
+                                <ParentesisC><Punto>(<WO>{bytesOcupados++; }|<LO>{bytesOcupados+=2; })
 
+                                )|
+                        (<D8>{bytesOcupados++; })<Coma>(<Memoria>|<PC>)<Coma>(<Datos>|<Memoria>)<ParentesisC>
+
+                        )
+                |<Gato>(<D16>{bytesOcupados+=2; }|<D32>{bytesOcupados+=4; }|<D8>{bytesOcupados+=2; })
         )
-    |<Gato>(<D16>{bytesOcupados+=2;}|<D32>{bytesOcupados+=4;}|<D8>{bytesOcupados+=2;})
-    )
- {
+        {
 
-    countloc+=bytesOcupados*multi;
-    tabla.setTam(id,bytesOcupados*multi);
-}
+                countloc+=bytesOcupados*multi;
+                tabla.setTam(id,bytesOcupados*multi);
+        }
 }
 
-void ADD_Ea2(String id):{}
+void ADD_Ea2(String id) : {
+}
 {
-    (<ParentesisA>((<D16>)<ParentesisC><Punto>(<WO>|<LO>)|<Memoria><ParentesisC>(<Mas>)?
-            (<D16>)<Coma><Memoria><ParentesisC>|
-            (<D8>)<Coma><Memoria><Coma>(<Datos>|<Memoria>)<ParentesisC>)
-            )
-    |<Guion><ParentesisA><Memoria><ParentesisC>
+        (<ParentesisA>((<D16>)<ParentesisC><Punto>(<WO>|<LO>)|<Memoria><ParentesisC>(<Mas>) ?
+                       (<D16>)<Coma><Memoria><ParentesisC>|
+                       (<D8>)<Coma><Memoria><Coma>(<Datos>|<Memoria>)<ParentesisC>)
+        )
+        |<Guion><ParentesisA><Memoria><ParentesisC>
 
 }
 
 /*FIN METODOS INSTRUCCIONES JMP Y ADD*/
 
 /*METODOS INSTRUCCIONES CMP Y SBCD*/
-void SBCD(String id):{
-  String tipo="Default";
+void SBCD(String id) : {
+        String tipo="Default";
 }
 {
-    <SBCD>(<Punto><BY>{tipo="B";})?SBCD_VAR(id,tipo)
+        <SBCD>(<Punto><BY>{tipo="B"; }) ? SBCD_VAR(id,tipo)
 }
 
-void SBCD_VAR(String id,String tipo): {
-  int bytesOcupados=0x1;
-  int rm=0;
-  int registro1=0;
-  int registro2=0;
+void SBCD_VAR(String id,String tipo) : {
+        int bytesOcupados=0x1;
+        int rm=0;
+        int registro1=0;
+        int registro2=0;
 }
 {
-   ( RAD1=<Datos>.image<Coma>RAD2=<Datos>.image{rm=0;}|<Guion><ParentesisA>RAD1=<Memoria>.image<ParentesisC><Coma><Guion><ParentesisA>RAD2=<Memoria>.image<ParentesisC>{rm=1;})
-{
-    countloc+=bytesOcupados*2;
+        ( RAD1=<Datos>.image<Coma>RAD2=<Datos>.image {rm=0; }|<Guion><ParentesisA>RAD1=<Memoria>.image<ParentesisC><Coma><Guion><ParentesisA>RAD2=<Memoria>.image<ParentesisC>{rm=1; })
+        {
+                countloc+=bytesOcupados*2;
 
-    registro1=Integer.parseInt(RAD1.substring(1,RAD1.length()));
-    registro2=Integer.parseInt(RAD2.substring(1,RAD2.length()));
-    tabla.setTam(id,bytesOcupados*2);
-    ensamblar.SBCD(registro1,registro2,rm);
-}
+                registro1=Integer.parseInt(RAD1.substring(1,RAD1.length()));
+                registro2=Integer.parseInt(RAD2.substring(1,RAD2.length()));
+                tabla.setTam(id,bytesOcupados*2);
+                ensamblar.SBCD(registro1,registro2,rm);
+        }
 }
 /**************************MATTA*********************/
-void CMP(String Identi):{
-  String tipo="Default";
+void CMP(String Identi) : {
+        String tipo="Default";
 }
 {
-    <CMP>(<Punto>(<BY>{tipo="B";}|<LO>{tipo="L";}|<WO>{tipo="W";}))?CMP_EA(Identi,tipo)<Coma><Datos>
+        <CMP>(<Punto>(<BY>{tipo="B"; }|<LO>{tipo="L"; }|<WO>{tipo="W"; })) ? CMP_EA(Identi,tipo)<Coma><Datos>
 }
 
-void CMP_EA(String Identi, String tipo): {
-    int bytesOcupados=0x1;
+void CMP_EA(String Identi, String tipo) : {
+        int bytesOcupados=0x1;
 }
 {
-    ((<Datos>|<Memoria>) |
-    <Guion><ParentesisA><Memoria><ParentesisC> |
-    <ParentesisA>((
-                     ((<D16>) ( <Coma>(<Memoria>{bytesOcupados++;}|<PC>{bytesOcupados++;})<ParentesisC> | <ParentesisC><Punto>(<WO>{bytesOcupados++;}|<LO>{bytesOcupados=bytesOcupados+2;}) ))  |
-                     (<D8>)<Coma>(<Memoria>|<PC>)<Coma>(<Memoria>|<Datos>)<ParentesisC>{bytesOcupados++;}
-    ) | <Memoria><ParentesisC>(<Mas>)?) |
-    <Gato>(<D32>{bytesOcupados=bytesOcupados+4;}|<D16>{bytesOcupados=bytesOcupados+2;}|<D8>{bytesOcupados=bytesOcupados+2;}))
-    {
+        ((<Datos>|<Memoria>) |
+         <Guion><ParentesisA><Memoria><ParentesisC> |
+         <ParentesisA>((
+                               ((<D16>)( <Coma>(<Memoria>{bytesOcupados++; }|<PC>{bytesOcupados++; })<ParentesisC> | <ParentesisC><Punto>(<WO>{bytesOcupados++; }|<LO>{bytesOcupados=bytesOcupados+2; }) ))  |
+                               (<D8>)<Coma>(<Memoria>|<PC>)<Coma>(<Memoria>|<Datos>)<ParentesisC>{bytesOcupados++; }
+                               ) | <Memoria><ParentesisC>(<Mas>) ?) |
+         <Gato>(<D32>{bytesOcupados=bytesOcupados+4; }|<D16>{bytesOcupados=bytesOcupados+2; }|<D8>{bytesOcupados=bytesOcupados+2; }))
+        {
 
-        countloc=(countloc)+(bytesOcupados*2);
+                countloc=(countloc)+(bytesOcupados*2);
 
-        tabla.setTam(Identi, bytesOcupados*2);
-    }
+                tabla.setTam(Identi, bytesOcupados*2);
+        }
 
 }
 /**************************FIN MATTA*********************/
@@ -598,240 +606,247 @@ void CMP_EA(String Identi, String tipo): {
 
 /*METODOS INSTRUCCIONES EOR Y LSL-LSR*/
 /***************************MATTA***********************/
-void LSL(String Identi): {
-  String tipo="DEFAULT";
-  type=0;
+void LSL(String Identi) : {
+        String tipo="DEFAULT";
+        type=0;
 
 }
 {
-    (<LSL>{DR=1;}(<Punto>(<BY>{tipo="B"; size=0;}|<LO>{tipo="L";size=2;}|<WO>{tipo="W"; size=1;}))?|<LSR>{DR=0;}(<Punto>(<BY>{size=0;}|<LO>{size=2;}|<WO>{size=1;}))?)LSL_VAR(Identi,tipo)
+        (<LSL>{DR=1; } (<Punto>(<BY>{tipo="B"; size=0; }|<LO>{tipo="L"; size=2; }|<WO>{tipo="W"; size=1; })) ?|<LSR>{DR=0; } (<Punto>(<BY>{size=0; }|<LO>{size=2; }|<WO>{size=1; })) ?)LSL_VAR(Identi,tipo)
 }
 
-void LSL_VAR(String Identi, String tipo): {
-    int bytesOcupados=0x1;
+void LSL_VAR(String Identi, String tipo) : {
+        int bytesOcupados=0x1;
 }
 {
-    RAD1=<Datos>.image<Coma>RAD2=<Datos>.image{type=1; lsir=1;} |
-    <Gato>{type =2; lsir=0;}(data=<D32>.image{bytesOcupados=bytesOcupados+4; }|data=<D16>.image{bytesOcupados=bytesOcupados+2;}|data=<D8>.image{bytesOcupados=bytesOcupados+2;})<Coma>RAD1=<Datos>.image|
-    LSL_EA(Identi, bytesOcupados,tipo){type=3;}
-}
-
-void LSL_EA(String Identi, int bytesOcupados,String tipo): {}
-{
-    (<Guion>{modo=4;}<ParentesisA>RAD1=<Memoria>.image<ParentesisC> |
-    <ParentesisA>(
-                    (bitnumber=<D16>.image{modo=5;}(<Coma>RAD2=<Memoria>.image<ParentesisC>{bytesOcupados++;}
-                    |
-                    <ParentesisC><Punto>(<WO>{bytesOcupados++;modo=7;RAD2="1";} |<LO>{modo=7; RAD2="1";}{bytesOcupados=bytesOcupados+2;}))
-                    |
-                    (bitnumber=<D8>.image{modo=6;}<Coma>RAD2=<Memoria>.image<Coma>(<Memoria>|<Datos>)<ParentesisC>{bytesOcupados++;}) |
-                    RAD2=<Memoria>.image<ParentesisC>{modo=2;}(<Mas>{modo=3;})?)))
-    {
-        countloc=(countloc)+(bytesOcupados*2);
-        tabla.setTam(Identi, bytesOcupados*2);
-    }
-      {
-            int RA1=0,RA2=0,dat=0, lsi=0, tam=0, type=0,modo=0,bitnumbe=0;
-
-
-
-        if(modo==5 || modo==6 || modo==7){
-          if(data.substring(0,1).equals("B")){
-                        dat=Integer.parseInt(data.substring(1),2);
-
-                    }
-                    else if(data.substring(0,1).equals("0")){
-                        dat=Integer.parseInt(data.substring(1),16);
-
-                    }
-                   else  if(data.substring(0,1).equals("$")){
-                        dat=Integer.parseInt(data.substring(1),16);
-
-                    }
-                    else {  dat=Integer.parseInt(data);}
-
-
+        RAD1=<Datos>.image<Coma>RAD2=<Datos>.image {type=1; lsir=1; } |
+        <Gato>{type =2; lsir=0; } (data=<D32>.image {bytesOcupados=bytesOcupados+4; }|data=<D16>.image {bytesOcupados=bytesOcupados+2; }|data=<D8>.image {bytesOcupados=bytesOcupados+2; })<Coma>RAD1=<Datos>.image|
+                                                                                                                                                                                                       LSL_EA(Identi, bytesOcupados,tipo){
+                type=3;
         }
-
-
-            if (type==2){
-              if(data.substring(0,1).equals("B")){
-                      bitnumbe=Integer.parseInt(bitnumber.substring(1),16);
-                    }
-                    else if(data.substring(0,1).equals("0")){
-                       bitnumbe=Integer.parseInt(bitnumber.substring(1),16);
-
-                    }
-                   else  if(data.substring(0,1).equals("$")){
-                      bitnumbe=Integer.parseInt(bitnumber.substring(1),16);
-
-                    }
-                    else {  bitnumbe=Integer.parseInt(bitnumber);}
-
-              RA1=Integer.parseInt(RAD1.substring(1));
-
-            }
-
-          if(type==1){
-            RA1=Integer.parseInt(RAD1.substring(1));
-            RA2=Integer.parseInt(RAD2.substring(1));
-          }
-      if(DR==0){
-
-        ensamblar.LSR(RA1,RA2,dat, lsir, tam, type,modo,bitnumbe);
-      }
-      else if(DR==1){
-        ensamblar.LSR(RA1,RA2,dat, lsir, tam, type,modo,bitnumbe);
-      }
 }
+
+void LSL_EA(String Identi, int bytesOcupados,String tipo) : {
+}
+{
+        (<Guion>{modo=4; }<ParentesisA>RAD1=<Memoria>.image<ParentesisC> |
+                                             <ParentesisA>(
+                 (bitnumber=<D16>.image {modo=5; } (<Coma>RAD2=<Memoria>.image<ParentesisC>{bytesOcupados++; }
+                                                    |
+                                                    <ParentesisC><Punto>(<WO>{bytesOcupados++; modo=7; RAD2="1"; } |<LO>{modo=7; RAD2="1"; } {bytesOcupados=bytesOcupados+2; }))
+              |
+              (bitnumber=<D8>.image {modo=6; }<Coma>RAD2=<Memoria>.image<Coma>(<Memoria>|<Datos>)<ParentesisC>{bytesOcupados++; }) |
+              RAD2=<Memoria>.image<ParentesisC>{modo=2; } (<Mas>{modo=3; }) ?)))
+        {
+                countloc=(countloc)+(bytesOcupados*2);
+                tabla.setTam(Identi, bytesOcupados*2);
+        }
+        {
+                int RA1=0,RA2=0,dat=0, lsi=0, tam=0, type=0,modo=0,bitnumbe=0;
+
+
+
+                if(modo==5 || modo==6 || modo==7) {
+                        if(data.substring(0,1).equals("B")) {
+                                dat=Integer.parseInt(data.substring(1),2);
+
+                        }
+                        else if(data.substring(0,1).equals("0")) {
+                                dat=Integer.parseInt(data.substring(1),16);
+
+                        }
+                        else if(data.substring(0,1).equals("$")) {
+                                dat=Integer.parseInt(data.substring(1),16);
+
+                        }
+                        else {  dat=Integer.parseInt(data); }
+
+
+                }
+
+
+                if (type==2) {
+                        if(data.substring(0,1).equals("B")) {
+                                bitnumbe=Integer.parseInt(bitnumber.substring(1),16);
+                        }
+                        else if(data.substring(0,1).equals("0")) {
+                                bitnumbe=Integer.parseInt(bitnumber.substring(1),16);
+
+                        }
+                        else if(data.substring(0,1).equals("$")) {
+                                bitnumbe=Integer.parseInt(bitnumber.substring(1),16);
+
+                        }
+                        else {  bitnumbe=Integer.parseInt(bitnumber); }
+
+                        RA1=Integer.parseInt(RAD1.substring(1));
+
+                }
+
+                if(type==1) {
+                        RA1=Integer.parseInt(RAD1.substring(1));
+                        RA2=Integer.parseInt(RAD2.substring(1));
+                }
+                if(DR==0) {
+
+                        ensamblar.LSR(RA1,RA2,dat, lsir, tam, type,modo,bitnumbe);
+                }
+                else if(DR==1) {
+                        ensamblar.LSR(RA1,RA2,dat, lsir, tam, type,modo,bitnumbe);
+                }
+        }
 }
 /****************************FIN MATTA*******************/
 
-void EOR(String id): {
-  String tipo="Default";
+void EOR(String id) : {
+        String tipo="Default";
 }
 {
-    <EOR>(<Punto>(<BY>{tipo="B";EOPMODO=4;}|<LO>{tipo="L";EOPMODO=6;}|<WO>{tipo="W";EOPMODO=5;}))?RAD1=<Datos>.image<Coma>EOR_EA(id, tipo)
+        <EOR>(<Punto>(<BY>{tipo="B"; EOPMODO=4; }|<LO>{tipo="L"; EOPMODO=6; }|<WO>{tipo="W"; EOPMODO=5; })) ? RAD1=<Datos>.image<Coma>EOR_EA(id, tipo)
 }
 
-void EOR_EA(String id, String tipo): {
-  int bytesOcupados=0x1;
-  int multi=2;
-  int registro1=0;
-  int registro2=0;
-  int mode=0;
-  String number="00";
-  int ext=0;
+void EOR_EA(String id, String tipo) : {
+        int bytesOcupados=0x1;
+        int multi=2;
+        int registro1=0;
+        int registro2=0;
+        int mode=0;
+        String number="00";
+        int ext=0;
 
 
 
 
 }
-{
-
-
-RAD2=<Datos>.image |
-    <Guion><ParentesisA>RAD2=<Memoria>.image<ParentesisC>{mode=4;}  |
-    <ParentesisA>(
-        RAD2=<Memoria>.image{mode=2;}<ParentesisC>(<Mas>{mode=3;})?
-        |(number=<D16>.image)(<Coma>RAD2=<Memoria>.image<ParentesisC>{mode=5;}|<ParentesisC>{mode=7;}<Punto>(<WO>{bytesOcupados++;RAD2="00";}|<LO>{bytesOcupados+=2;RAD2="01";}))
-        |(number=<D8>.image)<Coma>RAD2=<Memoria>.image<Coma>{mode=6;}(<Datos>|RAD2=<Memoria>.image)<ParentesisC>{bytesOcupados++;})
-
-
 {
 
 
-    countloc+=bytesOcupados*multi;
-registro1=Integer.parseInt(RAD1.substring(1,RAD1.length()));
-registro2=Integer.parseInt(RAD2.substring(1,RAD2.length()));
-ext=Integer.parseInt(number.substring(1,number.length()),16);
+        RAD2=<Datos>.image |
+              <Guion><ParentesisA>RAD2=<Memoria>.image<ParentesisC>{mode=4; }  |
+        <ParentesisA>(
+                RAD2=<Memoria>.image {mode=2; }<ParentesisC>(<Mas>{mode=3; }) ?
+                |(number=<D16>.image)(<Coma>RAD2=<Memoria>.image<ParentesisC>{mode=5; }|<ParentesisC>{mode=7; }<Punto>(<WO>{bytesOcupados++; RAD2="00"; }|<LO>{bytesOcupados+=2; RAD2="01"; }))
+                |(number=<D8>.image)<Coma>RAD2=<Memoria>.image<Coma>{mode=6; } (<Datos>|RAD2=<Memoria>.image)<ParentesisC>{bytesOcupados++; })
 
-ensamblar.EOR(registro1,registro2,EOPMODO,mode,ext);
+
+        {
 
 
-    tabla.setTam(id,bytesOcupados*multi);
-}
+                countloc+=bytesOcupados*multi;
+                registro1=Integer.parseInt(RAD1.substring(1,RAD1.length()));
+                registro2=Integer.parseInt(RAD2.substring(1,RAD2.length()));
+                ext=Integer.parseInt(number.substring(1,number.length()),16);
+
+                ensamblar.EOR(registro1,registro2,EOPMODO,mode,ext);
+
+
+                tabla.setTam(id,bytesOcupados*multi);
+        }
 
 }
 /*FIN METODOS INSTRUCCIONES EOR Y LSL-LSR*/
 
 /*METODOS PARA ASIGNAGION DE TAMAÑO Y VALOR*/
-int Tamanio(): {
-    int mult;
-    int TipoDato2;
+int Tamanio() : {
+        int mult;
+        int TipoDato2;
 }
 {
-    <Punto>(<BY>{mult=1;}|<WO>{mult=2;}|<LO>{mult=3;})
-   { return mult;}
+        <Punto>(<BY>{mult=1; }|<WO>{mult=2; }|<LO>{mult=3; })
+        { return mult; }
 }
 
-void Valor2(int aux, Token id): {
-    int bytes=0;
-    String Identi=id.image;
+void Valor2(int aux, Token id) : {
+        int bytes=0;
+        String Identi=id.image;
 }
 {
-    (<D32>{bytes=bytes+4;}|<D16>{bytes=bytes+2;}|<D8>{bytes=bytes+1;})?
-    {
+        (<D32>{bytes=bytes+4; }|<D16>{bytes=bytes+2; }|<D8>{bytes=bytes+1; }) ?
+        {
 
-    switch(aux){
-    case 1:
-        countloc=(countloc)+(bytes);
-        tabla.setTam(Identi, bytes);
-    break;
-    case 2:
-        countloc=(countloc)+(bytes*2);
-        tabla.setTam(Identi, bytes*2);
-    break;
-    case 3:
-        countloc=(countloc)+(bytes*4);
-        tabla.setTam(Identi, bytes*4);
-    break;
-    case 4:
-        //System.out.println("DIRECTIVAB EQU id "+Identi);
-    break;
-    case 5:
-        //System.out.println("DIRECTIVA  EXT id"+Identi);
-    break;
-    case 6:
-        //System.out.println("DIRECTIVA DEF id "+Identi);
-    break;
-    }
-   }
+                switch(aux) {
+                case 1 :
+                        countloc=(countloc)+(bytes);
+                        tabla.setTam(Identi, bytes);
+                        break;
+                case 2 :
+                        countloc=(countloc)+(bytes*2);
+                        tabla.setTam(Identi, bytes*2);
+                        break;
+                case 3 :
+                        countloc=(countloc)+(bytes*4);
+                        tabla.setTam(Identi, bytes*4);
+                        break;
+                case 4 :
+                        //System.out.println("DIRECTIVAB EQU id "+Identi);
+                        break;
+                case 5 :
+                        //System.out.println("DIRECTIVA  EXT id"+Identi);
+                        break;
+                case 6 :
+                        //System.out.println("DIRECTIVA DEF id "+Identi);
+                        break;
+                }
+        }
 }
-void CONTADORBW(String id,int tipo,Token valor):{int valor2=0; String Convertir; int localidades=0; String Tipovalor; String tipoC="";}
+void CONTADORBW(String id,int tipo,Token valor) : {
+        int valor2=0; String Convertir; int localidades=0; String Tipovalor; String tipoC="";
+}
 {
-    {
-        Tipovalor=valor.image.substring(0,1);
-         //System.out.println("Valores  :"+Tipovalor);
-         //int direccion = Contador;
-            int total=0;
-            if(Tipovalor.equals("B")){
-                valor2=Integer.parseInt(valor.image.substring(1,valor.image.length()),2);
-            }
-            if(Tipovalor.equals("$")){
-                valor2=Integer.parseInt(valor.image.substring(1,valor.image.length()),16);
-            }
-             if(Tipovalor.equals("0")){
-                 valor2=Integer.parseInt(valor.image.substring(1,valor.image.length()),8);
-            }
-            if(Tipovalor.equals("1") ||Tipovalor.equals("2") ||Tipovalor.equals("3") ||Tipovalor.equals("4")
-            ||Tipovalor.equals("5") ||Tipovalor.equals("6") ||Tipovalor.equals("7") ||Tipovalor.equals("8")
-            ||Tipovalor.equals("9") )
-            {  valor2=Integer.parseInt(valor.image);}
-            switch(tipo){
-                case 1:
-                    total= valor2;
-                    //localidades=valor2;
-                    tipoC=".B";
+        {
+                Tipovalor=valor.image.substring(0,1);
+                //System.out.println("Valores  :"+Tipovalor);
+                //int direccion = Contador;
+                int total=0;
+                if(Tipovalor.equals("B")) {
+                        valor2=Integer.parseInt(valor.image.substring(1,valor.image.length()),2);
+                }
+                if(Tipovalor.equals("$")) {
+                        valor2=Integer.parseInt(valor.image.substring(1,valor.image.length()),16);
+                }
+                if(Tipovalor.equals("0")) {
+                        valor2=Integer.parseInt(valor.image.substring(1,valor.image.length()),8);
+                }
+                if(Tipovalor.equals("1") ||Tipovalor.equals("2") ||Tipovalor.equals("3") ||Tipovalor.equals("4")
+                   ||Tipovalor.equals("5") ||Tipovalor.equals("6") ||Tipovalor.equals("7") ||Tipovalor.equals("8")
+                   ||Tipovalor.equals("9") )
+                {  valor2=Integer.parseInt(valor.image); }
+                switch(tipo) {
+                case 1 :
+                        total= valor2;
+                        //localidades=valor2;
+                        tipoC=".B";
 
-                    break;
-                case 2:
-                    total=2*valor2;
-                    //localidades=valor2;
-                    tipoC=".W";
-                    break;
-                case 3:
-                    total= 4*valor2;
-                    //localidades=valor2;
-                    tipoC=".L";
-                    break;
-            }
-            countloc+=total;
-            if (!tabla.existe(id)) {
-                tabla.insertar(id,countloc,tipoC);
-            }
-            else{
-                System.out.println("Error el ID \""+id+"\"Ya se encuentra");
-                java.lang.System.exit(0);
-            }
+                        break;
+                case 2 :
+                        total=2*valor2;
+                        //localidades=valor2;
+                        tipoC=".W";
+                        break;
+                case 3 :
+                        total= 4*valor2;
+                        //localidades=valor2;
+                        tipoC=".L";
+                        break;
+                }
+                countloc+=total;
+                if (!tabla.existe(id)) {
+                        tabla.insertar(id,countloc,tipoC);
+                }
+                else{
+                        System.out.println("Error el ID \""+id+"\"Ya se encuentra");
+                        java.lang.System.exit(0);
+                }
                 tabla.setTam(id, total);
-          }
+        }
 
 
-          }
-          Token Valor(): { Token v; String str="";}
-          {
-              (v=<D8>|v=<D16>|v=<D32>)
-              {return v;}
-          }
+}
+Token Valor() : {
+        Token v; String str="";
+}
+{
+        (v=<D8>|v=<D16>|v=<D32>)
+        {return v; }
+}
 /*FIN METODOS PARA ASIGNAGION DE TAMAÑO Y VALOR*/
