@@ -11,7 +11,8 @@ public class ProyectoFase3 {
               static int lsir=0;  //Cabecera s/ir
               static String data=""; // Guarda el numero de 8 16 y 32
               static String bitnumber="";//Guarda el Numero de 8 16 y 32
-
+               static int DR=0; //saber si es left o right
+              static int size=0; // saber si es .w .b .l
             static int type=0; //Tipo de orden en la instruccion
             static String Instruct="";
         public static TablaSimbolos tabla= new TablaSimbolos();
@@ -586,9 +587,10 @@ void CMP_EA(String Identi, String tipo): {
 void LSL(String Identi): {
   String tipo="DEFAULT";
   type=0;
+ 
 }
 {
-    (<LSL>(<Punto>(<BY>{tipo="B";}|<LO>{tipo="L";}|<WO>{tipo="W";}))?|<LSR>(<Punto>(<BY>|<LO>|<WO>))?)LSL_VAR(Identi,tipo)
+    (<LSL>{DR=1;}(<Punto>(<BY>{tipo="B"; size=0;}|<LO>{tipo="L";size=2;}|<WO>{tipo="W"; size=1;}))?|<LSR>{DR=0;}(<Punto>(<BY>{size=0;}|<LO>{size=2;}|<WO>{size=1;}))?)LSL_VAR(Identi,tipo)
 }
 
 void LSL_VAR(String Identi, String tipo): {
@@ -596,24 +598,78 @@ void LSL_VAR(String Identi, String tipo): {
 }
 {
     RAD1=<Datos>.image<Coma>RAD2=<Datos>.image{type=1; lsir=1;} |
-    <Gato>(data=<D32>.image{bytesOcupados=bytesOcupados+4; type =2; lsir=0;}|<D16>{bytesOcupados=bytesOcupados+2;}|<D8>{bytesOcupados=bytesOcupados+2;})<Coma><Datos> |
-    LSL_EA(Identi, bytesOcupados,tipo)
+    <Gato>{type =2; lsir=0;}(data=<D32>.image{bytesOcupados=bytesOcupados+4; }|data=<D16>.image{bytesOcupados=bytesOcupados+2;}|data=<D8>.image{bytesOcupados=bytesOcupados+2;})<Coma>RAD1=<Datos>.image|
+    LSL_EA(Identi, bytesOcupados,tipo){type=3;}
 }
 
 void LSL_EA(String Identi, int bytesOcupados,String tipo): {}
 {
-    (<Guion><ParentesisA><Memoria><ParentesisC> |
+    (<Guion>{modo=4;}<ParentesisA>RAD1=<Memoria>.image<ParentesisC> |
     <ParentesisA>(
-                    (<D16>(<Coma><Memoria><ParentesisC>{bytesOcupados++;}
+                    (bitnumber=<D16>.image{modo=5;}(<Coma>RAD2=<Memoria><ParentesisC>{bytesOcupados++;}
                     |
-                    <ParentesisC><Punto>(<WO>{bytesOcupados++;} |<LO>{bytesOcupados=bytesOcupados+2;}))
+                    <ParentesisC><Punto>(<WO>{bytesOcupados++;modo=7;RAD2="1";} |<LO>{modo=7; RAD2="1";}{bytesOcupados=bytesOcupados+2;}))
                     |
-                    (<D8><Coma><Memoria><Coma>(<Memoria>|<Datos>)<ParentesisC>{bytesOcupados++;}) |
-                    <Memoria><ParentesisC>(<Mas>)?)))
+                    (bitnumber=<D8>.image{modo=6;}<Coma>RAD2=<Memoria>.image<Coma>(<Memoria>|<Datos>)<ParentesisC>{bytesOcupados++;}) |
+                    RAD2=<Memoria>.image<ParentesisC>{modo=2;}(<Mas>{modo=3;})?)))
     {
         countloc=(countloc)+(bytesOcupados*2);
         tabla.setTam(Identi, bytesOcupados*2);
     }
+
+            Int RA1=0;,RA2=0,dat=0, lsi=0, tam=0, type=0,modo=0,bitnumbe=0;
+
+
+
+        if(modo==5 || modo==6 || modo==7){
+          if(data.substring(0,1).equals("B")){
+                        dat=Integer.parseInt(data.substring(1),2);
+
+                    }
+                    else if(data.substring(0,1).equals("0")){
+                        dat=Integer.parseInt(data.substring(1),16);
+
+                    }
+                   else  if(data.substring(0,1).equals("$")){
+                        dat=Integer.parseInt(data.substring(1),16);
+
+                    }
+                    else {  dat=Integer.parseInt(data);}
+             
+
+        }
+
+
+            if (type==2){
+              if(data.substring(0,1).equals("B")){
+                      bitnumbe=Integer.parseInt(bitnumber.substring(1),16);
+                    }
+                    else if(data.substring(0,1).equals("0")){
+                       bitnumbe=Integer.parseInt(bitnumber.substring(1),16);
+
+                    }
+                   else  if(data.substring(0,1).equals("$")){
+                      bitnumbe=Integer.parseInt(bitnumber.substring(1),16);
+
+                    }
+                    else {  bitnumbe=Integer.parseInt(bitnumber);}
+              
+              RA1=Integer.parseInt(RAD1.substring(1));
+
+            }
+
+          if(type==1){
+            RA1=Integer.parseInt(RAD1.substring(1));
+            RA2=Integer.parseInt(RAD2.substring(1));
+          }  
+      if(DR==0){
+
+        ensamblar.LSR(RAD1,RAD2,data, lsir, tam, type,modo,bitnumber);
+      }
+      else if(DR==1){
+        ensamblar.LSR(RAD1,RAD2,data, lsir, tam, type,modo,bitnumber);
+      }
+
 }
 /****************************FIN MATTA*******************/
 

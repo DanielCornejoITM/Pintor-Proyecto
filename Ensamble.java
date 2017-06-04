@@ -97,6 +97,163 @@ void DWLB(int opcion,int datatipo, int valor){
 
 }
 
+
+  void LSL(int registro, int registro2, int ext, int ir, int size, int version, int mode,int data){
+        
+        String extH=Integer.toHexString(ext).toUpperCase();
+        extH = addCerosExt(extH,mode,registro);
+        
+        if(version == 1){
+            int a = 7<<13;
+            a |= registro<<9;
+            a |= 1<<8;
+            a |= size<<6;
+            a |= ir<<5;
+            a |= 1<<3;
+            a |= registro2;                   
+
+            String com=Integer.toString(a, 16);
+             sumaBytes+=longitud(com);//201+10
+        S1principal+=com;
+           /* S1principal+=com;
+
+            
+            contS1+=2;
+            sumaBytes+=hex2decimal(com.substring(0, 2))+hex2decimal(com.substring(2, 4));//201+10
+        if (contS1==252) {
+            Imprimir2S1();
+        }*/
+
+           // System.out.println("ensamblado LSL:"+com);
+
+        }
+
+        if(version == 2){
+            int a = 7<<13;
+            a |= data<<9;
+            a |= 1<<8;
+            a |= size<<6;
+            a |= ir<<5;
+            a |= 1<<3;
+            a |= registro2;                
+
+            String com=Integer.toString(a, 16);
+             sumaBytes+=longitud(com);//201+10
+        S1principal+=com;
+            /*S1principal+=com;
+            contS1+=2;
+            sumaBytes+=hex2decimal(com.substring(0, 2))+hex2decimal(com.substring(2, 4));//201+10
+        if (contS1==252) {
+            Imprimir2S1();
+        }*/
+
+         //   System.out.println("ensamblado LSL:"+com);
+
+        }
+
+        if(version == 3){
+            int a = 7<<13;
+            a |= 1<<9;
+            a |= 1<<8;
+            a |= 3<<6;
+            a |= mode<<3;
+            a |= registro;
+            String com=Integer.toString(a, 16);
+            
+            if(mode == 5 || mode == 6 || mode == 7)
+                com+=extH;
+            
+             sumaBytes+=longitud(com);//201+10
+        S1principal+=com;
+           /* S1principal+=com;
+            contS1+=2;
+            sumaBytes+=hex2decimal(com.substring(0, 2))+hex2decimal(com.substring(2, 4));//201+10
+        if (contS1==252) {
+            Imprimir2S1();
+        }*/
+
+          //  System.out.println("ensamblado LSL:"+com);
+
+        }
+    }
+
+    void LSR(int registro, int registro2, int ext, int ir, int size, int version, int mode,int data){
+        
+        String extH=Integer.toHexString(ext).toUpperCase();
+        extH = addCerosExt(extH,mode,registro);
+        
+        if(version == 1){
+            int a = 7<<13;
+            a |= registro<<9;
+            a |= size<<6;
+            a |= ir<<5;
+            a |= 1<<3;
+            a |= registro2;                   
+
+            String com=Integer.toString(a, 16);
+             sumaBytes+=longitud(com);//201+10
+        S1principal+=com;
+          /*  S1principal+=com;
+            contS1+=2;
+            sumaBytes+=hex2decimal(com.substring(0, 2))+hex2decimal(com.substring(2, 4));//201+10
+        if (contS1==252) {
+            Imprimir2S1();
+        }*/
+
+
+          //  System.out.println("ensamblado LSR:"+com);
+
+        }
+
+        if(version == 2){
+            int a = 7<<13;
+            a |= data<<9;
+            a |= size<<6;
+            a |= ir<<5;
+            a |= 1<<3;
+            a |= registro2;                
+
+            String com=Integer.toString(a, 16);
+             sumaBytes+=longitud(com);//201+10
+             S1principal+=com;
+            /*S1principal+=com;
+            contS1+=2;
+            sumaBytes+=hex2decimal(com.substring(0, 2))+hex2decimal(com.substring(2, 4));//201+10
+        if (contS1==252) {
+            Imprimir2S1();
+        }*/
+
+          //  System.out.println("ensamblado LSR:"+com);
+
+        }
+
+        if(version == 3){
+            int a = 7<<13;
+            a |= 1<<9;
+            a |= 3<<6;
+            a |= mode<<3;
+            a |= registro;
+            String com=Integer.toString(a, 16);
+            
+            if(mode == 5 || mode == 6 || mode == 7)
+                com+=extH;
+            sumaBytes+=longitud(com);//201+10
+            
+            S1principal+=com;
+           /* S1principal+=com;
+            contS1+=2;
+            sumaBytes+=hex2decimal(com.substring(0, 2))+hex2decimal(com.substring(2, 4));//201+10
+        if (contS1==252) {
+            Imprimir2S1();
+        }*/
+
+          //  System.out.println("ensamblado LSR:"+com);
+
+        }
+    }
+
+
+
 void ORG(String inicio,String Et){
       String start="0000";
       switch(inicio.length()){
@@ -284,142 +441,7 @@ void BCHG2(String P1,String P2, int type,int modo,String bitnumber,String ext){
 
 
 
-  void LSL(int registro, int registro2, int ext, int ir, int size, int version, int mode,int data){
-      if(version == 1){
-          int a = 7<<13;
-          a |= registro<<9;
-          a |= 1<<8;
-          a |= size<<6;
-          a |= ir<<5;
-          a |= 1<<3;
-          a |= registro2;
-
-          String com=Integer.toString(a, 16);
-           sumaBytes+=longitud(com);//201+10
-      S1principal+=com;
-         /* S1principal+=com;
-
-
-          contS1+=2;
-          sumaBytes+=hex2decimal(com.substring(0, 2))+hex2decimal(com.substring(2, 4));//201+10
-      if (contS1==252) {
-          Imprimir2S1();
-      }*/
-
-          System.out.println("ensamblado LSL:"+com);
-
-      }
-
-      if(version == 2){
-          int a = 7<<13;
-          a |= data<<9;
-          a |= 1<<8;
-          a |= size<<6;
-          a |= ir<<5;
-          a |= 1<<3;
-          a |= registro2;
-
-          String com=Integer.toString(a, 16);
-           sumaBytes+=longitud(com);//201+10
-      S1principal+=com;
-          /*S1principal+=com;
-          contS1+=2;
-          sumaBytes+=hex2decimal(com.substring(0, 2))+hex2decimal(com.substring(2, 4));//201+10
-      if (contS1==252) {
-          Imprimir2S1();
-      }*/
-
-          System.out.println("ensamblado LSL:"+com);
-
-      }
-
-      if(version == 3){
-          int a = 7<<13;
-          a |= 1<<9;
-          a |= 1<<8;
-          a |= 3<<6;
-          a |= mode<<3;
-          a |= registro;
-          String com=Integer.toString(a, 16);
-           sumaBytes+=longitud(com);//201+10
-      S1principal+=com;
-         /* S1principal+=com;
-          contS1+=2;
-          sumaBytes+=hex2decimal(com.substring(0, 2))+hex2decimal(com.substring(2, 4));//201+10
-      if (contS1==252) {
-          Imprimir2S1();
-      }*/
-
-          System.out.println("ensamblado LSL:"+com);
-
-      }
-  }
-
-  void LSR(int registro, int registro2, int ext, int ir, int size, int version, int mode,int data){
-      if(version == 1){
-          int a = 7<<13;
-          a |= registro<<9;
-          a |= size<<6;
-          a |= ir<<5;
-          a |= 1<<3;
-          a |= registro2;
-
-          String com=Integer.toString(a, 16);
-           sumaBytes+=longitud(com);//201+10
-      S1principal+=com;
-        /*  S1principal+=com;
-          contS1+=2;
-          sumaBytes+=hex2decimal(com.substring(0, 2))+hex2decimal(com.substring(2, 4));//201+10
-      if (contS1==252) {
-          Imprimir2S1();
-      }*/
-
-          System.out.println("ensamblado LSR:"+com);
-
-      }
-
-      if(version == 2){
-          int a = 7<<13;
-          a |= ext<<9;
-          a |= size<<6;
-          a |= ir<<5;
-          a |= 1<<3;
-          a |= registro2;
-
-          String com=Integer.toString(a, 16);
-           sumaBytes+=longitud(com);//201+10
-      S1principal+=com;
-          /*S1principal+=com;
-          contS1+=2;
-          sumaBytes+=hex2decimal(com.substring(0, 2))+hex2decimal(com.substring(2, 4));//201+10
-      if (contS1==252) {
-          Imprimir2S1();
-      }*/
-
-          System.out.println("ensamblado LSR:"+com);
-
-      }
-
-      if(version == 3){
-          int a = 7<<13;
-          a |= 1<<9;
-          a |= 3<<6;
-          a |= mode<<3;
-          a |= registro;
-          String com=Integer.toString(a, 16);
-           sumaBytes+=longitud(com);//201+10
-      S1principal+=com;
-         /* S1principal+=com;
-          contS1+=2;
-          sumaBytes+=hex2decimal(com.substring(0, 2))+hex2decimal(com.substring(2, 4));//201+10
-      if (contS1==252) {
-          Imprimir2S1();
-      }*/
-
-          System.out.println("ensamblado LSR:"+com);
-
-      }
-  }
+  
 void EOR(int RAD1, int RAD2, int EOPMODO,int mode,int Ext){
   int a=11<<12;
   a|= RAD1<<9;
