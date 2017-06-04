@@ -1,4 +1,5 @@
 Analsisi Inicializado
+S008 0000 50524F4731 96
 Suuuuu01
 Suuuuu0001
 Suuuuu00000001
@@ -6,6 +7,60 @@ Suuuuu00
 Suuuuu0000
 Suuuuu00000000
 S1
-6F
-Inicio 
-Valor inválido para inicio del programa.
+6F 0000 0100010000000100000000000000 8D
+S1
+03 006C  90
+S1
+03 006C  90
+S1
+03 006C  90
+S1
+03 006C  90
+S1
+03 006C  90
+Contador 0
+
+Version 1: 036c
+Recibi 1:111
+Contador 1
+
+Version 1: 0374
+Recibi 1:119
+S1
+09 006C  8A
+Contador 2
+
+Version 1: 0374
+Recibi 1:119
+S1
+05 0072  88
+Contador 3
+
+Version 1: 0378
+Recibi 1:123
+S1
+05 0074  86
+Contador 4
+
+Version 1: 0379
+Recibi 1:124
+Contador 5
+
+Version 2: 086c
+Recibi 2: 	116
+Contador 6
+
+Version 2: 0874
+Recibi 2: 	124
+Contador 7
+
+Version 2: 0878
+Recibi 2: 	128
+S1
+21 0076  68
+Contador 8
+
+Version 2: 0879
+Recibi 2: 	129
+S1
+05 0094  66

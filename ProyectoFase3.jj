@@ -265,12 +265,19 @@ TOKEN :
 /*METODOS PARA ESTRUCTURA DEL PROGRAMA*/
 
 
-void Estructura(): {}
+void Estructura(): {
+  String Inicio="",Etiqueta="";
+}
 {
 {System.out.println("Analsisi Inicializado");}
-    <Identificador>
+    Etiqueta=<Identificador>.image
     <ORG>
-    (<D32>|<D16>|<D8>)Directivas_Est()Instrucciones_Est()<END><EOF>
+
+    (Inicio=<D32>.image|Inicio=<D16>.image|Inicio=<D8>.image){
+        Inicio=Inicio.substring(1);
+    ensamblar.ORG(Inicio,Etiqueta);}
+
+    Directivas_Est()Instrucciones_Est()<END><EOF>
 }
 
 void Directivas_Est(): {

@@ -25,24 +25,27 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
 
 /*METODOS PARA ESTRUCTURA DEL PROGRAMA*/
   static final public void Estructura() throws ParseException {
+  String Inicio="",Etiqueta="";
  System.out.println("Analsisi Inicializado");
-    jj_consume_token(Identificador);
+    Etiqueta = jj_consume_token(Identificador).image;
     jj_consume_token(ORG);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case D32:
-      jj_consume_token(D32);
+      Inicio = jj_consume_token(D32).image;
       break;
     case D16:
-      jj_consume_token(D16);
+      Inicio = jj_consume_token(D16).image;
       break;
     case D8:
-      jj_consume_token(D8);
+      Inicio = jj_consume_token(D8).image;
       break;
     default:
       jj_la1[0] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
+        Inicio=Inicio.substring(1);
+    ensamblar.ORG(Inicio,Etiqueta);
     Directivas_Est();
     Instrucciones_Est();
     jj_consume_token(END);
