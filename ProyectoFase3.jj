@@ -286,6 +286,7 @@ void Instrucciones_Est(): {
 {
 
     <Punto><CODE>((id=<Identificador>{
+      ensamblar.bandera();
                         if(!tabla.existe(id.image)){
                             tabla.insertar(id.image, countloc, "DIR");
                             Identi=id.image;
@@ -321,7 +322,11 @@ void DDATA(Token id): {
     <DDATA>{
       int tipo2=Tamanio();
       v=Valor();
+
       String tipo=v.image;
+      int pasarval= Integer.parseInt(tipo.substring(1,tipo.length()),16);  //Agregado
+
+      ensamblar.DWLB(4,tipo2,pasarval);
 
       tipo=tipo.substring(0,1);
       int longitud=0;
@@ -376,7 +381,11 @@ void BWLEDE(Token id): {
 }
 {
   (<BYTE>{val=1;}|<WORD>{val=2;}|<LONG>{val=3;}|<EQU>|<EXT>|<DEF>) v=Valor()
-  { if (val!=0){CONTADORBW(Identi,val,v);} }
+  {
+     String p=v.image;
+     int pasarval= Integer.parseInt(p.substring(1,p.length()),16);  //Agregado
+    ensamblar.DWLB(val,val,pasarval);
+     if (val!=0){CONTADORBW(Identi,val,v);} }
 }
 /*FIN METODOS PARA CREAR LAS DIRECTIVAS*/
 
@@ -418,8 +427,6 @@ void BCHG_VAR(String Identi, String tipo): {
 }
 
 void BCHG_EA(int bytesOcupados, String Identi, String tipo): {
-  int registro2=0;
-  int registro1=0;
   String ext="";
 }
 {
@@ -427,11 +434,11 @@ void BCHG_EA(int bytesOcupados, String Identi, String tipo): {
     <Guion><ParentesisA>RAD2=<Memoria>.image{modo=4;}<ParentesisC> |
     <ParentesisA>((
                      (ext=<D16>.image) ( <Coma>RAD2=<Memoria>.image<ParentesisC>{bytesOcupados++;modo=5;} | <ParentesisC><Punto>(<WO>{bytesOcupados++;modo=7;RAD2="00";}|<LO>{RAD2="01";bytesOcupados=bytesOcupados+2;modo=7;}) )  |
-                     (ext=<D8>.image)<Coma>RAD2=<Memoria>.image<Coma>(RAD2=<Memoria>.image|RAD2=<Datos>.image)<ParentesisC>{bytesOcupados++;modo=6;}
+                     (ext=<D8>.image)<Coma>RAD2=<Memoria>.image<Coma>(<Memoria>|<Datos>)<ParentesisC>{bytesOcupados++;modo=6;}
     ) | RAD2=<Memoria>.image{modo=2;}<ParentesisC>(<Mas>{modo=3;})?))
 
     {
-      System.out.println("Locura: "+ext);
+
       ensamblar.BCHG2(RAD1,RAD2,type,modo,bitnumber,ext);
 
       }

@@ -75,6 +75,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case Identificador:
         id = jj_consume_token(Identificador);
+      ensamblar.bandera();
                         if(!tabla.existe(id.image)){
                             tabla.insertar(id.image, countloc, "DIR");
                             Identi=id.image;
@@ -175,7 +176,11 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     jj_consume_token(DDATA);
       int tipo2=Tamanio();
       v=Valor();
+
       String tipo=v.image;
+      int pasarval= Integer.parseInt(tipo.substring(1,tipo.length()),16);  //Agregado
+
+      ensamblar.DWLB(4,tipo2,pasarval);
 
       tipo=tipo.substring(0,1);
       int longitud=0;
@@ -253,7 +258,10 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       throw new ParseException();
     }
     v = Valor();
-    if (val!=0){CONTADORBW(Identi,val,v);}
+     String p=v.image;
+     int pasarval= Integer.parseInt(p.substring(1,p.length()),16);  //Agregado
+    ensamblar.DWLB(val,val,pasarval);
+     if (val!=0){CONTADORBW(Identi,val,v);}
   }
 
 /*FIN METODOS PARA CREAR LAS DIRECTIVAS*/
@@ -360,8 +368,6 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
   }
 
   static final public void BCHG_EA(int bytesOcupados, String Identi, String tipo) throws ParseException {
-  int registro2=0;
-  int registro1=0;
   String ext="";
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Datos:
@@ -421,10 +427,10 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(Coma);
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case Memoria:
-            RAD2 = jj_consume_token(Memoria).image;
+            jj_consume_token(Memoria);
             break;
           case Datos:
-            RAD2 = jj_consume_token(Datos).image;
+            jj_consume_token(Datos);
             break;
           default:
             jj_la1[14] = jj_gen;
@@ -432,7 +438,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
             throw new ParseException();
           }
           jj_consume_token(ParentesisC);
-                                                                                                                            bytesOcupados++;modo=6;
+                                                                                                      bytesOcupados++;modo=6;
           break;
         default:
           jj_la1[15] = jj_gen;
@@ -465,7 +471,6 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       jj_consume_token(-1);
       throw new ParseException();
     }
-      System.out.println("Locura: "+ext);
       ensamblar.BCHG2(RAD1,RAD2,type,modo,bitnumber,ext);
 
   }
