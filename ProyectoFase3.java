@@ -11,7 +11,8 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
               static int lsir=0;  //Cabecera s/ir
               static String data=""; // Guarda el numero de 8 16 y 32
               static String bitnumber="";//Guarda el Numero de 8 16 y 32
-
+               static int DR=0; //saber si es left o right
+              static int size=0; // saber si es .w .b .l
             static int type=0; //Tipo de orden en la instruccion
             static String Instruct="";
         public static TablaSimbolos tabla= new TablaSimbolos();
@@ -1119,21 +1120,22 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case LSL:
       jj_consume_token(LSL);
+           DR=1;
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case Punto:
         jj_consume_token(Punto);
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case BY:
           jj_consume_token(BY);
-                        tipo="B";
+                               tipo="B"; size=0;
           break;
         case LO:
           jj_consume_token(LO);
-                                        tipo="L";
+                                                       tipo="L";size=2;
           break;
         case WO:
           jj_consume_token(WO);
-                                                        tipo="W";
+                                                                              tipo="W"; size=1;
           break;
         default:
           jj_la1[58] = jj_gen;
@@ -1148,18 +1150,22 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       break;
     case LSR:
       jj_consume_token(LSR);
+                                                                                                          DR=0;
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case Punto:
         jj_consume_token(Punto);
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case BY:
           jj_consume_token(BY);
+                                                                                                                              size=0;
           break;
         case LO:
           jj_consume_token(LO);
+                                                                                                                                            size=2;
           break;
         case WO:
           jj_consume_token(WO);
+                                                                                                                                                          size=1;
           break;
         default:
           jj_la1[60] = jj_gen;
@@ -1191,18 +1197,19 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
       break;
     case Gato:
       jj_consume_token(Gato);
+           type =2; lsir=0;
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case D32:
         data = jj_consume_token(D32).image;
-                            bytesOcupados=bytesOcupados+4; type =2; lsir=0;
+                                              bytesOcupados=bytesOcupados+4;
         break;
       case D16:
-        jj_consume_token(D16);
-                                                                                   bytesOcupados=bytesOcupados+2;
+        data = jj_consume_token(D16).image;
+                                                                                                bytesOcupados=bytesOcupados+2;
         break;
       case D8:
-        jj_consume_token(D8);
-                                                                                                                        bytesOcupados=bytesOcupados+2;
+        data = jj_consume_token(D8).image;
+                                                                                                                                                bytesOcupados=bytesOcupados+2;
         break;
       default:
         jj_la1[63] = jj_gen;
@@ -1210,11 +1217,12 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
         throw new ParseException();
       }
       jj_consume_token(Coma);
-      jj_consume_token(Datos);
+      RAD1 = jj_consume_token(Datos).image;
       break;
     case Guion:
     case ParentesisA:
       LSL_EA(Identi, bytesOcupados,tipo);
+                                       type=3;
       break;
     default:
       jj_la1[64] = jj_gen;
@@ -1227,21 +1235,23 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Guion:
       jj_consume_token(Guion);
+             modo=4;
       jj_consume_token(ParentesisA);
-      jj_consume_token(Memoria);
+      RAD1 = jj_consume_token(Memoria).image;
       jj_consume_token(ParentesisC);
       break;
     case ParentesisA:
       jj_consume_token(ParentesisA);
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case D16:
-        jj_consume_token(D16);
+        bitnumber = jj_consume_token(D16).image;
+                                           modo=5;
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case Coma:
           jj_consume_token(Coma);
-          jj_consume_token(Memoria);
+          RAD2 = jj_consume_token(Memoria).image;
           jj_consume_token(ParentesisC);
-                                                        bytesOcupados++;
+                                                                                            bytesOcupados++;
           break;
         case ParentesisC:
           jj_consume_token(ParentesisC);
@@ -1249,11 +1259,12 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case WO:
             jj_consume_token(WO);
-                                              bytesOcupados++;
+                                              bytesOcupados++;modo=7;RAD2="1";
             break;
           case LO:
             jj_consume_token(LO);
-                                                                      bytesOcupados=bytesOcupados+2;
+                                                                                      modo=7; RAD2="1";
+                                                                                                         bytesOcupados=bytesOcupados+2;
             break;
           default:
             jj_la1[65] = jj_gen;
@@ -1268,9 +1279,10 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
         }
         break;
       case D8:
-        jj_consume_token(D8);
+        bitnumber = jj_consume_token(D8).image;
+                                          modo=6;
         jj_consume_token(Coma);
-        jj_consume_token(Memoria);
+        RAD2 = jj_consume_token(Memoria).image;
         jj_consume_token(Coma);
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case Memoria:
@@ -1285,14 +1297,16 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           throw new ParseException();
         }
         jj_consume_token(ParentesisC);
-                                                                               bytesOcupados++;
+                                                                                                                   bytesOcupados++;
         break;
       case Memoria:
-        jj_consume_token(Memoria);
+        RAD2 = jj_consume_token(Memoria).image;
         jj_consume_token(ParentesisC);
+                                                      modo=2;
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case Mas:
           jj_consume_token(Mas);
+                                                                     modo=3;
           break;
         default:
           jj_la1[68] = jj_gen;
@@ -1312,6 +1326,58 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
     }
         countloc=(countloc)+(bytesOcupados*2);
         tabla.setTam(Identi, bytesOcupados*2);
+            int RA1=0,RA2=0,dat=0, lsi=0, tam=0, type=0,modo=0,bitnumbe=0;
+
+
+
+        if(modo==5 || modo==6 || modo==7){
+          if(data.substring(0,1).equals("B")){
+                        dat=Integer.parseInt(data.substring(1),2);
+
+                    }
+                    else if(data.substring(0,1).equals("0")){
+                        dat=Integer.parseInt(data.substring(1),16);
+
+                    }
+                   else  if(data.substring(0,1).equals("$")){
+                        dat=Integer.parseInt(data.substring(1),16);
+
+                    }
+                    else {  dat=Integer.parseInt(data);}
+
+
+        }
+
+
+            if (type==2){
+              if(data.substring(0,1).equals("B")){
+                      bitnumbe=Integer.parseInt(bitnumber.substring(1),16);
+                    }
+                    else if(data.substring(0,1).equals("0")){
+                       bitnumbe=Integer.parseInt(bitnumber.substring(1),16);
+
+                    }
+                   else  if(data.substring(0,1).equals("$")){
+                      bitnumbe=Integer.parseInt(bitnumber.substring(1),16);
+
+                    }
+                    else {  bitnumbe=Integer.parseInt(bitnumber);}
+
+              RA1=Integer.parseInt(RAD1.substring(1));
+
+            }
+
+          if(type==1){
+            RA1=Integer.parseInt(RAD1.substring(1));
+            RA2=Integer.parseInt(RAD2.substring(1));
+          }
+      if(DR==0){
+
+        ensamblar.LSR(RA1,RA2,dat, lsir, tam, type,modo,bitnumbe);
+      }
+      else if(DR==1){
+        ensamblar.LSR(RA1,RA2,dat, lsir, tam, type,modo,bitnumbe);
+      }
   }
 
 /****************************FIN MATTA*******************/

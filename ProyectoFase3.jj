@@ -613,7 +613,7 @@ void LSL_EA(String Identi, int bytesOcupados,String tipo): {}
 {
     (<Guion>{modo=4;}<ParentesisA>RAD1=<Memoria>.image<ParentesisC> |
     <ParentesisA>(
-                    (bitnumber=<D16>.image{modo=5;}(<Coma>RAD2=<Memoria><ParentesisC>{bytesOcupados++;}
+                    (bitnumber=<D16>.image{modo=5;}(<Coma>RAD2=<Memoria>.image<ParentesisC>{bytesOcupados++;}
                     |
                     <ParentesisC><Punto>(<WO>{bytesOcupados++;modo=7;RAD2="1";} |<LO>{modo=7; RAD2="1";}{bytesOcupados=bytesOcupados+2;}))
                     |
@@ -671,10 +671,10 @@ void LSL_EA(String Identi, int bytesOcupados,String tipo): {}
           }
       if(DR==0){
 
-        ensamblar.LSR(RAD1,RAD2,data, lsir, tam, type,modo,bitnumber);
+        ensamblar.LSR(RA1,RA2,dat, lsir, tam, type,modo,bitnumbe);
       }
       else if(DR==1){
-        ensamblar.LSR(RAD1,RAD2,data, lsir, tam, type,modo,bitnumber);
+        ensamblar.LSR(RA1,RA2,dat, lsir, tam, type,modo,bitnumbe);
       }
 }
 }
