@@ -1424,7 +1424,7 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
   int registro1=0;
   int registro2=0;
   int mode=0;
-  String number="";
+  String number="00";
   int ext=0;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Datos:
@@ -1461,20 +1461,20 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           jj_consume_token(Coma);
           RAD2 = jj_consume_token(Memoria).image;
           jj_consume_token(ParentesisC);
-                                                    mode=5;
+                                                                      mode=5;
           break;
         case ParentesisC:
           jj_consume_token(ParentesisC);
-                          mode=7;
+                                                                                             mode=7;
           jj_consume_token(Punto);
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case WO:
             jj_consume_token(WO);
-                                               bytesOcupados++;RAD2="00";
+                                                                                                                  bytesOcupados++;RAD2="00";
             break;
           case LO:
             jj_consume_token(LO);
-                                                                                bytesOcupados+=2;RAD2="01";
+                                                                                                                                                   bytesOcupados+=2;RAD2="01";
             break;
           default:
             jj_la1[74] = jj_gen;
@@ -1493,10 +1493,10 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
         jj_consume_token(Coma);
         RAD2 = jj_consume_token(Memoria).image;
         jj_consume_token(Coma);
-                                                            mode=6;
+                                                             mode=6;
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case Datos:
-          RAD2 = jj_consume_token(Datos).image;
+          jj_consume_token(Datos);
           break;
         case Memoria:
           RAD2 = jj_consume_token(Memoria).image;
@@ -1507,19 +1507,13 @@ public class ProyectoFase3 implements ProyectoFase3Constants {
           throw new ParseException();
         }
         jj_consume_token(ParentesisC);
-                                                                                                                           bytesOcupados++;
+                                                                                                                 bytesOcupados++;
         break;
       default:
         jj_la1[77] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
-      break;
-    default:
-      jj_la1[78] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
-    }
     countloc+=bytesOcupados*multi;
 registro1=Integer.parseInt(RAD1.substring(1,RAD1.length()));
 registro2=Integer.parseInt(RAD2.substring(1,RAD2.length()));
@@ -1529,6 +1523,12 @@ ensamblar.EOR(registro1,registro2,EOPMODO,mode,ext);
 
 
     tabla.setTam(id,bytesOcupados*multi);
+      break;
+    default:
+      jj_la1[78] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
   }
 
 /*FIN METODOS INSTRUCCIONES EOR Y LSL-LSR*/

@@ -1,66 +1,17 @@
 Analsisi Inicializado
 S008 0000 50524F4731 96
-Suuuuu01
-Suuuuu0001
-Suuuuu00000001
-Suuuuu00
-Suuuuu0000
-Suuuuu00000000
-S1
-6F 0000 0100010000000100000000000000 8D
-S1
-03 006C  90
-S1
-03 006C  90
-S1
-03 006C  90
-S1
-03 006C  90
-S1
-03 006C  90
-Contador 0
-
-Version 1: 036c
-Recibi 1:111
-Contador 1
-
-Version 1: 0374
-Recibi 1:119
-S1
-09 006C  8A
-Contador 2
-
-Version 1: 0374
-Recibi 1:119
-S1
-05 0072  88
-Contador 3
-
-Version 1: 0378
-Recibi 1:123
-S1
-05 0074  86
-Contador 4
-
-Version 1: 0379
-Recibi 1:124
-Contador 5
-
-Version 2: 086c
-Recibi 2: 	116
-Contador 6
-
-Version 2: 0874
-Recibi 2: 	124
-Contador 7
-
-Version 2: 0878
-Recibi 2: 	128
-S1
-21 0076  68
-Contador 8
-
-Version 2: 0879
-Recibi 2: 	129
-S1
-05 0094  66
+S16F 0000 0100010000000100000000000000 8D
+ensamblado BCHG:036cFFFF
+ensamblado BCHG:037400FF
+S10F 006C 036CFFFF037400FF A1
+ensamblado BCHG:037400FF
+S107 0078 037400FF 0A
+ensamblado BCHG:0378FFFF
+S107 007C 0378FFFF 03
+ensamblado BCHG:03790000FFFF
+ensamblado BCHG:086cFFFFFFFF
+ensamblado BCHG:0874FFFF00FF
+ensamblado BCHG:0878FFFFFFFF
+S15D 0080 03790000FFFF086CFFFFFFFF0874FFFF00FF0878FFFFFFFF 43
+ensamblado BCHG:0879FFFF0000FFFF
+Analisis Finalizado:
