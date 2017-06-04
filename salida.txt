@@ -1,9 +1,11 @@
 Analsisi Inicializado
-Locura: 
-Opcion: 2
-Modo: 2
-Parte 2 4
-BitNUMBER: $FF
-Extension: 
--------------------
-Analisis Finalizado:
+Suuuuu01
+Suuuuu0001
+Suuuuu00000001
+Suuuuu00
+Suuuuu0000
+Suuuuu00000000
+S1
+6F
+Inicio 
+Valor inválido para inicio del programa.
