@@ -623,8 +623,8 @@ void LSL_EA(String Identi, int bytesOcupados,String tipo): {}
         countloc=(countloc)+(bytesOcupados*2);
         tabla.setTam(Identi, bytesOcupados*2);
     }
-
-            int RA1=0;,RA2=0,dat=0, lsi=0, tam=0, type=0,modo=0,bitnumbe=0;
+      {
+            int RA1=0,RA2=0,dat=0, lsi=0, tam=0, type=0,modo=0,bitnumbe=0;
 
 
 
@@ -676,7 +676,7 @@ void LSL_EA(String Identi, int bytesOcupados,String tipo): {}
       else if(DR==1){
         ensamblar.LSR(RAD1,RAD2,data, lsir, tam, type,modo,bitnumber);
       }
-
+}
 }
 /****************************FIN MATTA*******************/
 
