@@ -239,7 +239,7 @@ void Imprimir2S1(){
 
         }
         //System.out.println("Numeros:"+contS1+" "+Direccion+" "+noBytes+" "+sumaBytes);
-        System.out.println(" "+inicio.toUpperCase()+" "+S1principal.toUpperCase()+" "+Complemento(contS1+3+hex2decimal(inicio.substring(0,2))+hex2decimal(inicio.substring(2,4))+sumaBytes));
+        System.out.println(inicio.toUpperCase()+S1principal.toUpperCase()+Complemento(contS1+3+hex2decimal(inicio.substring(0,2))+hex2decimal(inicio.substring(2,4))+sumaBytes));
         Direccion=Direccion+noBytes;
         noBytes=contS1;
         contS1=0;
@@ -317,7 +317,7 @@ void BCHG2(String P1,String P2, int type,int modo,String bitnumber,String ext){
                 String com=Integer.toString(a, 16);
                 com="0"+com;
                 if(modo == 5 || modo == 6 || modo == 7) com+=extH;
-                System.out.println("ensamblado BCHG:"+ com);
+                //System.out.println("ensamblado BCHG:"+ com);
                 sumaBytes+=longitud(com); //201+10
                 S1principal+=com;
         }
@@ -331,23 +331,24 @@ void BCHG2(String P1,String P2, int type,int modo,String bitnumber,String ext){
                 if(modo == 5 || modo == 6 || modo == 7) com+=extH;
                 sumaBytes+=longitud(com); //201+10
                 S1principal+=com;
-                System.out.println("ensamblado BCHG:"+ com);
+                //System.out.println("ensamblado BCHG:"+ com);
         }
 
 }
 void EOR(int RAD1, int RAD2, int EOPMODO,int mode,int ext){
-  String extH=Integer.toHexString(ext).toUpperCase();
-  extH = addCerosExt(extH,mode,registro);
+        String extH=Integer.toHexString(ext).toUpperCase();
+        extH = addCerosExt(extH,mode,RAD2);
         int a=11<<12;
         a|= RAD1<<9;
         a|=EOPMODO<<6;
         a|=mode<<3;
         a|=RAD2<<0;
         String com = Integer.toString(a,16);
-        com=+com+extH;
+        if(mode == 5 || mode == 6 || mode == 7)
+                com+=extH;
         sumaBytes+=longitud(com);
         S1principal+=com;
-        System.out.println("ensamblado EOR:"+com);
+        //System.out.println("ensamblado EOR:"+com);
 }
 void SBCD(int RAD1, int RAD2,int rm){
         int a=8<<12;
@@ -358,13 +359,14 @@ void SBCD(int RAD1, int RAD2,int rm){
         String com = Integer.toString(a,16);
         sumaBytes+=longitud(com);
         S1principal+=com;
-        System.out.println("ensamblado SBCD:"+com);
+        //System.out.println("ensamblado SBCD:"+com);
 
 }
 void LSL(int registro, int registro2, int ext, int ir, int size, int version, int mode,int data){
 
         String extH=Integer.toHexString(ext).toUpperCase();
         extH = addCerosExt(extH,mode,registro);
+
 
         if(version == 1) {
                 int a = 7<<13;
@@ -376,6 +378,10 @@ void LSL(int registro, int registro2, int ext, int ir, int size, int version, in
                 a |= registro2;
 
                 String com=Integer.toString(a, 16);
+                String t=0+com;
+                com=t;
+
+                //System.out.println("Impresion de LSL: "+com);
                 sumaBytes+=longitud(com); //201+10
                 S1principal+=com;
 
@@ -391,6 +397,10 @@ void LSL(int registro, int registro2, int ext, int ir, int size, int version, in
                 a |= registro2;
 
                 String com=Integer.toString(a, 16);
+                String t=0+com;
+                com=t;
+
+                //System.out.println("Impresion de LSL: "+com);
                 sumaBytes+=longitud(com); //201+10
                 S1principal+=com;
         }
@@ -406,7 +416,7 @@ void LSL(int registro, int registro2, int ext, int ir, int size, int version, in
 
                 if(mode == 5 || mode == 6 || mode == 7)
                         com+=extH;
-
+                //System.out.println("Impresion de LSL: "+com);
                 sumaBytes+=longitud(com); //201+10
                 S1principal+=com;
         }
@@ -416,6 +426,7 @@ void LSR(int registro, int registro2, int ext, int ir, int size, int version, in
         String extH=Integer.toHexString(ext).toUpperCase();
         extH = addCerosExt(extH,mode,registro);
 
+
         if(version == 1) {
                 int a = 7<<13;
                 a |= registro<<9;
@@ -425,6 +436,10 @@ void LSR(int registro, int registro2, int ext, int ir, int size, int version, in
                 a |= registro2;
 
                 String com=Integer.toString(a, 16);
+                //System.out.println("Impresion de LSR: ");
+                String t=0+com;
+                com=t;
+
                 sumaBytes+=longitud(com); //201+10
                 S1principal+=com;
         }
@@ -438,6 +453,12 @@ void LSR(int registro, int registro2, int ext, int ir, int size, int version, in
                 a |= registro2;
 
                 String com=Integer.toString(a, 16);
+                String t=0+com;
+                com=t;
+
+
+                //System.out.println("Impresion de LSR: "+com);
+
                 sumaBytes+=longitud(com); //201+10
                 S1principal+=com;
         }
@@ -452,10 +473,15 @@ void LSR(int registro, int registro2, int ext, int ir, int size, int version, in
 
                 if(mode == 5 || mode == 6 || mode == 7)
                         com+=extH;
+                //System.out.println("Impresion de LSR: "+com);
+
+
                 sumaBytes+=longitud(com); //201+10
 
                 S1principal+=com;
         }
+
+
 }
 
 

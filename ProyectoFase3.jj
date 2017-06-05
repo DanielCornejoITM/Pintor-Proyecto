@@ -278,7 +278,10 @@ void Estructura() : {
                 ensamblar.ORG(Inicio,Etiqueta);
         }
 
-        Directivas_Est() Instrucciones_Est()<END><EOF>
+        Directivas_Est() Instrucciones_Est()<END>{
+          ensamblar.Imprimir2S1();
+          ensamblar.ImprimirS9();
+        }<EOF>
 }
 
 void Directivas_Est() : {
@@ -608,7 +611,7 @@ void CMP_EA(String Identi, String tipo) : {
 /***************************MATTA***********************/
 void LSL(String Identi) : {
         String tipo="DEFAULT";
-        type=0;
+
 
 }
 {
@@ -617,16 +620,19 @@ void LSL(String Identi) : {
 
 void LSL_VAR(String Identi, String tipo) : {
         int bytesOcupados=0x1;
+
 }
 {
         RAD1=<Datos>.image<Coma>RAD2=<Datos>.image {type=1; lsir=1; } |
         <Gato>{type =2; lsir=0; } (data=<D32>.image {bytesOcupados=bytesOcupados+4; }|data=<D16>.image {bytesOcupados=bytesOcupados+2; }|data=<D8>.image {bytesOcupados=bytesOcupados+2; })<Coma>RAD1=<Datos>.image|
-                                                                                                                                                                                                       LSL_EA(Identi, bytesOcupados,tipo){
-                type=3;
+        LSL_EA(Identi, bytesOcupados,tipo){type=3;
+
+
         }
 }
 
 void LSL_EA(String Identi, int bytesOcupados,String tipo) : {
+
 }
 {
         (<Guion>{modo=4; }<ParentesisA>RAD1=<Memoria>.image<ParentesisC> |
@@ -642,7 +648,10 @@ void LSL_EA(String Identi, int bytesOcupados,String tipo) : {
                 tabla.setTam(Identi, bytesOcupados*2);
         }
         {
-                int RA1=0,RA2=0,dat=0, lsi=0, tam=0, type=0,modo=0,bitnumbe=0;
+                int RA1=0,RA2=0,dat=0, lsi=0, tam=0,bitnumbe=0;
+
+
+
 
 
 
@@ -689,11 +698,12 @@ void LSL_EA(String Identi, int bytesOcupados,String tipo) : {
                 }
                 if(DR==0) {
 
+                        ensamblar.LSL(RA1,RA2,dat, lsir, tam, type,modo,bitnumbe);
+                }
+                if(DR==1) {
                         ensamblar.LSR(RA1,RA2,dat, lsir, tam, type,modo,bitnumbe);
                 }
-                else if(DR==1) {
-                        ensamblar.LSR(RA1,RA2,dat, lsir, tam, type,modo,bitnumbe);
-                }
+                type=0;
         }
 }
 /****************************FIN MATTA*******************/
@@ -713,10 +723,6 @@ void EOR_EA(String id, String tipo) : {
         int mode=0;
         String number="00";
         int ext=0;
-
-
-
-
 }
 {
 
