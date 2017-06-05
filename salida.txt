@@ -32,6 +32,36 @@ S1070138BB6CFFFF9A
 Encontrado RAD1=D5
 S107013CBB7400FF8D
 Encontrado RAD1=D5
+-------------------
+REGISTER: A0
+Mode: 2
+Extension: 
+----------------
+-------------------
+REGISTER: 10
+Mode: 7
+Extension: $FFFF
+----------------
+-------------------
+REGISTER: A5
+Mode: 6
+Extension: $FF
+----------------
+-------------------
+REGISTER: 11
+Mode: 7
+Extension: $FF
+----------------
+-------------------
+REGISTER: 00
+Mode: 7
+Extension: $FFFF
+----------------
+-------------------
+REGISTER: 01
+Mode: 7
+Extension: $FFFF
+----------------
 S1070140BB78FFFF86
 S9030140BB
 Analisis Finalizado:

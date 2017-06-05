@@ -490,15 +490,20 @@ void JMP_Metodo(String id) : {
 void JMP_Ea(String id) : {
         int bytesOcupados=0x1;
         int multi=2;
-        int ModoJ=0;
+        int mode=0;
+        String ext="";
 }
 {
 
         <ParentesisA>
-        (   RAD1=<Memoria>.image {ModoJ=2; }<ParentesisC>|((<D16>{bytesOcupados++; ModoJ=5; })((<ParentesisC><Punto>(<WO>{bytesOcupados++; }|<LO>{bytesOcupados+=2; })|<Coma>(RAD1=<Memoria>.image|<PC>)<ParentesisC>)))
-            |(<D8>{bytesOcupados++; })<Coma>(RAD1=<Memoria>.image|<PC>)<Coma>(RAD1=<Datos>.image|RAD1=<Memoria>.image)<ParentesisC> )
+        (   RAD1=<Memoria>.image {mode=2; }<ParentesisC>|((ext=<D16>.image{bytesOcupados++;})((<ParentesisC><Punto>(<WO>{bytesOcupados++;mode=7;RAD1="00"; }|<LO>{bytesOcupados+=2;mode=7;RAD1="01"; })|<Coma>(RAD1=<Memoria>.image{ mode=5;}|<PC>{ mode=7;RAD1="10";})<ParentesisC>)))
+            |(ext=<D8>.image{bytesOcupados++; })<Coma>(RAD1=<Memoria>.image{mode=6;}|<PC>{mode=7;RAD1="11";})<Coma>(<Datos>|RAD1=<Memoria>.image)<ParentesisC> )
         {
-
+          System.out.println("-------------------");
+          System.out.println("REGISTER: "+RAD1);
+          System.out.println("Mode: "+mode);
+          System.out.println("Extension: "+ext);
+          System.out.println("----------------");
                 countloc+=bytesOcupados*multi;
                 tabla.setTam(id,bytesOcupados*multi);
         }

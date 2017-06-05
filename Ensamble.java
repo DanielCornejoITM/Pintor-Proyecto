@@ -346,7 +346,6 @@ void EOR(int RAD1, int RAD2, int EOPMODO,int mode,int ext){
         String com = Integer.toString(a,16);
         if(mode == 5 || mode == 6 || mode == 7)
                 com+=extH;
-
         sumaBytes+=longitud(com);
         S1principal+=com;
         //System.out.println("ensamblado EOR:"+com);

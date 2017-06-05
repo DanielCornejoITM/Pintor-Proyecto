@@ -493,17 +493,18 @@ public static void main(String args[]) throws ParseException {
   static final public void JMP_Ea(String id) throws ParseException {
         int bytesOcupados=0x1;
         int multi=2;
-        int ModoJ=0;
+        int mode=0;
+        String ext="";
     jj_consume_token(ParentesisA);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Memoria:
       RAD1 = jj_consume_token(Memoria).image;
-                                  ModoJ=2;
+                                  mode=2;
       jj_consume_token(ParentesisC);
       break;
     case D16:
-      jj_consume_token(D16);
-                                                                  bytesOcupados++; ModoJ=5;
+      ext = jj_consume_token(D16).image;
+                                                                           bytesOcupados++;
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case ParentesisC:
         jj_consume_token(ParentesisC);
@@ -511,11 +512,11 @@ public static void main(String args[]) throws ParseException {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case WO:
           jj_consume_token(WO);
-                                                                                                                          bytesOcupados++;
+                                                                                                                         bytesOcupados++;mode=7;RAD1="00";
           break;
         case LO:
           jj_consume_token(LO);
-                                                                                                                                                  bytesOcupados+=2;
+                                                                                                                                                                  bytesOcupados+=2;mode=7;RAD1="01";
           break;
         default:
           jj_la1[19] = jj_gen;
@@ -528,9 +529,11 @@ public static void main(String args[]) throws ParseException {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case Memoria:
           RAD1 = jj_consume_token(Memoria).image;
+                                                                                                                                                                                                                                     mode=5;
           break;
         case PC:
           jj_consume_token(PC);
+                                                                                                                                                                                                                                                    mode=7;RAD1="10";
           break;
         default:
           jj_la1[20] = jj_gen;
@@ -546,15 +549,17 @@ public static void main(String args[]) throws ParseException {
       }
       break;
     case D8:
-      jj_consume_token(D8);
-                   bytesOcupados++;
+      ext = jj_consume_token(D8).image;
+                             bytesOcupados++;
       jj_consume_token(Coma);
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case Memoria:
         RAD1 = jj_consume_token(Memoria).image;
+                                                                            mode=6;
         break;
       case PC:
         jj_consume_token(PC);
+                                                                                          mode=7;RAD1="11";
         break;
       default:
         jj_la1[22] = jj_gen;
@@ -564,7 +569,7 @@ public static void main(String args[]) throws ParseException {
       jj_consume_token(Coma);
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case Datos:
-        RAD1 = jj_consume_token(Datos).image;
+        jj_consume_token(Datos);
         break;
       case Memoria:
         RAD1 = jj_consume_token(Memoria).image;
@@ -581,6 +586,11 @@ public static void main(String args[]) throws ParseException {
       jj_consume_token(-1);
       throw new ParseException();
     }
+          System.out.println("-------------------");
+          System.out.println("REGISTER: "+RAD1);
+          System.out.println("Mode: "+mode);
+          System.out.println("Extension: "+ext);
+          System.out.println("----------------");
                 countloc+=bytesOcupados*multi;
                 tabla.setTam(id,bytesOcupados*multi);
   }
