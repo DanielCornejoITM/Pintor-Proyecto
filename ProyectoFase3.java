@@ -1532,13 +1532,7 @@ public static void main(String args[]) throws ParseException {
                 registro1=Integer.parseInt(RAD1.substring(1,RAD1.length()));
                 registro2=Integer.parseInt(RAD2.substring(1,RAD2.length()));
                 ext=Integer.parseInt(number.substring(1,number.length()),16);
-
-
-                System.out.println("RAD1 Antes de enviar"+RAD1);
-                System.out.println("RAD2 Antes de enviar"+RAD2);
                 ensamblar.EOR(registro1,registro2,EOPMODO,mode,ext);
-
-
                 tabla.setTam(id,bytesOcupados*multi);
   }
 

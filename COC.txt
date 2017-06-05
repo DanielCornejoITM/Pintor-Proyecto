@@ -31,6 +31,15 @@ LSR     ($FF,A2,A3)
 E26	LSR     ($FFFF).W
 LSR     ($FFFF).L
 
+E11	CMP.L  	(A1),D2
+E12	CMP    	-(A3),D6
+CMP    	($FFFF,PC),D7
+E13	CMP    	($FF,A2,A3),D1
+CMP    	($FFFF).W,D3
+E14	CMP    	($FFFF).L,D4
+PACK	-(A0),-(A1)
+E15	PACK	D1,D2
+
 CARR	SBCD.B D1,D2
 SBCD.B D1,D2
 SBCD.B D1,D2

@@ -11,78 +11,27 @@ S11900E201FFFE08E2D8E2E082
 S10F00F8E2E8FFFFE2F0FFFF60
 S1130104E3D0E3D8E3F0FFFFA8
 S10F0114E3F8FFFFE3F8FFFF29
+S1030120DB
+S1030120DB
+S1030120DB
+S1030120DB
+S1030120DB
 S11101208501850185013B
 S105012E85093D
 Encontrado RAD1=D1
 Encontrado RAD2:D2
-RAD1 Antes de enviarD1
-RAD2 Antes de enviarD2
-RAD1: 1
-EOPMODO: 5
-mode: 0
-RAD2: 2
-ext: 0
-Instruccion Generada EOR: b342
 S1050130B342D4
 Encontrado RAD1=D5
-RAD1 Antes de enviarD5
-RAD2 Antes de enviarA0
-RAD1: 5
-EOPMODO: 4
-mode: 2
-RAD2: 0
-ext: 0
-Instruccion Generada EOR: bb10
 S1050132BB10FC
 Encontrado RAD1=D5
-RAD1 Antes de enviarD5
-RAD2 Antes de enviarA1
-RAD1: 5
-EOPMODO: 5
-mode: 3
-RAD2: 1
-ext: 0
-Instruccion Generada EOR: bb59
 S1050134BB59B1
 Encontrado RAD1=D5
-RAD1 Antes de enviarD5
-RAD2 Antes de enviarA4
-RAD1: 5
-EOPMODO: 5
-mode: 4
-RAD2: 4
-ext: 0
-Instruccion Generada EOR: bb64
 S1050136BB64A4
 Encontrado RAD1=D5
-RAD1 Antes de enviarD5
-RAD2 Antes de enviarA4
-RAD1: 5
-EOPMODO: 5
-mode: 5
-RAD2: 4
-ext: 65535
-Instruccion Generada EOR: bb6c
 S1070138BB6CFFFF9A
 Encontrado RAD1=D5
-RAD1 Antes de enviarD5
-RAD2 Antes de enviarA4
-RAD1: 5
-EOPMODO: 5
-mode: 6
-RAD2: 4
-ext: 255
-Instruccion Generada EOR: bb74
 S107013CBB7400FF8D
 Encontrado RAD1=D5
-RAD1 Antes de enviarD5
-RAD2 Antes de enviar00
-RAD1: 5
-EOPMODO: 5
-mode: 7
-RAD2: 0
-ext: 65535
-Instruccion Generada EOR: bb78
 S1070140BB78FFFF86
 S9030140BB
 Analisis Finalizado:
