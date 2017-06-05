@@ -710,9 +710,11 @@ void LSL_EA(String Identi, int bytesOcupados,String tipo) : {
 
 void EOR(String id) : {
         String tipo="Default";
+        EOPMODO=5;
+
 }
 {
-        <EOR>(<Punto>(<BY>{tipo="B"; EOPMODO=4; }|<LO>{tipo="L"; EOPMODO=6; }|<WO>{tipo="W"; EOPMODO=5; })) ? RAD1=<Datos>.image<Coma>EOR_EA(id, tipo)
+        <EOR>(<Punto>(<BY>{tipo="B"; EOPMODO=4; }|<LO>{tipo="L"; EOPMODO=6; }|<WO>{tipo="W"; EOPMODO=5; })) ? RAD1=<Datos>.image{System.out.println("Encontrado RAD1="+RAD1);}<Coma>EOR_EA(id, tipo)
 }
 
 void EOR_EA(String id, String tipo) : {
@@ -727,25 +729,20 @@ void EOR_EA(String id, String tipo) : {
 {
 
 
-        RAD2=<Datos>.image |
+      (  RAD2=<Datos>.image{System.out.println("Encontrado RAD2:"+RAD2);} |
               <Guion><ParentesisA>RAD2=<Memoria>.image<ParentesisC>{mode=4; }  |
         <ParentesisA>(
                 RAD2=<Memoria>.image {mode=2; }<ParentesisC>(<Mas>{mode=3; }) ?
                 |(number=<D16>.image)(<Coma>RAD2=<Memoria>.image<ParentesisC>{mode=5; }|<ParentesisC>{mode=7; }<Punto>(<WO>{bytesOcupados++; RAD2="00"; }|<LO>{bytesOcupados+=2; RAD2="01"; }))
-                |(number=<D8>.image)<Coma>RAD2=<Memoria>.image<Coma>{mode=6; } (<Datos>|RAD2=<Memoria>.image)<ParentesisC>{bytesOcupados++; })
+                |(number=<D8>.image)<Coma>RAD2=<Memoria>.image<Coma>{mode=6; } (<Datos>|RAD2=<Memoria>.image)<ParentesisC>{bytesOcupados++; }))
 
 
         {
-
-
                 countloc+=bytesOcupados*multi;
                 registro1=Integer.parseInt(RAD1.substring(1,RAD1.length()));
                 registro2=Integer.parseInt(RAD2.substring(1,RAD2.length()));
                 ext=Integer.parseInt(number.substring(1,number.length()),16);
-
                 ensamblar.EOR(registro1,registro2,EOPMODO,mode,ext);
-
-
                 tabla.setTam(id,bytesOcupados*multi);
         }
 

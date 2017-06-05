@@ -346,6 +346,7 @@ void EOR(int RAD1, int RAD2, int EOPMODO,int mode,int ext){
         String com = Integer.toString(a,16);
         if(mode == 5 || mode == 6 || mode == 7)
                 com+=extH;
+
         sumaBytes+=longitud(com);
         S1principal+=com;
         //System.out.println("ensamblado EOR:"+com);
@@ -363,11 +364,8 @@ void SBCD(int RAD1, int RAD2,int rm){
 
 }
 void LSL(int registro, int registro2, int ext, int ir, int size, int version, int mode,int data){
-
         String extH=Integer.toHexString(ext).toUpperCase();
         extH = addCerosExt(extH,mode,registro);
-
-
         if(version == 1) {
                 int a = 7<<13;
                 a |= registro<<9;
@@ -376,11 +374,9 @@ void LSL(int registro, int registro2, int ext, int ir, int size, int version, in
                 a |= ir<<5;
                 a |= 1<<3;
                 a |= registro2;
-
                 String com=Integer.toString(a, 16);
                 String t=0+com;
                 com=t;
-
                 //System.out.println("Impresion de LSL: "+com);
                 sumaBytes+=longitud(com); //201+10
                 S1principal+=com;

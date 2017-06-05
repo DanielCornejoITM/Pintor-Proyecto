@@ -1391,6 +1391,7 @@ public static void main(String args[]) throws ParseException {
 /****************************FIN MATTA*******************/
   static final public void EOR(String id) throws ParseException {
         String tipo="Default";
+        EOPMODO=5;
     jj_consume_token(EOR);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Punto:
@@ -1419,6 +1420,7 @@ public static void main(String args[]) throws ParseException {
       ;
     }
     RAD1 = jj_consume_token(Datos).image;
+                                                                                                                                 System.out.println("Encontrado RAD1="+RAD1);
     jj_consume_token(Coma);
     EOR_EA(id, tipo);
   }
@@ -1434,6 +1436,7 @@ public static void main(String args[]) throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Datos:
       RAD2 = jj_consume_token(Datos).image;
+                            System.out.println("Encontrado RAD2:"+RAD2);
       break;
     case Guion:
       jj_consume_token(Guion);
@@ -1519,21 +1522,24 @@ public static void main(String args[]) throws ParseException {
         jj_consume_token(-1);
         throw new ParseException();
       }
-                countloc+=bytesOcupados*multi;
-                registro1=Integer.parseInt(RAD1.substring(1,RAD1.length()));
-                registro2=Integer.parseInt(RAD2.substring(1,RAD2.length()));
-                ext=Integer.parseInt(number.substring(1,number.length()),16);
-
-                ensamblar.EOR(registro1,registro2,EOPMODO,mode,ext);
-
-
-                tabla.setTam(id,bytesOcupados*multi);
       break;
     default:
       jj_la1[78] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
+                countloc+=bytesOcupados*multi;
+                registro1=Integer.parseInt(RAD1.substring(1,RAD1.length()));
+                registro2=Integer.parseInt(RAD2.substring(1,RAD2.length()));
+                ext=Integer.parseInt(number.substring(1,number.length()),16);
+
+
+                System.out.println("RAD1 Antes de enviar"+RAD1);
+                System.out.println("RAD2 Antes de enviar"+RAD2);
+                ensamblar.EOR(registro1,registro2,EOPMODO,mode,ext);
+
+
+                tabla.setTam(id,bytesOcupados*multi);
   }
 
 /*FIN METODOS INSTRUCCIONES EOR Y LSL-LSR*/

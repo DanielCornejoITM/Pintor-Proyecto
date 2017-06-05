@@ -36,7 +36,7 @@ SBCD.B D1,D2
 SBCD.B D1,D2
 FOCO	SBCD  -(A1),-(A2)
 
-E50  EOR.W   D0,D5
+E50  EOR.W   D1,D2
 E51	 EOR.B    D5,(A0)
 E52  EOR     D5,(A1)+
 E53  EOR     D5,-(A4)
