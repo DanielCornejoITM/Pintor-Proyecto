@@ -363,121 +363,158 @@ void SBCD(int RAD1, int RAD2,int rm){
 
 }
 void LSL(int registro, int registro2, int ext, int ir, int size, int version, int mode,int data){
-        String extH=Integer.toHexString(ext).toUpperCase();
-        extH = addCerosExt(extH,mode,registro);
-        if(version == 1) {
-                int a = 7<<13;
-                a |= registro<<9;
-                a |= 1<<8;
-                a |= size<<6;
-                a |= ir<<5;
-                a |= 1<<3;
-                a |= registro2;
-                String com=Integer.toString(a, 16);
-                String t=0+com;
-                com=t;
-                //System.out.println("Impresion de LSL: "+com);
-                sumaBytes+=longitud(com); //201+10
-                S1principal+=com;
 
-        }
+       String extH=Integer.toHexString(ext).toUpperCase();
+       extH = addCerosExt(extH,mode,registro);
 
-        if(version == 2) {
-                int a = 7<<13;
-                a |= data<<9;
-                a |= 1<<8;
-                a |= size<<6;
-                a |= ir<<5;
-                a |= 1<<3;
-                a |= registro2;
+       if(version == 1){
+           int a = 7<<13;
+           a |= registro<<9;
+           a |= 1<<8;
+           a |= size<<6;
+           a |= ir<<5;
+           a |= 1<<3;
+           a |= registro2;
 
-                String com=Integer.toString(a, 16);
-                String t=0+com;
-                com=t;
-
-                //System.out.println("Impresion de LSL: "+com);
-                sumaBytes+=longitud(com); //201+10
-                S1principal+=com;
-        }
-
-        if(version == 3) {
-                int a = 7<<13;
-                a |= 1<<9;
-                a |= 1<<8;
-                a |= 3<<6;
-                a |= mode<<3;
-                a |= registro;
-                String com=Integer.toString(a, 16);
-
-                if(mode == 5 || mode == 6 || mode == 7)
-                        com+=extH;
-                //System.out.println("Impresion de LSL: "+com);
-                sumaBytes+=longitud(com); //201+10
-                S1principal+=com;
-        }
-}
-void LSR(int registro, int registro2, int ext, int ir, int size, int version, int mode,int data){
-
-        String extH=Integer.toHexString(ext).toUpperCase();
-        extH = addCerosExt(extH,mode,registro);
+           String com=Integer.toString(a, 16);
+            sumaBytes+=longitud(com);//201+10
+       S1principal+=com;
+          /* S1principal+=com;
 
 
-        if(version == 1) {
-                int a = 7<<13;
-                a |= registro<<9;
-                a |= size<<6;
-                a |= ir<<5;
-                a |= 1<<3;
-                a |= registro2;
+           contS1+=2;
+           sumaBytes+=hex2decimal(com.substring(0, 2))+hex2decimal(com.substring(2, 4));//201+10
+       if (contS1==252) {
+           Imprimir2S1();
+       }*/
 
-                String com=Integer.toString(a, 16);
-                //System.out.println("Impresion de LSR: ");
-                String t=0+com;
-                com=t;
+          // System.out.println("ensamblado LSL:"+com);
 
-                sumaBytes+=longitud(com); //201+10
-                S1principal+=com;
-        }
+       }
 
-        if(version == 2) {
-                int a = 7<<13;
-                a |= data<<9;
-                a |= size<<6;
-                a |= ir<<5;
-                a |= 1<<3;
-                a |= registro2;
+       if(version == 2){
+           int a = 7<<13;
+           a |= data<<9;
+           a |= 1<<8;
+           a |= size<<6;
+           a |= ir<<5;
+           a |= 1<<3;
+           a |= registro2;
 
-                String com=Integer.toString(a, 16);
-                String t=0+com;
-                com=t;
+           String com=Integer.toString(a, 16);
+            sumaBytes+=longitud(com);//201+10
+       S1principal+=com;
+           /*S1principal+=com;
+           contS1+=2;
+           sumaBytes+=hex2decimal(com.substring(0, 2))+hex2decimal(com.substring(2, 4));//201+10
+       if (contS1==252) {
+           Imprimir2S1();
+       }*/
+
+        //   System.out.println("ensamblado LSL:"+com);
+
+       }
+
+       if(version == 3){
+           int a = 7<<13;
+           a |= 1<<9;
+           a |= 1<<8;
+           a |= 3<<6;
+           a |= mode<<3;
+           a |= registro;
+           String com=Integer.toString(a, 16);
+
+           if(mode == 5 || mode == 6 || mode == 7)
+               com+=extH;
+
+            sumaBytes+=longitud(com);//201+10
+       S1principal+=com;
+          /* S1principal+=com;
+           contS1+=2;
+           sumaBytes+=hex2decimal(com.substring(0, 2))+hex2decimal(com.substring(2, 4));//201+10
+       if (contS1==252) {
+           Imprimir2S1();
+       }*/
+
+         //  System.out.println("ensamblado LSL:"+com);
+
+       }
+   }
+
+   void LSR(int registro, int registro2, int ext, int ir, int size, int version, int mode,int data){
+
+       String extH=Integer.toHexString(ext).toUpperCase();
+       extH = addCerosExt(extH,mode,registro);
+
+       if(version == 1){
+           int a = 7<<13;
+           a |= registro<<9;
+           a |= size<<6;
+           a |= ir<<5;
+           a |= 1<<3;
+           a |= registro2;
+
+           String com=Integer.toString(a, 16);
+            sumaBytes+=longitud(com);//201+10
+       S1principal+=com;
+         /*  S1principal+=com;
+           contS1+=2;
+           sumaBytes+=hex2decimal(com.substring(0, 2))+hex2decimal(com.substring(2, 4));//201+10
+       if (contS1==252) {
+           Imprimir2S1();
+       }*/
 
 
-                //System.out.println("Impresion de LSR: "+com);
+         //  System.out.println("ensamblado LSR:"+com);
 
-                sumaBytes+=longitud(com); //201+10
-                S1principal+=com;
-        }
+       }
 
-        if(version == 3) {
-                int a = 7<<13;
-                a |= 1<<9;
-                a |= 3<<6;
-                a |= mode<<3;
-                a |= registro;
-                String com=Integer.toString(a, 16);
+       if(version == 2){
+           int a = 7<<13;
+           a |= data<<9;
+           a |= size<<6;
+           a |= ir<<5;
+           a |= 1<<3;
+           a |= registro2;
 
-                if(mode == 5 || mode == 6 || mode == 7)
-                        com+=extH;
-                //System.out.println("Impresion de LSR: "+com);
+           String com=Integer.toString(a, 16);
+            sumaBytes+=longitud(com);//201+10
+            S1principal+=com;
+           /*S1principal+=com;
+           contS1+=2;
+           sumaBytes+=hex2decimal(com.substring(0, 2))+hex2decimal(com.substring(2, 4));//201+10
+       if (contS1==252) {
+           Imprimir2S1();
+       }*/
 
+         //  System.out.println("ensamblado LSR:"+com);
 
-                sumaBytes+=longitud(com); //201+10
+       }
 
-                S1principal+=com;
-        }
+       if(version == 3){
+           int a = 7<<13;
+           a |= 1<<9;
+           a |= 3<<6;
+           a |= mode<<3;
+           a |= registro;
+           String com=Integer.toString(a, 16);
 
+           if(mode == 5 || mode == 6 || mode == 7)
+               com+=extH;
+           sumaBytes+=longitud(com);//201+10
 
-}
+           S1principal+=com;
+          /* S1principal+=com;
+           contS1+=2;
+           sumaBytes+=hex2decimal(com.substring(0, 2))+hex2decimal(com.substring(2, 4));//201+10
+       if (contS1==252) {
+           Imprimir2S1();
+       }*/
+
+         //  System.out.println("ensamblado LSR:"+com);
+
+       }
+   }
 
 void JMP(String RAD1,int mode, int ext){
 

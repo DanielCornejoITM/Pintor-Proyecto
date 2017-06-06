@@ -7,10 +7,6 @@ E5	WORD	$1
 E6	LONG	$1
 .CODE
 
-
-
-
-
 E16	BCHG.L	D1,($FFFF,A4)
 BCHG.B	D1,($FF,A4,A5)
 E17	BCHG	D1,($FF,A4,D5)
@@ -42,10 +38,6 @@ E53  EOR     D5,-(A4)
 E54  EOR     D5,($FFFF,A4)
 E55  EOR     D5,($FF,A4,D1)
 E56  EOR     D5,($FFFF).W
-
-
-
-
 
 JMP	(A0)
 JMP ($FFFF,PC)
