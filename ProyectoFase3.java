@@ -494,7 +494,7 @@ public static void main(String args[]) throws ParseException {
         int bytesOcupados=0x1;
         int multi=2;
         int mode=0;
-        String ext="";
+        String ext="00";
     jj_consume_token(ParentesisA);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Memoria:
@@ -512,11 +512,11 @@ public static void main(String args[]) throws ParseException {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case WO:
           jj_consume_token(WO);
-                                                                                                                         bytesOcupados++;mode=7;RAD1="00";
+                                                                                                                         bytesOcupados++;mode=7;RAD1="000";
           break;
         case LO:
           jj_consume_token(LO);
-                                                                                                                                                                  bytesOcupados+=2;mode=7;RAD1="01";
+                                                                                                                                                                   bytesOcupados+=2;mode=7;RAD1="001";
           break;
         default:
           jj_la1[19] = jj_gen;
@@ -529,11 +529,11 @@ public static void main(String args[]) throws ParseException {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case Memoria:
           RAD1 = jj_consume_token(Memoria).image;
-                                                                                                                                                                                                                                     mode=5;
+                                                                                                                                                                                                                                       mode=5;
           break;
         case PC:
           jj_consume_token(PC);
-                                                                                                                                                                                                                                                    mode=7;RAD1="10";
+                                                                                                                                                                                                                             mode=7;RAD1="010";
           break;
         default:
           jj_la1[20] = jj_gen;
@@ -559,7 +559,7 @@ public static void main(String args[]) throws ParseException {
         break;
       case PC:
         jj_consume_token(PC);
-                                                                                          mode=7;RAD1="11";
+                                                                                          mode=7;RAD1="011";
         break;
       default:
         jj_la1[22] = jj_gen;
@@ -586,13 +586,11 @@ public static void main(String args[]) throws ParseException {
       jj_consume_token(-1);
       throw new ParseException();
     }
-          System.out.println("-------------------");
-          System.out.println("REGISTER: "+RAD1);
-          System.out.println("Mode: "+mode);
-          System.out.println("Extension: "+ext);
-          System.out.println("----------------");
-                countloc+=bytesOcupados*multi;
-                tabla.setTam(id,bytesOcupados*multi);
+        int exten=Integer.parseInt(ext.substring(1,ext.length()),16);
+
+        ensamblar.JMP(RAD1,mode,exten);
+        countloc+=bytesOcupados*multi;
+        tabla.setTam(id,bytesOcupados*multi);
   }
 
   static final public void ADD_METODO(String id) throws ParseException {
@@ -1430,7 +1428,6 @@ public static void main(String args[]) throws ParseException {
       ;
     }
     RAD1 = jj_consume_token(Datos).image;
-                                                                                                                                 System.out.println("Encontrado RAD1="+RAD1);
     jj_consume_token(Coma);
     EOR_EA(id, tipo);
   }
@@ -1446,7 +1443,6 @@ public static void main(String args[]) throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Datos:
       RAD2 = jj_consume_token(Datos).image;
-                            System.out.println("Encontrado RAD2:"+RAD2);
       break;
     case Guion:
       jj_consume_token(Guion);

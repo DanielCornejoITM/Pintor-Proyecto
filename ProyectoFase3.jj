@@ -491,22 +491,21 @@ void JMP_Ea(String id) : {
         int bytesOcupados=0x1;
         int multi=2;
         int mode=0;
-        String ext="";
+        String ext="00";
 }
 {
 
         <ParentesisA>
-        (   RAD1=<Memoria>.image {mode=2; }<ParentesisC>|((ext=<D16>.image{bytesOcupados++;})((<ParentesisC><Punto>(<WO>{bytesOcupados++;mode=7;RAD1="00"; }|<LO>{bytesOcupados+=2;mode=7;RAD1="01"; })|<Coma>(RAD1=<Memoria>.image{ mode=5;}|<PC>{ mode=7;RAD1="10";})<ParentesisC>)))
-            |(ext=<D8>.image{bytesOcupados++; })<Coma>(RAD1=<Memoria>.image{mode=6;}|<PC>{mode=7;RAD1="11";})<Coma>(<Datos>|RAD1=<Memoria>.image)<ParentesisC> )
+        (   RAD1=<Memoria>.image {mode=2; }<ParentesisC>|((ext=<D16>.image{bytesOcupados++;})((<ParentesisC><Punto>(<WO>{bytesOcupados++;mode=7;RAD1="000"; }|<LO>{bytesOcupados+=2;mode=7;RAD1="001"; })|<Coma>(RAD1=<Memoria>.image{ mode=5;}
+                                                                                                                                                                                                                      |<PC>{ mode=7;RAD1="010";})<ParentesisC>)))
+            |(ext=<D8>.image{bytesOcupados++; })<Coma>(RAD1=<Memoria>.image{mode=6;}|<PC>{mode=7;RAD1="011";})<Coma>(<Datos>|RAD1=<Memoria>.image)<ParentesisC> )
         {
-          System.out.println("-------------------");
-          System.out.println("REGISTER: "+RAD1);
-          System.out.println("Mode: "+mode);
-          System.out.println("Extension: "+ext);
-          System.out.println("----------------");
-                countloc+=bytesOcupados*multi;
-                tabla.setTam(id,bytesOcupados*multi);
-        }
+        int exten=Integer.parseInt(ext.substring(1,ext.length()),16);
+    
+        ensamblar.JMP(RAD1,mode,exten);
+        countloc+=bytesOcupados*multi;
+        tabla.setTam(id,bytesOcupados*multi);
+}
 }
 
 
@@ -719,7 +718,7 @@ void EOR(String id) : {
 
 }
 {
-        <EOR>(<Punto>(<BY>{tipo="B"; EOPMODO=4; }|<LO>{tipo="L"; EOPMODO=6; }|<WO>{tipo="W"; EOPMODO=5; })) ? RAD1=<Datos>.image{System.out.println("Encontrado RAD1="+RAD1);}<Coma>EOR_EA(id, tipo)
+        <EOR>(<Punto>(<BY>{tipo="B"; EOPMODO=4; }|<LO>{tipo="L"; EOPMODO=6; }|<WO>{tipo="W"; EOPMODO=5; })) ? RAD1=<Datos>.image<Coma>EOR_EA(id, tipo)
 }
 
 void EOR_EA(String id, String tipo) : {
@@ -734,7 +733,7 @@ void EOR_EA(String id, String tipo) : {
 {
 
 
-      (  RAD2=<Datos>.image{System.out.println("Encontrado RAD2:"+RAD2);} |
+      (  RAD2=<Datos>.image |
               <Guion><ParentesisA>RAD2=<Memoria>.image<ParentesisC>{mode=4; }  |
         <ParentesisA>(
                 RAD2=<Memoria>.image {mode=2; }<ParentesisC>(<Mas>{mode=3; }) ?

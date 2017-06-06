@@ -479,5 +479,25 @@ void LSR(int registro, int registro2, int ext, int ir, int size, int version, in
 
 }
 
+void JMP(String RAD1,int mode, int ext){
+
+        int registro1=0;
+        if (mode==7) {
+                registro1=Integer.parseInt(RAD1.substring(1),2);
+        }
+        else{
+                registro1=Integer.parseInt(RAD1.substring(1,RAD1.length()));
+        }
+        String extH=Integer.toHexString(ext).toUpperCase();
+        int a=315<<6;
+        a|=mode<<3;
+        a|=registro1<<0;
+        String com=Integer.toString(a,16);
+        if (mode==5||mode==6|| mode==7)
+                com+=extH;
+        sumaBytes+=longitud(com);
+        S1principal+=com;
+
+}
 
 }
