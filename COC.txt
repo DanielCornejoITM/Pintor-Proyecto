@@ -16,19 +16,6 @@ BCHG	#$FFFF,($FF,A4,D5)
 BCHG	#$FFFF,($FFFF).W
 E20	BCHG	#$FFFF,($FFFF).L
 
-LSL     #$FFFF,D3
-E21 LSR     #$FFFF,D3
-E22 LSL.L   (A1)
-LSL.W   (A4)+
-LSL.B   -(A3)
-E23	LSL     ($FFFF,A2)
-LSL     ($FF,A2,D3)
-E25	LSR.L   (A1)
-LSR.B   (A4)+
-LSR     ($FF,A2,A3)
-E26	LSR     ($FFFF).W
-LSR     ($FFFF).L
-
 E11	CMP.L  	(A1),D2
 E12	CMP    	-(A3),D6
 CMP    	($FFFF,PC),D7
