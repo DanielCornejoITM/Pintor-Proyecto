@@ -23,7 +23,7 @@ public static TablaSimbolos tabla= new TablaSimbolos();
 public static void main(String args[]) throws ParseException {
         ProyectoFase3 parser = new ProyectoFase3(System.in);
         parser.Estructura();
-        System.out.println("Analisis Finalizado:");
+        System.out.println("Fin");
 }
 
 /*METODOS PARA ESTRUCTURA DEL PROGRAMA*/
@@ -1014,24 +1014,30 @@ for (int i = 0; i <16; i++) {//conversion
   }
 
 /**************************MATTA*********************/
+
+/**************************MATTA*********************/
   static final public void CMP(String Identi) throws ParseException {
-        String tipo="Default";
+  String tipo="Default";
+  arr[0]=1;
+  arr[1]=0;
+  arr[2]=1;
+  arr[3]=1;
     jj_consume_token(CMP);
+          tipo="W";arr[7]=0;arr[8]=0;arr[9]=1;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Punto:
       jj_consume_token(Punto);
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case BY:
         jj_consume_token(BY);
-                           tipo="B";
+                                                             tipo="B";arr[7]=0;arr[8]=0;arr[9]=0;
         break;
       case LO:
         jj_consume_token(LO);
-                                            tipo="L";
+          tipo="L";arr[7]=0;arr[8]=1;arr[9]=0;
         break;
       case WO:
         jj_consume_token(WO);
-                                                             tipo="W";
         break;
       default:
         jj_la1[45] = jj_gen;
@@ -1045,20 +1051,85 @@ for (int i = 0; i <16; i++) {//conversion
     }
     CMP_EA(Identi,tipo);
     jj_consume_token(Coma);
-    jj_consume_token(Datos);
+    re2 = jj_consume_token(Datos).image;
+      String co="", fin="";
+      re2=re2.substring(1);
+      String ayuda="";
+      ayuda=re1;
+      re1=re2;
+      re2=ayuda;
+      int aux=Integer.parseInt(re1);
+      String binario = Integer.toBinaryString(aux);
+    if (binario.length()==1) {
+      arr[4]=0;
+      arr[5]=0;
+      arr[6]=Character.getNumericValue(binario.charAt(0));
+    }
+    if (binario.length()==2) {
+      arr[4]=0;
+      arr[5]=Character.getNumericValue(binario.charAt(0));
+      arr[6]=Character.getNumericValue(binario.charAt(1));
+    }
+    if (binario.length()==3) {
+      arr[4]=Character.getNumericValue(binario.charAt(0));
+      arr[5]=Character.getNumericValue(binario.charAt(1));
+      arr[6]=Character.getNumericValue(binario.charAt(2));
+    }
+    /////inserto registro 1
+    /////insertara registro 2
+    aux=Integer.parseInt(re2);
+    binario = Integer.toBinaryString(aux);
+  if (binario.length()==1) {
+    arr[13]=0;
+    arr[14]=0;
+    arr[15]=Character.getNumericValue(binario.charAt(0));
+  }
+  if (binario.length()==2) {
+    arr[13]=0;
+    arr[14]=Character.getNumericValue(binario.charAt(0));
+    arr[15]=Character.getNumericValue(binario.charAt(1));
+  }
+  if (binario.length()==3) {
+    arr[13]=Character.getNumericValue(binario.charAt(0));
+    arr[14]=Character.getNumericValue(binario.charAt(1));
+    arr[15]=Character.getNumericValue(binario.charAt(0));
+  }
+      int decimal=0;
+      for (int i = 0; i <16; i++) {//conversion
+          co+=arr[i]+"";
+          decimal=0;
+          if (co.length()==4) {
+            if (co.charAt(0)=='1') {
+              decimal=decimal+8;
+            }
+            if (co.charAt(1)=='1') {
+            decimal=decimal+4;
+            }
+            if (co.charAt(2)=='1') {
+            decimal=decimal+2;
+            }
+            if (co.charAt(3)=='1') {
+            decimal=decimal+1;
+            }
+            fin+=Integer.toHexString(decimal);
+            co="";
+          }}//fin conversión
+          ensamblar.CMP(fin,d);
   }
 
   static final public void CMP_EA(String Identi, String tipo) throws ParseException {
-        int bytesOcupados=0x1;
+    int bytesOcupados=0x1;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Datos:
     case Memoria:
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case Datos:
-        jj_consume_token(Datos);
+        re1 = jj_consume_token(Datos).image;
+                        re1=re1.substring(1);arr[10]=0;arr[11]=0;arr[12]=0;
         break;
       case Memoria:
-        jj_consume_token(Memoria);
+        re1 = jj_consume_token(Memoria).image;
+                                                                                                 re1=re1.substring(1);arr[10]=0;arr[11]=0;arr[12]=1;
         break;
       default:
         jj_la1[47] = jj_gen;
@@ -1069,8 +1140,10 @@ for (int i = 0; i <16; i++) {//conversion
     case Guion:
       jj_consume_token(Guion);
       jj_consume_token(ParentesisA);
-      jj_consume_token(Memoria);
+      re1 = jj_consume_token(Memoria).image;
+                                            re1=re1.substring(1);
       jj_consume_token(ParentesisC);
+                                                                                arr[10]=1;arr[11]=0;arr[12]=0;
       break;
     case ParentesisA:
       jj_consume_token(ParentesisA);
@@ -1079,18 +1152,19 @@ for (int i = 0; i <16; i++) {//conversion
       case D16:
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case D16:
-          jj_consume_token(D16);
+          d = jj_consume_token(D16).image;
+                                     d=d.substring(1);
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case Coma:
             jj_consume_token(Coma);
             switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
             case Memoria:
-              jj_consume_token(Memoria);
-                                                          bytesOcupados++;
+              re1 = jj_consume_token(Memoria).image;
+                                                                                      bytesOcupados++;re1=re1.substring(1);arr[10]=1;arr[11]=0;arr[12]=1;
               break;
             case PC:
               jj_consume_token(PC);
-                                                                                  bytesOcupados++;
+                                                                                                                                                                bytesOcupados++;arr[10]=1;arr[11]=1;arr[12]=1;re1="2";
               break;
             default:
               jj_la1[48] = jj_gen;
@@ -1105,11 +1179,11 @@ for (int i = 0; i <16; i++) {//conversion
             switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
             case WO:
               jj_consume_token(WO);
-                                                                                                                                               bytesOcupados++;
+                                                                                                                                                                                                                                                                  bytesOcupados++;arr[10]=1;arr[11]=1;arr[12]=1;re1="0";
               break;
             case LO:
               jj_consume_token(LO);
-                                                                                                                                                                       bytesOcupados=bytesOcupados+2;
+                                                                                                                                                                                                                                                                                                                               bytesOcupados=bytesOcupados+2;arr[10]=1;arr[11]=1;arr[12]=1;re1="1";
               break;
             default:
               jj_la1[49] = jj_gen;
@@ -1124,14 +1198,17 @@ for (int i = 0; i <16; i++) {//conversion
           }
           break;
         case D8:
-          jj_consume_token(D8);
+          d = jj_consume_token(D8).image;
+                                   d=d.substring(1);
           jj_consume_token(Coma);
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case Memoria:
-            jj_consume_token(Memoria);
+            re1 = jj_consume_token(Memoria).image;
+                                                                                 arr[10]=1;arr[11]=1;arr[12]=0;re1=re1.substring(1);
             break;
           case PC:
             jj_consume_token(PC);
+                                                                                                                                           arr[10]=1;arr[11]=1;arr[12]=1;arr[4]=0;arr[5]=1;arr[6]=1;
             break;
           default:
             jj_la1[51] = jj_gen;
@@ -1152,7 +1229,7 @@ for (int i = 0; i <16; i++) {//conversion
             throw new ParseException();
           }
           jj_consume_token(ParentesisC);
-                                                                                                  bytesOcupados++;
+                                                                                                                                                                                                                                             bytesOcupados++;
           break;
         default:
           jj_la1[53] = jj_gen;
@@ -1161,11 +1238,13 @@ for (int i = 0; i <16; i++) {//conversion
         }
         break;
       case Memoria:
-        jj_consume_token(Memoria);
+        re1 = jj_consume_token(Memoria).image;
+                            arr[10]=0;arr[11]=1;arr[12]=0;re1=re1.substring(1);
         jj_consume_token(ParentesisC);
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case Mas:
           jj_consume_token(Mas);
+                                                                                                    arr[10]=0;arr[11]=1;arr[12]=1;
           break;
         default:
           jj_la1[54] = jj_gen;
@@ -1180,18 +1259,19 @@ for (int i = 0; i <16; i++) {//conversion
       break;
     case Gato:
       jj_consume_token(Gato);
+           arr[4]=1;arr[5]=0;arr[6]=0;
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case D32:
-        jj_consume_token(D32);
-                      bytesOcupados=bytesOcupados+4;
+        d = jj_consume_token(D32).image;
+                                                      d=d.substring(1);bytesOcupados=bytesOcupados+4;arr[10]=1;arr[11]=1;arr[12]=1;
         break;
       case D16:
-        jj_consume_token(D16);
-                                                             bytesOcupados=bytesOcupados+2;
+        d = jj_consume_token(D16).image;
+                                                                                                                                                   d=d.substring(1);arr[10]=1;arr[11]=1;arr[12]=1;bytesOcupados=bytesOcupados+2;
         break;
       case D8:
-        jj_consume_token(D8);
-                                                                                                   bytesOcupados=bytesOcupados+2;
+        d = jj_consume_token(D8).image;
+                                                                                                                                                                                                                                               d=d.substring(1);arr[10]=1;arr[11]=1;arr[12]=1;bytesOcupados=bytesOcupados+2;
         break;
       default:
         jj_la1[56] = jj_gen;
@@ -1204,10 +1284,16 @@ for (int i = 0; i <16; i++) {//conversion
       jj_consume_token(-1);
       throw new ParseException();
     }
-                countloc=(countloc)+(bytesOcupados*2);
-
-                tabla.setTam(Identi, bytesOcupados*2);
+        countloc=(countloc)+(bytesOcupados*2);
+        tabla.setTam(Identi, bytesOcupados*2);
   }
+
+/**************************FIN MATTA*********************/
+/*FIN METODOS INSTRUCCIONES CMP Y BCSD*/
+
+/*METODOS INSTRUCCIONES EOR Y LSL-LSR*/
+/***************************MATTA***********************/
+
 
 /**************************FIN MATTA*********************/
 /*FIN METODOS INSTRUCCIONES CMP Y BCSD*/

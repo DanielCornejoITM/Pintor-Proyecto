@@ -23,7 +23,7 @@ public static TablaSimbolos tabla= new TablaSimbolos();
 public static void main(String args[]) throws ParseException {
         ProyectoFase3 parser = new ProyectoFase3(System.in);
         parser.Estructura();
-        System.out.println("Analisis Finalizado:");
+        System.out.println("Fin");
 }
 }
 PARSER_END(ProyectoFase3)
@@ -664,32 +664,110 @@ void SBCD_VAR(String id,String tipo) : {
         }
 }
 /**************************MATTA*********************/
-void CMP(String Identi) : {
-        String tipo="Default";
+
+/**************************MATTA*********************/
+void CMP(String Identi):{
+  String tipo="Default";
+  arr[0]=1;
+  arr[1]=0;
+  arr[2]=1;
+  arr[3]=1;
 }
 {
-        <CMP>(<Punto>(<BY>{tipo="B"; }|<LO>{tipo="L"; }|<WO>{tipo="W"; })) ? CMP_EA(Identi,tipo)<Coma><Datos>
-}
+    <CMP>{tipo="W";arr[7]=0;arr[8]=0;arr[9]=1;}(<Punto>(<BY>{tipo="B";arr[7]=0;arr[8]=0;arr[9]=0;}
+    |<LO>{tipo="L";arr[7]=0;arr[8]=1;arr[9]=0;}
+    |<WO>))?
+    CMP_EA(Identi,tipo)<Coma>re2=<Datos>.image{
+      String co="", fin="";
+      re2=re2.substring(1);
+      String ayuda="";
+      ayuda=re1;
+      re1=re2;
+      re2=ayuda;
+      int aux=Integer.parseInt(re1);
+      String binario = Integer.toBinaryString(aux);
+    if (binario.length()==1) {
+      arr[4]=0;
+      arr[5]=0;
+      arr[6]=Character.getNumericValue(binario.charAt(0));
+    }
+    if (binario.length()==2) {
+      arr[4]=0;
+      arr[5]=Character.getNumericValue(binario.charAt(0));
+      arr[6]=Character.getNumericValue(binario.charAt(1));
+    }
+    if (binario.length()==3) {
+      arr[4]=Character.getNumericValue(binario.charAt(0));
+      arr[5]=Character.getNumericValue(binario.charAt(1));
+      arr[6]=Character.getNumericValue(binario.charAt(2));
+    }
+    /////inserto registro 1
+    /////insertara registro 2
+    aux=Integer.parseInt(re2);
+    binario = Integer.toBinaryString(aux);
+  if (binario.length()==1) {
+    arr[13]=0;
+    arr[14]=0;
+    arr[15]=Character.getNumericValue(binario.charAt(0));
+  }
+  if (binario.length()==2) {
+    arr[13]=0;
+    arr[14]=Character.getNumericValue(binario.charAt(0));
+    arr[15]=Character.getNumericValue(binario.charAt(1));
+  }
+  if (binario.length()==3) {
+    arr[13]=Character.getNumericValue(binario.charAt(0));
+    arr[14]=Character.getNumericValue(binario.charAt(1));
+    arr[15]=Character.getNumericValue(binario.charAt(0));
+  }
+      int decimal=0;
+      for (int i = 0; i <16; i++) {//conversion
+          co+=arr[i]+"";
+          decimal=0;
+          if (co.length()==4) {
+            if (co.charAt(0)=='1') {
+              decimal=decimal+8;
+            }
+            if (co.charAt(1)=='1') {
+            decimal=decimal+4;
+            }
+            if (co.charAt(2)=='1') {
+            decimal=decimal+2;
+            }
+            if (co.charAt(3)=='1') {
+            decimal=decimal+1;
+            }
+            fin+=Integer.toHexString(decimal);
+            co="";
+          }}//fin conversión
+          ensamblar.CMP(fin,d);
+    }}
 
-void CMP_EA(String Identi, String tipo) : {
-        int bytesOcupados=0x1;
+void CMP_EA(String Identi, String tipo): {
+    int bytesOcupados=0x1;
 }
 {
-        ((<Datos>|<Memoria>) |
-         <Guion><ParentesisA><Memoria><ParentesisC> |
-         <ParentesisA>((
-                               ((<D16>)( <Coma>(<Memoria>{bytesOcupados++; }|<PC>{bytesOcupados++; })<ParentesisC> | <ParentesisC><Punto>(<WO>{bytesOcupados++; }|<LO>{bytesOcupados=bytesOcupados+2; }) ))  |
-                               (<D8>)<Coma>(<Memoria>|<PC>)<Coma>(<Memoria>|<Datos>)<ParentesisC>{bytesOcupados++; }
-                               ) | <Memoria><ParentesisC>(<Mas>) ?) |
-         <Gato>(<D32>{bytesOcupados=bytesOcupados+4; }|<D16>{bytesOcupados=bytesOcupados+2; }|<D8>{bytesOcupados=bytesOcupados+2; }))
-        {
-
-                countloc=(countloc)+(bytesOcupados*2);
-
-                tabla.setTam(Identi, bytesOcupados*2);
-        }
-
+    ((re1=<Datos>.image{re1=re1.substring(1);arr[10]=0;arr[11]=0;arr[12]=0;}|re1=<Memoria>.image{re1=re1.substring(1);arr[10]=0;arr[11]=0;arr[12]=1;}) |
+    <Guion><ParentesisA>re1=<Memoria>.image{re1=re1.substring(1);}<ParentesisC>{arr[10]=1;arr[11]=0;arr[12]=0;} |
+    <ParentesisA>((
+                     ((d=<D16>.image{d=d.substring(1);}) ( <Coma>(re1=<Memoria>.image{bytesOcupados++;re1=re1.substring(1);arr[10]=1;arr[11]=0;arr[12]=1;}|<PC>{bytesOcupados++;arr[10]=1;arr[11]=1;arr[12]=1;re1="2";})<ParentesisC> | <ParentesisC><Punto>(<WO>{bytesOcupados++;arr[10]=1;arr[11]=1;arr[12]=1;re1="0";}|<LO>{bytesOcupados=bytesOcupados+2;arr[10]=1;arr[11]=1;arr[12]=1;re1="1";}) ))  |
+                     (d=<D8>.image{d=d.substring(1);})<Coma>(re1=<Memoria>.image{arr[10]=1;arr[11]=1;arr[12]=0;re1=re1.substring(1);}|<PC>{arr[10]=1;arr[11]=1;arr[12]=1;arr[4]=0;arr[5]=1;arr[6]=1;})<Coma>(<Memoria>|<Datos>)<ParentesisC>{bytesOcupados++;}
+    ) | re1=<Memoria>.image{arr[10]=0;arr[11]=1;arr[12]=0;re1=re1.substring(1);}<ParentesisC>(<Mas>{arr[10]=0;arr[11]=1;arr[12]=1;})?) |
+    <Gato>{arr[4]=1;arr[5]=0;arr[6]=0;}(d=<D32>.image{d=d.substring(1);bytesOcupados=bytesOcupados+4;arr[10]=1;arr[11]=1;arr[12]=1;}|d=<D16>.image{d=d.substring(1);arr[10]=1;arr[11]=1;arr[12]=1;bytesOcupados=bytesOcupados+2;}|d=<D8>.image{d=d.substring(1);arr[10]=1;arr[11]=1;arr[12]=1;bytesOcupados=bytesOcupados+2;}))
+    {
+        countloc=(countloc)+(bytesOcupados*2);
+        tabla.setTam(Identi, bytesOcupados*2);
+    }
 }
+
+
+/**************************FIN MATTA*********************/
+/*FIN METODOS INSTRUCCIONES CMP Y BCSD*/
+
+/*METODOS INSTRUCCIONES EOR Y LSL-LSR*/
+/***************************MATTA***********************/
+
+
 /**************************FIN MATTA*********************/
 /*FIN METODOS INSTRUCCIONES CMP Y BCSD*/
 

@@ -507,4 +507,15 @@ void PACK(String fin){
 
 }
 
+void CMP(String fin, String ext){
+String t="",temp="";
+  if ( (ext != null) && (!ext.equals("")) ) {
+        t=agregarCeros(ext,1);
+          temp=fin+t;
+          fin=fin+t;
+  }
+  sumaBytes+=longitud(fin);
+  S1principal+=fin;
+
+}
 }

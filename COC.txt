@@ -9,9 +9,6 @@ E6	LONG	$1
 
 
 
-PACK	-(A0),-(A1)
-PACK	D1,D2
-
 
 
 E16	BCHG.L	D1,($FFFF,A4)
@@ -57,5 +54,6 @@ JMP	($FF,PC,D4)
 JMP	($FF,PC,D0)
 JMP	($FFFF).W
 JMP	($FFFF).L
+
 
 END
