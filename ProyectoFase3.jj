@@ -15,6 +15,9 @@ static int DR=0;                //saber si es left o right
 static int size=0;               // saber si es .w .b .l
 static int type=0;             //Tipo de orden en la instruccion
 static String Instruct="";
+            static String d="", re1="",re2="", opmode="";
+            static int arr[]=new int[16];
+
 public static TablaSimbolos tabla= new TablaSimbolos();
 /** Main entry point. */
 public static void main(String args[]) throws ParseException {
@@ -406,23 +409,102 @@ void BWLEDE(Token id) : {
 
 /*METODOS INSTRUCCION PACK Y MOVEC*/
 /*********************MATTA***************************/
-void PACK(String Identi) : {
-        int bytesOcupados=0x1;
 
-}
+
+void PACK(String Identi): {
+    int bytesOcupados=0x1;
+    int aux=0;
+    int lungitud=0;
+    arr[0]=1;
+    arr[1]=0;
+    arr[2]=0;
+    arr[3]=0;
+    arr[7]=1;
+    arr[8]=0;
+    arr[9]=1;
+    arr[10]=0;
+    arr[11]=0;
+    String ajuste="";
+    }
 {
-        (<PACK>((PACK_RM()<Coma>PACK_RM())|(<Datos><Coma><Datos>))){
-                countloc=(countloc)+(bytesOcupados*2);
-                tabla.setTam(Identi, bytesOcupados*2);
-        }
-
+    (<PACK>((PACK_RM()<Coma>PACK_RM1())|(re2=<Datos>.image{re2=re2.substring(1);}<Coma>re1=<Datos>.image{re1=re1.substring(1);arr[12]=0;}))){
+      String co="", fin="";
+        countloc=(countloc)+(bytesOcupados*2);
+        tabla.setTam(Identi, bytesOcupados*2);
+      aux=Integer.parseInt(re1);
+      String binario = Integer.toBinaryString(aux);
+    if (binario.length()==1) {
+      arr[4]=0;
+      arr[5]=0;
+      arr[6]=Integer.parseInt(binario.substring(0));
+    }
+    if (binario.length()==2) {
+      arr[4]=0;
+      arr[5]=Integer.parseInt(binario.substring(0));
+      arr[6]=Integer.parseInt(binario.substring(1));
+    }
+    if (binario.length()==3) {
+      arr[4]=Integer.parseInt(binario.substring(0));
+      arr[5]=Integer.parseInt(binario.substring(1));
+      arr[6]=Integer.parseInt(binario.substring(2));
+    }
+////////////////////////////mete registro 2 to arr
+aux=Integer.parseInt(re2);
+binario = Integer.toBinaryString(aux);
+if (binario.length()==1) {
+arr[13]=0;
+arr[14]=0;
+arr[15]=Character.getNumericValue(binario.charAt(0));
+}
+if (binario.length()==2) {
+arr[13]=0;
+arr[14]=Character.getNumericValue(binario.charAt(0));
+arr[15]=Character.getNumericValue(binario.charAt(1));
+}
+if (binario.length()==3) {
+arr[13]=Character.getNumericValue(binario.charAt(0));
+arr[14]=Character.getNumericValue(binario.charAt(1));
+arr[15]=Character.getNumericValue(binario.charAt(2));
 }
 
-void PACK_RM() : {
+///////////////////////conversion
+int decimal=0;
+for (int i = 0; i <16; i++) {//conversion
+    co+=arr[i]+"";
+    decimal=0;
+    if (co.length()==4) {
+      if (co.charAt(0)=='1') {
+        decimal=decimal+8;
+      }
+      if (co.charAt(1)=='1') {
+      decimal=decimal+4;
+      }
+      if (co.charAt(2)=='1') {
+      decimal=decimal+2;
+      }
+      if (co.charAt(3)=='1') {
+      decimal=decimal+1;
+      }
+      fin+=Integer.toHexString(decimal);
+      co="";
+    }}//fin conversión
+
+        ensamblar.PACK(fin);
 }
+}
+void PACK_RM(): {}
 {
-        <Guion><ParentesisA><Memoria><ParentesisC>
+    <Guion><ParentesisA>re2=<Memoria>.image{re2=re2.substring(1);arr[12]=1;}<ParentesisC>
 }
+void PACK_RM1(): {}
+{
+    <Guion><ParentesisA>re1=<Memoria>.image{re1=re1.substring(1);}<ParentesisC>
+}
+
+
+
+
+/*********************************************************/
 
 void BCHG(String Identi) : {
         String tipo="Default";
@@ -501,7 +583,7 @@ void JMP_Ea(String id) : {
             |(ext=<D8>.image{bytesOcupados++; })<Coma>(RAD1=<Memoria>.image{mode=6;}|<PC>{mode=7;RAD1="011";})<Coma>(<Datos>|RAD1=<Memoria>.image)<ParentesisC> )
         {
         int exten=Integer.parseInt(ext.substring(1,ext.length()),16);
-    
+
         ensamblar.JMP(RAD1,mode,exten);
         countloc+=bytesOcupados*multi;
         tabla.setTam(id,bytesOcupados*multi);

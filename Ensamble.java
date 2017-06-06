@@ -500,4 +500,11 @@ void JMP(String RAD1,int mode, int ext){
 
 }
 
+
+void PACK(String fin){
+  sumaBytes+=longitud(fin);
+  S1principal+=fin;
+
+}
+
 }

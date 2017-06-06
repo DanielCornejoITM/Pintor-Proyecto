@@ -15,6 +15,9 @@ static int DR=0;                //saber si es left o right
 static int size=0;               // saber si es .w .b .l
 static int type=0;             //Tipo de orden en la instruccion
 static String Instruct="";
+            static String d="", re1="",re2="", opmode="";
+            static int arr[]=new int[16];
+
 public static TablaSimbolos tabla= new TablaSimbolos();
 /** Main entry point. */
 public static void main(String args[]) throws ParseException {
@@ -275,35 +278,119 @@ public static void main(String args[]) throws ParseException {
 /*METODOS INSTRUCCION PACK Y MOVEC*/
 /*********************MATTA***************************/
   static final public void PACK(String Identi) throws ParseException {
-        int bytesOcupados=0x1;
+    int bytesOcupados=0x1;
+    int aux=0;
+    int lungitud=0;
+    arr[0]=1;
+    arr[1]=0;
+    arr[2]=0;
+    arr[3]=0;
+    arr[7]=1;
+    arr[8]=0;
+    arr[9]=1;
+    arr[10]=0;
+    arr[11]=0;
+    String ajuste="";
     jj_consume_token(PACK);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case Guion:
       PACK_RM();
       jj_consume_token(Coma);
-      PACK_RM();
+      PACK_RM1();
       break;
     case Datos:
-      jj_consume_token(Datos);
+      re2 = jj_consume_token(Datos).image;
+                                                           re2=re2.substring(1);
       jj_consume_token(Coma);
-      jj_consume_token(Datos);
+      re1 = jj_consume_token(Datos).image;
+                                                                                                         re1=re1.substring(1);arr[12]=0;
       break;
     default:
       jj_la1[7] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
-                countloc=(countloc)+(bytesOcupados*2);
-                tabla.setTam(Identi, bytesOcupados*2);
+      String co="", fin="";
+        countloc=(countloc)+(bytesOcupados*2);
+        tabla.setTam(Identi, bytesOcupados*2);
+      aux=Integer.parseInt(re1);
+      String binario = Integer.toBinaryString(aux);
+    if (binario.length()==1) {
+      arr[4]=0;
+      arr[5]=0;
+      arr[6]=Integer.parseInt(binario.substring(0));
+    }
+    if (binario.length()==2) {
+      arr[4]=0;
+      arr[5]=Integer.parseInt(binario.substring(0));
+      arr[6]=Integer.parseInt(binario.substring(1));
+    }
+    if (binario.length()==3) {
+      arr[4]=Integer.parseInt(binario.substring(0));
+      arr[5]=Integer.parseInt(binario.substring(1));
+      arr[6]=Integer.parseInt(binario.substring(2));
+    }
+////////////////////////////mete registro 2 to arr
+aux=Integer.parseInt(re2);
+binario = Integer.toBinaryString(aux);
+if (binario.length()==1) {
+arr[13]=0;
+arr[14]=0;
+arr[15]=Character.getNumericValue(binario.charAt(0));
+}
+if (binario.length()==2) {
+arr[13]=0;
+arr[14]=Character.getNumericValue(binario.charAt(0));
+arr[15]=Character.getNumericValue(binario.charAt(1));
+}
+if (binario.length()==3) {
+arr[13]=Character.getNumericValue(binario.charAt(0));
+arr[14]=Character.getNumericValue(binario.charAt(1));
+arr[15]=Character.getNumericValue(binario.charAt(2));
+}
+
+///////////////////////conversion
+int decimal=0;
+for (int i = 0; i <16; i++) {//conversion
+    co+=arr[i]+"";
+    decimal=0;
+    if (co.length()==4) {
+      if (co.charAt(0)=='1') {
+        decimal=decimal+8;
+      }
+      if (co.charAt(1)=='1') {
+      decimal=decimal+4;
+      }
+      if (co.charAt(2)=='1') {
+      decimal=decimal+2;
+      }
+      if (co.charAt(3)=='1') {
+      decimal=decimal+1;
+      }
+      fin+=Integer.toHexString(decimal);
+      co="";
+    }}//fin conversión
+
+        ensamblar.PACK(fin);
   }
 
   static final public void PACK_RM() throws ParseException {
     jj_consume_token(Guion);
     jj_consume_token(ParentesisA);
-    jj_consume_token(Memoria);
+    re2 = jj_consume_token(Memoria).image;
+                                            re2=re2.substring(1);arr[12]=1;
     jj_consume_token(ParentesisC);
   }
 
+  static final public void PACK_RM1() throws ParseException {
+    jj_consume_token(Guion);
+    jj_consume_token(ParentesisA);
+    re1 = jj_consume_token(Memoria).image;
+                                            re1=re1.substring(1);
+    jj_consume_token(ParentesisC);
+  }
+
+/*********************************************************/
   static final public void BCHG(String Identi) throws ParseException {
         String tipo="Default";
     jj_consume_token(BCHG);
